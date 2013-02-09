@@ -11,6 +11,7 @@
 #include "gameObject.h"
 #include "MyMath.h"
 #include "Util.h"
+#include "TileManagement.h"
 
 Unit::Unit() :
 m_Path(NULL),
@@ -186,6 +187,16 @@ void Unit::update(){
 void Unit::moveLerp(){
 	if(m_Path != NULL &&
 	m_Path->size() > 0){
+		if(ContainsFlags(m_Path->back()->getTile()->getTileTypes(),m_Unwalkables)){
+			SafeVectorDelete<PathNode>(*m_Path);
+			SafePtrRelease(m_Path);
+			setDestinationTile(m_DestinationTile);
+			if(!m_Path){
+				setCurrentTile(m_CurrentTile);
+				m_DestinationTile = NULL;
+			}
+			return;
+		}
 		if(getPositionX() > m_Path->back()->getTile()->getPositionX()){
 			setPositionX(Clamp<float>(m_Path->back()->getTile()->getPositionX(),
 			getPositionX(),
@@ -215,6 +226,7 @@ void Unit::moveLerp(){
 			PathNode* oldNode = m_Path->back();
 			m_Path->pop_back();
 			SafePtrRelease(oldNode);
+			tileUpdate(BlobGame::instance()->getObjects(),*m_Level->getTiles());
 		}
 	}
 }

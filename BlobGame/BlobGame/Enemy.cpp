@@ -295,6 +295,7 @@ void Enemy::rePosUpdate(){
 			}
 		}
 	}
+	
 	std::vector<Tile*> tiles = getSquareVision(m_Level,m_AttackRange,m_Target->getCurrentTile());
 	std::map<int,Tile*> mapTiles;
 	for(int i = 0;i < tiles.size();i++){
@@ -305,7 +306,9 @@ void Enemy::rePosUpdate(){
 			if(BlobGame::instance()->blobWithinArea(
 				getAttackRange(tiles[i],j,m_Level),(Blob*)m_Target)){
 					setDestinationTile(tiles[i]);
-					mapTiles.insert(std::pair<int,Tile*>(m_Path->size(),tiles[i]));
+					if(m_Path){
+						mapTiles.insert(std::pair<int,Tile*>(m_Path->size(),tiles[i]));
+					}
 					stop();
 			}
 		}
