@@ -255,7 +255,8 @@ void BlobGame::optionsMenu(){
 void BlobGame::gamePlay(){
 	MessageHandler::Instance()->update();
 	SelectionManager::instance()->update();
-	tileUpdate(*m_GameObjects);
+
+	tileUpdate(*m_GameObjects,*m_Level->getTiles());
 	for(int i = 0;i < m_GameObjectsToDelete->size();i++){
 		for(int j = 0;j < m_GameObjects->size();j++){
 			if((*m_GameObjectsToDelete)[i] == (*m_GameObjects)[j]){
@@ -282,7 +283,7 @@ void BlobGame::updateVision(){
 	Vector3 colorVec2(70,70,70);
 	Unit* unit;
 	int i;
-	Tile** tiles = m_Level->getTiles();
+	std::vector<Tile*> tiles = *m_Level->getTiles();
 	for(i = 0;i < m_Level->getNumberOfHorizontalTiles()*
 				  m_Level->getNumberOfVerticalTiles();i++){
 		if(tiles[i]->getSprite()->getColor() != colorVec2){
@@ -417,6 +418,12 @@ void BlobGame::handleMessage(Message msg){
 		else if(msg.name == "Posion"){
 			if(ContainsFlags(tile->getTileTypes(),Posion)){
 				RemoveFlag(&tileStatuses,Posion);
+				tile->setTileTypes(tileStatuses);
+			}
+		}
+		else if(msg.name == "Slime"){
+			if(ContainsFlags(tile->getTileTypes(),Slime)){
+				RemoveFlag(&tileStatuses,Slime);
 				tile->setTileTypes(tileStatuses);
 			}
 		}

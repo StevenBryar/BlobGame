@@ -8,12 +8,28 @@
 #include "BlobGameConstants.h"
 #include "BlobGame.h"
 
-void tileUpdate(std::vector<GameObject*> objects){
-	Unit* unit = NULL;
+void tileUpdate(std::vector<GameObject*> objects,std::vector<Tile*> tiles){
 	unsigned int tileTypes = 0;
+	for(int i = 0;i < tiles.size();i++){
+		if(ContainsFlags(tiles[i]->getTileTypes(),BlobOn)){
+			tileTypes = tiles[i]->getTileTypes();
+			RemoveFlag(&tileTypes,BlobOn);
+			tiles[i]->setTileTypes(tileTypes);
+		}
+		if(ContainsFlags(tiles[i]->getTileTypes(),EnemyOn)){
+			tileTypes = tiles[i]->getTileTypes();
+			RemoveFlag(&tileTypes,EnemyOn);
+			tiles[i]->setTileTypes(tileTypes);
+		}
+	}
+	Unit* unit = NULL;
 	for(int i = 0;i < objects.size();i++){
 		if(objects[i]->getType() == "Blob"){
 			unit = (Unit*)objects[i];
+			if(!ContainsFlags(unit->getCurrentTile()->getTileTypes(),BlobOn)){
+				unit->getCurrentTile()->setTileTypes(unit->getCurrentTile()->
+				getTileTypes()|BlobOn);
+			}
 			if(ContainsFlags(unit->getCurrentTile()->
 			   getTileTypes(),Fire) && 
 			   !ContainsFlags(unit->getStatus(),OnFire)){
@@ -22,14 +38,17 @@ void tileUpdate(std::vector<GameObject*> objects){
 					   unit,BlobGame::instance(),unit,250,"Fire");
 			}
 			if(ContainsFlags(unit->getCurrentTile()->
-			   getTileTypes(),Slime)){
-				   tileTypes = unit->getCurrentTile()->getTileTypes();
-				   RemoveFlag(&tileTypes,Slime);
-				   unit->getCurrentTile()->setTileTypes(tileTypes);
+				getTileTypes(),Slime) && !ContainsFlags(unit->getStatus(),createsSlime)){
+				MessageHandler::Instance()->createMessage(REMOVE_TILE_EFFECT,unit,BlobGame::instance(),
+														unit->getCurrentTile(),0,"Slime");
 			}
 		}
 		else if(objects[i]->getType() == "Enemy"){
 			unit = (Unit*)objects[i];
+			if(!ContainsFlags(unit->getCurrentTile()->getTileTypes(),EnemyOn)){
+				unit->getCurrentTile()->setTileTypes(unit->getCurrentTile()->
+				getTileTypes()|EnemyOn);
+			}
 			if(ContainsFlags(unit->getCurrentTile()->
 			   getTileTypes(),Fire) && 
 			   !ContainsFlags(unit->getStatus(),OnFire)){
@@ -39,13 +58,13 @@ void tileUpdate(std::vector<GameObject*> objects){
 			}
 			if(ContainsFlags(unit->getCurrentTile()->
 			   getTileTypes(),Slime) && 
-			   !ContainsFlags(unit->getStatus(),Slowed)){
+			   !ContainsFlags(unit->getStatus(),Slowed) &&
+			   !ContainsFlags(unit->getStatus(),createsSlime)){
 				   unit->addStatus(Slowed);
 				   	MessageHandler::Instance()->createMessage(REMOVE_UNIT_STATUS,
 					   unit,BlobGame::instance(),unit,150,"Slowed");
-				   tileTypes = unit->getCurrentTile()->getTileTypes();
-				   RemoveFlag(&tileTypes,Slime);
-				   unit->getCurrentTile()->setTileTypes(tileTypes);
+					MessageHandler::Instance()->createMessage(REMOVE_TILE_EFFECT,
+						unit,BlobGame::instance(),unit->getCurrentTile(),0,"Slime");
 			}
 			if(ContainsFlags(unit->getCurrentTile()->
 			   getTileTypes(),Posion) && 

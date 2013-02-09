@@ -38,10 +38,10 @@ public:
 	Tile* getTileForCoordinates(int coordinatesX, int coordinatesY);
 	Tile* getTileForTileIndex(int index);
 
-	Tile** getTiles();
+	std::vector<Tile*>* getTiles();
 protected:
 	//Member variables
-	Tile** m_Tiles;
+	std::vector<Tile*>* m_Tiles;
 	unsigned int m_HorizontalTiles;
 	unsigned int m_VerticalTiles;
 	unsigned int m_TileSize;

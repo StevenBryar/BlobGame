@@ -17,7 +17,7 @@ Level::Level(unsigned int horizontalTiles, unsigned int verticalTiles,
 				unsigned int tileSize,const int tileTypes[],
 				std::vector<GameObject*>* objects,
 				GameObject*(factory)(unsigned int flags,Tile* tile)){
-	m_Tiles = new Tile*[horizontalTiles * verticalTiles];
+					m_Tiles = new std::vector<Tile*>();
 	m_HorizontalTiles = horizontalTiles;
 	m_VerticalTiles = verticalTiles;
 	m_TileSize = tileSize;
@@ -28,13 +28,13 @@ Level::Level(unsigned int horizontalTiles, unsigned int verticalTiles,
 	//Cycle through all the tiles and create them
 	for(int v = 0; v < getNumberOfVerticalTiles(); v++){
 		for(int h = 0; h < getNumberOfHorizontalTiles(); h++){
-				m_Tiles[tileIndex] = new Tile
-					(tileTypes[tileIndex]);
+			m_Tiles->push_back(new Tile
+					(tileTypes[tileIndex]));
 			//Set the tile position and size
-			m_Tiles[tileIndex]->setPosition(tileX, tileY);
-			m_Tiles[tileIndex]->setSize(TILE_SIZE, TILE_SIZE);
-			m_Tiles[tileIndex]->setOrigin(m_Tiles[tileIndex]->getWidth()/2,
-											m_Tiles[tileIndex]->getHeight()/2);
+			(*m_Tiles)[tileIndex]->setPosition(tileX, tileY);
+			(*m_Tiles)[tileIndex]->setSize(TILE_SIZE, TILE_SIZE);
+			(*m_Tiles)[tileIndex]->setOrigin((*m_Tiles)[tileIndex]->getWidth()/2,
+											(*m_Tiles)[tileIndex]->getHeight()/2);
 			//Increment the tile index
 			tileIndex++;
 			//And increment the tile x position
@@ -51,10 +51,10 @@ Level::Level(unsigned int horizontalTiles, unsigned int verticalTiles,
 		for(int i = 0;i < getNumberOfVerticalTiles()*
 							getNumberOfHorizontalTiles();i++){
 			GameObject* gameObject;
-			if(gameObject = factory(tileTypes[i],m_Tiles[i])){
-				unsigned int tiletypes = m_Tiles[i]->getTileTypes();
+			if(gameObject = factory(tileTypes[i],(*m_Tiles)[i])){
+				unsigned int tiletypes = (*m_Tiles)[i]->getTileTypes();
 				RemoveFlag(&tiletypes,TILE_SPAWN_FLAGS);
-				m_Tiles[i]->setTileTypes(tiletypes);
+				(*m_Tiles)[i]->setTileTypes(tiletypes);
 				objects->push_back(gameObject);
 			}
 		}
@@ -62,24 +62,16 @@ Level::Level(unsigned int horizontalTiles, unsigned int verticalTiles,
 }
 
 Level::~Level(){
-	for(int i = 0; i < getNumberOfHorizontalTiles() * 
-		getNumberOfVerticalTiles(); i++)
-	{
-		SafePtrRelease(m_Tiles[i]);
-	}
-
-	if(m_Tiles != NULL){
-		delete[] m_Tiles;
-		m_Tiles = NULL;
-	}
+	SafeVectorDelete<Tile>(*m_Tiles);
+	SafePtrRelease(m_Tiles);
 }
 
 void Level::update(double delta){
 	//Update all the game tiles
 	for(int i = 0; i < getNumberOfHorizontalTiles() * 
 		getNumberOfVerticalTiles(); i++)
-		if(m_Tiles[i] != NULL)
-			m_Tiles[i]->update(delta);
+		if((*m_Tiles)[i] != NULL)
+			(*m_Tiles)[i]->update(delta);
 }
 
 bool Level::validateTileCoordinates(int coordinatesX, int coordinatesY){
@@ -89,7 +81,7 @@ bool Level::validateTileCoordinates(int coordinatesX, int coordinatesY){
     } 
     return true;
 }
-Tile** Level::getTiles(){
+std::vector<Tile*>* Level::getTiles(){
 	return m_Tiles;
 }
 
@@ -134,7 +126,7 @@ Tile* Level::getTileForCoordinates(int coordinatesX, int coordinatesY){
 
 Tile* Level::getTileForTileIndex(int index){
 	if(index >= 0 && index < (getNumberOfHorizontalTiles() * getNumberOfVerticalTiles())){
-		return m_Tiles[index];
+		return (*m_Tiles)[index];
 	}
 
 	return NULL;

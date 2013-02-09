@@ -50,6 +50,7 @@ GameObject* createGlob(Tile* tile){
 	blob->addAbilty(a,W);
 	blob->addPassive(&createSlime);
 	blob->calcBaseGScore = &calcGScoreBlob;
+	blob->addStatus(createsSlime);
 
 	return blob;
 }

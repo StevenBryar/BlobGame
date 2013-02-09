@@ -14,7 +14,9 @@ const enum TileStuff{
 	PistolEnemy = (1 << 7),
 	Fire = (1 << 8),
 	Posion = (1 << 9),
-	Slime = (1 << 12),
+	Slime = (1 << 10),
+	BlobOn = (1 << 11),
+	EnemyOn = (1 << 12),
 };
 
 const enum UnitStuff{
@@ -23,7 +25,9 @@ const enum UnitStuff{
 	Slowed = (1 << 3),
 	Dead = (1 << 4),
 	Consume = (1 << 5),
-	Consumed = (1 << 6)
+	Consumed = (1 << 6),
+	ImmuneToFire = (1 << 7),
+	createsSlime = (1 << 8)
 };
 
 extern const unsigned int UNWALKABLES;

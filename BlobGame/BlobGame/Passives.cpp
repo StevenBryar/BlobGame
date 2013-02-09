@@ -16,6 +16,7 @@ void createSlime(Unit* unit){
 		tile->setTileTypes(tile->getTileTypes()|Slime);
 		Sprite2d* sprite = SpriteManager::instance()->createSprite(NULL,"PathGuy.png",0);
 		sprite->setPosition(tile->getPositionX(),tile->getPositionY());
+		sprite->setName("Slime_" + tile->getName());
 		BlobGame::instance()->addEffect(sprite);
 	}
 }
