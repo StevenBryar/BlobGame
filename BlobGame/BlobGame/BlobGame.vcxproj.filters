@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{d68a6960-c28a-45a9-812d-4418ba1a5b36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlobGame">
+      <UniqueIdentifier>{ff11444f-1bce-407d-b0a6-95861a6df545}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlobGame\BaseObjects">
+      <UniqueIdentifier>{4aa0ab2c-38f4-43cf-9d74-1164bba37a77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlobGame\Blobs">
+      <UniqueIdentifier>{dc442ab9-9976-4fe5-a477-3ec50ef1d9cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlobGame\Enemies">
+      <UniqueIdentifier>{9042a8bb-d501-43ac-9c44-69922306fbef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlobGame\MainGame">
+      <UniqueIdentifier>{1ce176ce-84c4-4cfb-b27e-fcf766926c12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlobGame\Selection">
+      <UniqueIdentifier>{1b0ffbcb-7930-4dfd-9cc6-dba1ac3d3827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{e9e7cdab-e7b8-4326-b4e3-9139c61b8993}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\Render">
+      <UniqueIdentifier>{04901fb3-2841-453a-9e2b-f402f68a0bbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\Input">
+      <UniqueIdentifier>{885d39a9-cbe7-43cb-84c9-ba8bdeb109ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\Common">
+      <UniqueIdentifier>{a32be095-b342-44f3-b48f-20fe2e01411c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\Utilities">
+      <UniqueIdentifier>{4c7bf302-1f99-4882-874a-e5c3d9850aca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\Message">
+      <UniqueIdentifier>{07016fef-aa22-4690-af8b-c5c0ebd9aaf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\PathFinding">
+      <UniqueIdentifier>{20489305-d8ee-4e6e-a1dc-3f9a5efeb01a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="2dSprite.cpp">
+      <Filter>Base\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>Base\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="spriteManager.cpp">
+      <Filter>Base\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer.cpp">
+      <Filter>Base\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="PathNode.cpp">
+      <Filter>Base\PathFinding</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinder.cpp">
+      <Filter>Base\PathFinding</Filter>
+    </ClCompile>
+    <ClCompile Include="inputManager.cpp">
+      <Filter>Base\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="inputListener.cpp">
+      <Filter>Base\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="constants.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="gameObject.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="level.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="unit.cpp">
+      <Filter>BlobGame\BaseObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="tile.cpp">
+      <Filter>BlobGame\BaseObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="BlobGame.cpp">
+      <Filter>BlobGame\MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>BlobGame\MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="selectionManager.cpp">
+      <Filter>BlobGame\Selection</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>Base\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>Base\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="blob.cpp">
+      <Filter>BlobGame\Blobs</Filter>
+    </ClCompile>
+    <ClCompile Include="Util.cpp">
+      <Filter>Base\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="BlobGameConstants.cpp">
+      <Filter>BlobGame\MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageHandler.cpp">
+      <Filter>Base\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>BlobGame\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Abilities.cpp">
+      <Filter>BlobGame\Blobs</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitFactory.cpp">
+      <Filter>BlobGame\BaseObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Passives.cpp">
+      <Filter>BlobGame\BaseObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="TileManagement.cpp">
+      <Filter>BlobGame\MainGame</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="2dSprite.h">
+      <Filter>Base\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>Base\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer.h">
+      <Filter>Base\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteManager.h">
+      <Filter>Base\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="inputManager.h">
+      <Filter>Base\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="inputListener.h">
+      <Filter>Base\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinder.h">
+      <Filter>Base\PathFinding</Filter>
+    </ClInclude>
+    <ClInclude Include="PathNode.h">
+      <Filter>Base\PathFinding</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>Base\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="gameObject.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="constants.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="level.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="unit.h">
+      <Filter>BlobGame\BaseObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="tile.h">
+      <Filter>BlobGame\BaseObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="blob.h">
+      <Filter>BlobGame\Blobs</Filter>
+    </ClInclude>
+    <ClInclude Include="BlobGame.h">
+      <Filter>BlobGame\MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="selectionManager.h">
+      <Filter>BlobGame\Selection</Filter>
+    </ClInclude>
+    <ClInclude Include="MyMath.h">
+      <Filter>Base\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Base\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>Base\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Util.h">
+      <Filter>Base\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageHandler.h">
+      <Filter>Base\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageListener.h">
+      <Filter>Base\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="BlobGameConstants.h">
+      <Filter>BlobGame\MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Abilities.h">
+      <Filter>BlobGame\Blobs</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>BlobGame\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAttacks.h">
+      <Filter>BlobGame\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitFactory.h">
+      <Filter>BlobGame\BaseObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Passives.h">
+      <Filter>BlobGame\BaseObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="TileManagement.h">
+      <Filter>BlobGame\MainGame</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
