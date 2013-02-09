@@ -273,8 +273,18 @@ void Enemy::attackUpdate(){
 	}
 }
 void Enemy::rePosUpdate(){
-	if(m_Path && m_Path->size() == 1){
+	if((m_Path && m_Path->size() == 1) ||
+	   (m_Path && m_Path->size() > 0 &&
+	   !BlobGame::instance()->blobWithinArea(
+	   getSquareVision(m_Level,ENEMY_VISION,m_CurrentTile),(Blob*)m_Target))){
 		moveLerp();
+		return;
+	}
+	if(((m_Path && m_Path->size() == 0) || !m_Path) && 
+		!BlobGame::instance()->blobWithinArea(getSquareVision
+		(m_Level,ENEMY_VISION,m_CurrentTile),(Blob*)m_Target)){
+		m_Target = NULL;
+		changeState(Search);
 		return;
 	}
 	for(int i = 0;i < 4;i++){
@@ -295,7 +305,6 @@ void Enemy::rePosUpdate(){
 			}
 		}
 	}
-	
 	std::vector<Tile*> tiles = getSquareVision(m_Level,m_AttackRange,m_Target->getCurrentTile());
 	std::map<int,Tile*> mapTiles;
 	for(int i = 0;i < tiles.size();i++){
@@ -315,6 +324,9 @@ void Enemy::rePosUpdate(){
 	}
 	if(mapTiles.size() > 0){
 		setDestinationTile(mapTiles.begin()->second);
+	}
+	else{
+		changeState(Search);
 	}
 }
 
