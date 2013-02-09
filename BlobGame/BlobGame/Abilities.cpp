@@ -20,7 +20,7 @@
 bool teleport(Blob* caster,int cursorWorldX,int cursorWorldY){
 	Tile* tile = BlobGame::instance()->getLevel()->
 			getTileForPosition(cursorWorldX,cursorWorldY);
-	if(tile && !ContainsFlags(tile->getTileTypes(),UNWALKABLES)){
+	if(tile && !ContainsFlags(tile->getTileTypes(),BLOB_UNWALKABLES)){
 		caster->setCurrentTile(tile);
 		caster->fullStop();
 		return true;
@@ -30,7 +30,7 @@ bool teleport(Blob* caster,int cursorWorldX,int cursorWorldY){
 bool groupTeleport(Blob* caster,int cursorWorldX,int cursorWorldY){
 	Tile* targetTile = BlobGame::instance()->getLevel()->
 			getTileForPosition(cursorWorldX,cursorWorldY);
-	if(targetTile && !ContainsFlags(targetTile->getTileTypes(),UNWALKABLES)){
+	if(targetTile && !ContainsFlags(targetTile->getTileTypes(),BLOB_UNWALKABLES)){
 		Tile* startTile = caster->getCurrentTile();
 		Tile* targetTiles[9] = {
 			targetTile,
@@ -57,7 +57,7 @@ bool groupTeleport(Blob* caster,int cursorWorldX,int cursorWorldY){
 		Blob* blob = NULL;
 		for(int i = 0;i < 9;i++){
 			if(targetTiles[i] 
-			&& !ContainsFlags(targetTiles[i]->getTileTypes(),UNWALKABLES)
+			&& !ContainsFlags(targetTiles[i]->getTileTypes(),BLOB_UNWALKABLES)
 				&& (blob = BlobGame::instance()->blobOnTile(startTiles[i]))){
 					teleport(blob,targetTiles[i]->getPositionX(),targetTiles[i]->getPositionY());
 			}
@@ -101,7 +101,7 @@ bool split(Blob* caster,int cursorWorldX,int cursorWorldY){
 	bool didAbility = false;
 	for(int i = 0,j = 0;i < 8 && j < 2;i++){
 		if(targetTiles[i] && 
-			!ContainsFlags(targetTiles[i]->getTileTypes(),UNWALKABLES) &&	
+			!ContainsFlags(targetTiles[i]->getTileTypes(),BLOB_UNWALKABLES) &&	
 				!BlobGame::instance()->blobOnTile(targetTiles[i])){
 			blob = (Blob*)createGrunt(targetTiles[i]);
 			MessageHandler::Instance()->createMessage(6,blob,BlobGame::instance(),NULL,1000,blob->getName());
@@ -131,7 +131,7 @@ bool teleToCaster(Blob* caster,int cursorWorldX,int cursorWorldY){
 		};
 		for(int i = 0;i < 8;i++){
 			if(targetTiles[i] && 
-				!ContainsFlags(targetTiles[i]->getTileTypes(),UNWALKABLES)){
+				!ContainsFlags(targetTiles[i]->getTileTypes(),BLOB_UNWALKABLES)){
 					teleport(blob,targetTiles[i]->getPositionX(),targetTiles[i]->getPositionY());
 					return true;
 			}

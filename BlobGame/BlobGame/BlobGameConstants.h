@@ -30,7 +30,8 @@ const enum UnitStuff{
 	createsSlime = (1 << 8)
 };
 
-extern const unsigned int UNWALKABLES;
+extern const unsigned int BLOB_UNWALKABLES;
+extern const unsigned int ENEMY_UNWALKABLES;
 extern const int NUMBER_OF_HORIZONTAL_TILES;
 extern const int NUMBER_OF_VERTICAL_TILES;
 extern const int TILE_SIZE;

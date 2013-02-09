@@ -10,7 +10,7 @@
 std::vector<PathNode*>* FindPath(PathNode* curNode,Tile* destTile,
 			Level* level,unsigned int unWalkables,int (*calcBaseGScore)(Tile* tile))
 {
-	if(ContainsFlags(destTile->getTileTypes(),UNWALKABLES)){
+	if(ContainsFlags(destTile->getTileTypes(),unWalkables)){
 		return NULL;
 	}
 	static bool firstLoop = true;
@@ -71,7 +71,7 @@ std::vector<PathNode*>* FindPath(PathNode* curNode,Tile* destTile,
 			continue;
 		}
 
-		if(!ContainsFlags(adTiles[i]->getTileTypes(),UNWALKABLES))
+		if(!ContainsFlags(adTiles[i]->getTileTypes(),unWalkables))
 		{
 			for(int j = 0;j < closedList->size();j++)
 			{

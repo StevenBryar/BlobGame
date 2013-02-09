@@ -1,6 +1,7 @@
 #include "BlobGameConstants.h"
 
-const unsigned int UNWALKABLES = Wall | BlobOn;
+const unsigned int BLOB_UNWALKABLES = Wall | BlobOn;
+const unsigned int ENEMY_UNWALKABLES = Wall | BlobOn | EnemyOn;
 const int NUMBER_OF_HORIZONTAL_TILES = 16;
 const int NUMBER_OF_VERTICAL_TILES = 12;
 const int TILE_SIZE = 64;

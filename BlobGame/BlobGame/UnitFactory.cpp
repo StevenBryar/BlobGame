@@ -23,6 +23,7 @@ GameObject* createGrunt(Tile* tile){
 	a = new Ability("Split",600,false,&split);
 	blob->addAbilty(a,W);
 	blob->calcBaseGScore = &calcGScoreBlob;
+	blob->setUnwalkables(BLOB_UNWALKABLES);
 
 	return blob;
 }
@@ -36,6 +37,7 @@ GameObject* createTele(Tile* tile){
 	a = new Ability("TeleportToCaster",1800,true,&teleToCaster);
 	blob->addAbilty(a,W);
 	blob->calcBaseGScore = &calcGScoreBlob;
+	blob->setUnwalkables(BLOB_UNWALKABLES);
 
 	return blob;
 }
@@ -51,6 +53,7 @@ GameObject* createGlob(Tile* tile){
 	blob->addPassive(&createSlime);
 	blob->calcBaseGScore = &calcGScoreBlob;
 	blob->addStatus(createsSlime);
+	blob->setUnwalkables(BLOB_UNWALKABLES);
 
 	return blob;
 }
@@ -68,6 +71,7 @@ GameObject* createMother(Tile* tile){
 	blob->addPassive(&gatherResources);
 	blob->setEnergy(50);
 	blob->calcBaseGScore = &calcGScoreBlob;
+	blob->setUnwalkables(BLOB_UNWALKABLES);
 
 	return blob;
 }
@@ -77,6 +81,7 @@ GameObject* createPistolEnemy(Tile* tile){
 						"TestEnemy.png",&pistolRange,&pistolAttack,PISTOL_RANGE);
 	enemy->setOrigin(enemy->getWidth()/2,enemy->getHeight()/2);
 	enemy->calcBaseGScore = &calcGScoreBasicEnemy;
+	enemy->setUnwalkables(ENEMY_UNWALKABLES);
 
 	return enemy;
 }

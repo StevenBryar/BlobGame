@@ -125,7 +125,7 @@ void Enemy::search(){
 			int posX = (rand() %(maxX-minX))+minX;
 			int posY = (rand() %(maxY-minY))+minY;
 			if(m_Level->getTileForCoordinates(posX,posY) == m_CurrentTile ||
-				ContainsFlags(m_Level->getTileForCoordinates(posX,posY)->getTileTypes(),UNWALKABLES)){
+				ContainsFlags(m_Level->getTileForCoordinates(posX,posY)->getTileTypes(),m_Unwalkables)){
 					continue;
 			}
 				setDestinationTile(m_Level->getTileForCoordinates(posX,posY));
@@ -298,7 +298,7 @@ void Enemy::rePosUpdate(){
 	std::vector<Tile*> tiles = getSquareVision(m_Level,m_AttackRange,m_Target->getCurrentTile());
 	std::map<int,Tile*> mapTiles;
 	for(int i = 0;i < tiles.size();i++){
-		if(ContainsFlags(tiles[i]->getTileTypes(),UNWALKABLES)){
+		if(ContainsFlags(tiles[i]->getTileTypes(),m_Unwalkables)){
 			continue;
 		}
 		for(int j = 0;j < 4;j++){

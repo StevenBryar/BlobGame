@@ -18,7 +18,8 @@ m_DestinationTile(NULL),
 m_Target(NULL),
 calcBaseGScore(NULL),
 m_UnitStatus(0),
-m_AttackTimer(0){
+m_AttackTimer(0),
+m_Unwalkables(0){
 	if(BlobGame::instance()->getLevel()){
 		m_CurrentTile = BlobGame::instance()->getLevel()->
 			getTileForPosition(getPositionX(),getPositionY());
@@ -33,7 +34,8 @@ m_DestinationTile(NULL),
 m_Target(NULL),
 calcBaseGScore(NULL),
 m_UnitStatus(0),
-m_AttackTimer(0){
+m_AttackTimer(0),
+m_Unwalkables(0){
 	setCurrentTile(currentTile);
 	m_PassivesToDelete = new std::vector<void (*)(Unit*)>();
 	m_Passives = new std::vector<void (*)(Unit*)>();
@@ -46,7 +48,8 @@ m_Target(NULL),
 m_Level(level),
 calcBaseGScore(NULL),
 m_UnitStatus(0),
-m_AttackTimer(0){
+m_AttackTimer(0),
+m_Unwalkables(0){
 	setCurrentTile(currentTile);
 	m_PassivesToDelete = new std::vector<void (*)(Unit*)>();
 	m_Passives = new std::vector<void (*)(Unit*)>();
@@ -62,7 +65,8 @@ m_AttackSpeed(attackSpeed),m_MoveSpeed(moveSpeed),
 m_Armour(armour),
 calcBaseGScore(NULL),
 m_UnitStatus(0),
-m_AttackTimer(0){
+m_AttackTimer(0),
+m_Unwalkables(0){
 	if(BlobGame::instance()->getLevel()){
 		m_CurrentTile = BlobGame::instance()->getLevel()->
 			getTileForPosition(getPositionX(),getPositionY());
@@ -81,7 +85,8 @@ m_AttackSpeed(attackSpeed),m_MoveSpeed(moveSpeed),
 m_Armour(armour),
 calcBaseGScore(NULL),
 m_UnitStatus(0),
-m_AttackTimer(0){
+m_AttackTimer(0),
+m_Unwalkables(0){
 	setCurrentTile(currentTile);
 	m_PassivesToDelete = new std::vector<void (*)(Unit*)>();
 	m_Passives = new std::vector<void (*)(Unit*)>();
@@ -97,7 +102,8 @@ m_AttackSpeed(attackSpeed),m_MoveSpeed(moveSpeed),
 m_Armour(armour),m_Level(level),
 calcBaseGScore(NULL),
 m_UnitStatus(0),
-m_AttackTimer(0){
+m_AttackTimer(0),
+m_Unwalkables(0){
 	setCurrentTile(currentTile);
 	m_PassivesToDelete = new std::vector<void (*)(Unit*)>();
 	m_Passives = new std::vector<void (*)(Unit*)>();
@@ -158,7 +164,7 @@ void Unit::setCurrentTile(Tile* tile){
 }
 void Unit::setDestinationTile(Tile* tile){
 	if(m_CurrentTile != tile &&
-		tile != NULL && !ContainsFlags(tile->getTileTypes(),UNWALKABLES)){
+		tile != NULL && !ContainsFlags(tile->getTileTypes(),m_Unwalkables)){
 			m_DestinationTile = tile;
 			PathNode* startNode = new PathNode(m_CurrentTile,0,
 				CalculateScoreH(m_CurrentTile,m_DestinationTile,m_Level));
@@ -167,7 +173,7 @@ void Unit::setDestinationTile(Tile* tile){
 				SafePtrRelease(m_Path);
 			}
 			m_Path = FindPath(startNode,m_DestinationTile,
-				m_Level,UNWALKABLES,calcBaseGScore);
+				m_Level,m_Unwalkables,calcBaseGScore);
 	}
 }
 Tile* Unit::getCurrentTile(){return m_CurrentTile;}
@@ -257,6 +263,7 @@ void Unit::setArmour(int armour){m_Armour = armour;}
 void Unit::setTarget(Unit* target){m_Target = target;}
 void Unit::setLevel(Level* level){m_Level = level;}
 void Unit::setAttackTimer(float attackTimer){m_AttackTimer = attackTimer;}
+void Unit::setUnwalkables(unsigned int unWalkables){m_Unwalkables = unWalkables;}
 
 int Unit::getHealth(){return m_Health;}
 int Unit::getMoveSpeed(){return m_MoveSpeed;}
@@ -271,3 +278,4 @@ int Unit::getDirection(){return getRotation()/90;}
 void Unit::addStatus(UnitStuff status){m_UnitStatus |= status;}
 void Unit::setStatus(unsigned int status){m_UnitStatus = status;}
 unsigned int Unit::getStatus(){return m_UnitStatus;}
+unsigned int Unit::getUnwalkables(){return m_Unwalkables;}

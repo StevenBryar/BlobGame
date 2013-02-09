@@ -49,6 +49,7 @@ public:
 	void setArmour(int armour);
 	void setTarget(Unit* target);
 	void setAttackTimer(float attackTimer);
+	void setUnwalkables(unsigned int unWalkables);
 
 	int getHealth();
 	int getMoveSpeed();
@@ -57,6 +58,7 @@ public:
 	int getArmour();
 	Unit* getTarget();
 	float getAttackTimer();
+	unsigned int getUnwalkables();
 
 	void addStatus(UnitStuff status);
 	void setStatus(unsigned int status);
@@ -84,6 +86,7 @@ protected:
 	int m_Armour;
 	int m_AttackSpeed;
 	unsigned int m_UnitStatus;
+	unsigned int m_Unwalkables;
 	Tile* m_CurrentTile;
 	Tile* m_DestinationTile;
 	std::vector<PathNode*>* m_Path;
