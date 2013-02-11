@@ -47,7 +47,9 @@ inline std::vector<Tile*> pistolRange(Tile* currentTile,int dirFacing,Level* lev
 	for(int i = 0;i < PISTOL_RANGE;i++){
 		if(tile){
 			tiles.push_back(tile);
-			if(tile && ContainsFlags(tile->getTileTypes(),Wall)){
+			if(ContainsFlags(tile->getTileTypes(),Wall) ||
+			   ContainsFlags(tile->getTileTypes(),BlobOn) ||
+			   ContainsFlags(tile->getTileTypes(),EnemyOn)){
 				break;
 			}
 			tile = AdjacentTile(tile,level);

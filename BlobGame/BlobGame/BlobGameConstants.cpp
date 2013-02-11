@@ -12,8 +12,8 @@ const int TEST_LEVEL_WALL_TILES[] = { Wall, Wall,   Wall,   Wall,   Wall,   Wall
 									  Wall, Ground, Wall,   Ground, Ground, Wall,   Ground | GlobStart, Ground, Ground, Ground, Wall,   Ground, Ground, Wall,   Ground, Wall,
 									  Wall, Ground, Ground, Ground, Ground, Ground, Ground, Wall,   Wall,   Ground, Ground, Ground, Ground, Ground, Ground, Wall,
 									  Wall, Ground, Ground, Ground, Ground, Ground, Ground, Wall,   Wall,   Ground, Ground, Ground, Ground, Ground, Ground, Wall,
-									  Wall, Ground, Wall,   Ground, Ground, Wall,   Ground, Ground, Ground, Ground, Wall,   Ground, Ground, Wall,   Ground, Wall,
+									  Wall, Ground, Wall,   Ground, Ground, Wall,   Ground | PistolEnemy, Ground, Ground, Ground, Wall,   Ground, Ground, Wall,   Ground, Wall,
 									  Wall, Ground, Wall,   Ground, Ground, Ground, Ground, Ground, Ground, Ground, Ground, Ground, Ground, Wall,   Ground, Wall,
 									  Wall, Ground, Wall,   Wall,   Wall,   Ground, Wall,   Wall,   Wall,   Wall,   Ground, Wall,   Wall,   Wall,   Ground, Wall,
-									  Wall, Ground, Ground, Ground, Ground, Ground, Ground, Ground, Ground, Ground, Ground, Ground, Ground, Ground, Ground, Wall,
+									  Wall, Ground, Ground, Ground | PistolEnemy, Ground, Ground, Ground, Ground, Ground, Ground, Ground, Ground, Ground, Ground, Ground, Wall,
 									  Wall, Wall,	Wall,   Wall,   Wall,   Wall,   Wall,   Wall,   Wall,   Wall,   Wall,   Wall,   Wall,   Wall,   Wall,   Wall};
