@@ -227,24 +227,24 @@ void Unit::moveLerp(){
 			m_Path->pop_back();
 			SafePtrRelease(oldNode);
 			tileUpdate(BlobGame::instance()->getObjects(),*m_Level->getTiles());
-			//if(m_Path->size() > 0){
-			//	if(m_Path->back()->getTile()->getPositionX() > 
-			//		m_CurrentTile->getPositionX()){
-			//		changeDirection(RIGHT);
-			//	}
-			//	else if(m_Path->back()->getTile()->getPositionX() < 
-			//		m_CurrentTile->getPositionX()){
-			//		changeDirection(LEFT);
-			//	}
-			//	else if(m_Path->back()->getTile()->getPositionY() > 
-			//		m_CurrentTile->getPositionY()){
-			//		changeDirection(FRONT);
-			//	}
-			//	else if(m_Path->back()->getTile()->getPositionY() <
-			//		m_CurrentTile->getPositionY()){
-			//		changeDirection(BACK);
-			//	}
-			//}
+			if(m_Path->size() > 0){
+				if(m_Path->back()->getTile()->getPositionX() > 
+					m_CurrentTile->getPositionX()){
+					changeDirection(RIGHT);
+				}
+				else if(m_Path->back()->getTile()->getPositionX() < 
+					m_CurrentTile->getPositionX()){
+					changeDirection(LEFT);
+				}
+				else if(m_Path->back()->getTile()->getPositionY() > 
+					m_CurrentTile->getPositionY()){
+					changeDirection(FRONT);
+				}
+				else if(m_Path->back()->getTile()->getPositionY() <
+					m_CurrentTile->getPositionY()){
+					changeDirection(BACK);
+				}
+			}
 		}
 	}
 }

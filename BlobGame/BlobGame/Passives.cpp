@@ -48,6 +48,9 @@ void gatherResources(Unit* unit){
 void consume(Unit* unit){
 	if(unit->getTarget() && 
 		unit->getType() == "Blob"){
+		if(unit->getCurrentTile() != unit->getTarget()->getCurrentTile()){
+			unit->getTarget()->setCurrentTile(unit->getCurrentTile());
+		}
 		unit->getTarget()->setPosition(unit->getPositionX(),unit->getPositionY());
 		if(unit->getAttackTimer() > 0){
 			unit->setAttackTimer(unit->getAttackTimer()-(unit->getAttackSpeed()*Util::instance()->getDelta()));

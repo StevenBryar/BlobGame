@@ -133,13 +133,15 @@ void SelectionManager::mouseInputCalback(inputEvent inEvent,int x,int y){
 		case MOUSE_RB_RELEASED:
 			if(m_Selected->size() > 0){
 				GameObject* object;
+				Unit* unit;
 				if((object = BlobGame::instance()->
 					pointWithinObject(x,y)) && m_Selected->
 					front()->getAllegiance() == "Ally" &&
 					object->getType() == "Enemy" && 
-					!ContainsFlags(m_Selected->front()->getStatus(),Consume)){
+					!ContainsFlags(m_Selected->front()->getStatus(),Consume) &&
+					!ContainsFlags((unit = (Unit*)object)->getStatus(),Consumed)){
 					//attack the unit.
-					//m_Selected->front()->setTarget((Unit*)object);
+					m_Selected->front()->setTarget((Unit*)object);
 				}
 				else if(!(object = BlobGame::instance()->
 					pointWithinObject(x,y)) && m_Selected->
