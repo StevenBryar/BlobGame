@@ -13,6 +13,7 @@
 #include "common.h"
 
 std::vector<Tile*> pistolRange(Tile* currentTile,int dirFacing,Level* level);
+std::vector<Tile*> flameRange(Tile* currentTile,int dirFacing,Level* level);
 
 inline void pistolAttack(Tile* currentTile,int dirFacing,Level* level,Enemy* attacker){
 	std::vector<Tile*> tiles = pistolRange(currentTile,dirFacing,level);
@@ -56,4 +57,19 @@ inline std::vector<Tile*> pistolRange(Tile* currentTile,int dirFacing,Level* lev
 		}
 	}
 	return tiles;
+}
+
+inline void FlameAttack(Tile* currentTile,int dirFacing,Level* level,Enemy* attacker){
+	std::vector<Tile*> tiles = flameRange(currentTile,dirFacing,level);
+	unsigned int time = Util::instance()->getElapsedTime();
+	for(int i = 0;i < tiles.size();i++){
+		//MessageHandler::Instance()->createMessage(
+		//	PISTOL_HIT,attacker,BlobGame::instance(),tiles[i],10+(5*i),
+		//	"FlameAttack_" + attacker->getName() + "_" + intToString(time));
+	}
+
+}
+
+std::vector<Tile*> flameRange(Tile* currentTile,int dirFacing,Level* level){
+	//
 }
