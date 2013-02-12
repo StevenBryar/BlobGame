@@ -26,7 +26,6 @@ public:
 	virtual ~Unit();
 
 	virtual void attack(Unit* aUnit);
-	//void patrol(Tile* start,Tile* end);
 	virtual void hit(int damage);
 
 	virtual void update();

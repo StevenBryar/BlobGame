@@ -164,8 +164,8 @@ void Blob::update(){
 			enemy->addStatus(Consumed);
 			addPassive(&consume);
 			addStatus(Consume);
-			MessageHandler::Instance()->createMessage
-				(7,this,BlobGame::instance(),enemy,0);
+			//MessageHandler::Instance()->createMessage
+			//	(7,this,BlobGame::instance(),enemy,0);
 		}
 		updateAbilities();
 	}

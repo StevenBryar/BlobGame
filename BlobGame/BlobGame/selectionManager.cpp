@@ -40,6 +40,7 @@ SelectionManager::SelectionManager(){
 	InputManager::instance()->registerKeyinput(this,W,KEY_RELEASED);
 	InputManager::instance()->registerKeyinput(this,Q,KEY_RELEASED);
 	InputManager::instance()->registerKeyinput(this,E,KEY_RELEASED);
+	InputManager::instance()->registerKeyinput(this,S,KEY_RELEASED);
 }
 SelectionManager::~SelectionManager(){
 	m_HotKeys->clear();
@@ -56,6 +57,15 @@ void SelectionManager::keyInputCallback(keyType key,inputEvent event){
 			//call useAbility method for first selected ally(if any ally selected)
 			//only call if the ability is not a target select ability.
 			if(m_Selected->size() > 0 && 
+				m_Selected->front()->getAllegiance() == "Ally" && key == S){
+				for(int i = 0;i < m_Selected->size();i++){
+					(*m_Selected)[i]->stop();
+					if(!ContainsFlags((*m_Selected)[i]->getStatus(),Consume)){
+						(*m_Selected)[i]->setTarget(NULL);
+					}
+				}
+			}
+			else if(m_Selected->size() > 0 && 
 				m_Selected->front()->getAllegiance() == "Ally"){
 				Blob* blob = (Blob*)m_Selected->front();
 				std::map<keyType,Ability*>::iterator iterator;
@@ -83,19 +93,13 @@ void SelectionManager::mouseInputCalback(inputEvent inEvent,int x,int y){
 	switch(inEvent){
 		case MOUSE_LB_RELEASED:
 			m_State = NORMAL_STATE;
-			if(Util::instance()->isKeyDown(A)){
-				//tell all allies selected to attack move(to tile under cursor).
-				SpriteManager::instance()->deleteSprite(m_DragSprite);
-				return;
-			}
-			else if(m_Selected->size() > 0 && 
+			if(m_Selected->size() > 0 && 
 				m_Selected->front()->getAllegiance() == "Ally"){
 				 Blob* blob = (Blob*)m_Selected->front();
 				std::map<keyType,Ability*>::iterator iterator;
 				for(iterator = blob->getAbilities()->begin();
 					iterator != blob->getAbilities()->end();iterator++){
 					if(Util::instance()->isKeyDown(iterator->first)){
-						//if yes and not "a" key send use Ability message to first current selection.
 						blob->useAbility(iterator->first,worldX,worldY);
 						SpriteManager::instance()->deleteSprite(m_DragSprite);
 						return;
