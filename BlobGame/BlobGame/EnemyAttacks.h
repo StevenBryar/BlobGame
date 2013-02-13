@@ -71,5 +71,48 @@ inline void FlameAttack(Tile* currentTile,int dirFacing,Level* level,Enemy* atta
 }
 
 std::vector<Tile*> flameRange(Tile* currentTile,int dirFacing,Level* level){
-	//
+	int tilesToLeft = 1;
+	int tilesToRight = 1;
+	bool straightPathBlocked = false;
+	Tile* tile = currentTile; 
+	std::vector<Tile*> tilesInRange;
+	Tile* (*AdjacentTile)(Tile* tile,Level* level);
+	Tile* (*AdjacentTileL)(Tile* tile,Level* level);
+	Tile* (*AdjacentTileR)(Tile* tile,Level* level);
+	switch(dirFacing){
+		case 0:
+			AdjacentTile  = &AdjacentTileTop;
+			AdjacentTileL = &AdjacentTileLeft;
+			AdjacentTileR = &AdjacentTileRight;
+			break;
+		case 1:
+			AdjacentTile  = &AdjacentTileRight;
+			AdjacentTileL = &AdjacentTileTop;
+			AdjacentTileR = &AdjacentTileBottom;
+			break;
+		case 2:
+			AdjacentTile  = &AdjacentTileBottom;
+			AdjacentTileL = &AdjacentTileRight;
+			AdjacentTileR = &AdjacentTileLeft;
+			break;
+		case 3:
+			AdjacentTile  = &AdjacentTileLeft;
+			AdjacentTileL = &AdjacentTileBottom;
+			AdjacentTileR = &AdjacentTileTop;
+			break;
+	}
+	for(int i = 0;i < FLAME_RANGE;i++){
+		Tile* tile2 = AdjacentTile(tile,level);
+		tile = AdjacentTile(tile,level);
+		if(i == 0 && ContainsFlags(tile2->getTileTypes(),Wall)){
+			break;
+		}
+		else if(!ContainsFlags(tile2->getTileTypes(),Wall)){
+			tilesInRange.push_back(tile2);
+		}
+		for(int j = tilesToLeft;j > 0;j--){
+
+		}
+	}
+	return tilesInRange;
 }

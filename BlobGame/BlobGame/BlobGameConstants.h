@@ -49,6 +49,7 @@ extern const int TEST_LEVEL_WALL_TILES[];
 #define LEFT  3
 #define PISTOL_RANGE 3
 #define PISTOL_DAMAGE 0
+#define FLAME_RANGE 3
 #define GOO_TRAP_TIME 150
 
 #define GRUNT_ENERGY_COST 10
