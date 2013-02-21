@@ -2,6 +2,7 @@
 #define LEVEL_H
 
 #include <vector>
+#include <string>
 
 class Tile;
 class GameObject;
@@ -13,10 +14,14 @@ public:
 		unsigned int tileSize,const int tileTypes[],
 		std::vector<GameObject*>* objects,
 		GameObject*(factory)(unsigned int flags,Tile* tile));
+
 	virtual ~Level();
 
 	//Standard lifecycle methods
 	virtual void update(double delta);
+
+	std::string getName();
+	void setName(std::string name);
 
 	//Tile count methods
 	unsigned int getNumberOfHorizontalTiles();
@@ -39,12 +44,15 @@ public:
 	Tile* getTileForTileIndex(int index);
 
 	std::vector<Tile*>* getTiles();
+
+	void changeTile(Tile* replacementTile);
 protected:
 	//Member variables
 	std::vector<Tile*>* m_Tiles;
 	unsigned int m_HorizontalTiles;
 	unsigned int m_VerticalTiles;
 	unsigned int m_TileSize;
+	std::string m_Name;
 };
 
 #endif

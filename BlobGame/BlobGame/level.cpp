@@ -7,7 +7,6 @@
 #include "BlobGameConstants.h"
 #include "unit.h"
 #include "blob.h"
-#include "EnemyAttacks.h"
 #include "Enemy.h"
 #include "spriteManager.h"
 #include "2dSprite.h"
@@ -47,7 +46,7 @@ Level::Level(unsigned int horizontalTiles, unsigned int verticalTiles,
 	//cycle through tileTypes array.
 	//look for gameObject indicators
 	//create gameObjects needed.
-	if(objects){
+	if(objects || factory){
 		for(int i = 0;i < getNumberOfVerticalTiles()*
 							getNumberOfHorizontalTiles();i++){
 			GameObject* gameObject;
@@ -74,6 +73,13 @@ void Level::update(double delta){
 			(*m_Tiles)[i]->update(delta);
 }
 
+std::string Level::getName(){
+	return m_Name;
+}
+void Level::setName(std::string name){
+	m_Name = name;
+}
+
 bool Level::validateTileCoordinates(int coordinatesX, int coordinatesY){
     if(coordinatesX < 0 || coordinatesY < 0 || coordinatesX >= 
 		getNumberOfHorizontalTiles() || coordinatesY >= getNumberOfVerticalTiles()) {
@@ -83,6 +89,17 @@ bool Level::validateTileCoordinates(int coordinatesX, int coordinatesY){
 }
 std::vector<Tile*>* Level::getTiles(){
 	return m_Tiles;
+}
+
+void Level::changeTile(Tile* replacementTile){
+	for(int i = 0;i < m_Tiles->size();i++){
+		if((*m_Tiles)[i]->getPositionX() == replacementTile->getPositionX() &&
+			(*m_Tiles)[i]->getPositionY() == replacementTile->getPositionY()){
+			SafePtrRelease((*m_Tiles)[i]);
+			(*m_Tiles)[i] = replacementTile;
+			return;
+		}
+	}
 }
 
 unsigned int Level::getNumberOfHorizontalTiles(){

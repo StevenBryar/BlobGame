@@ -133,6 +133,9 @@
     <ClCompile Include="TileManagement.cpp">
       <Filter>BlobGame\MainGame</Filter>
     </ClCompile>
+    <ClCompile Include="LevelEditor.cpp">
+      <Filter>BlobGame\MainGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2dSprite.h">
@@ -226,6 +229,9 @@
       <Filter>BlobGame\BaseObjects</Filter>
     </ClInclude>
     <ClInclude Include="TileManagement.h">
+      <Filter>BlobGame\MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditor.h">
       <Filter>BlobGame\MainGame</Filter>
     </ClInclude>
   </ItemGroup>

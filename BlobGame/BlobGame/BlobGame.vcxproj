@@ -91,6 +91,7 @@
     <ClCompile Include="inputListener.cpp" />
     <ClCompile Include="inputManager.cpp" />
     <ClCompile Include="level.cpp" />
+    <ClCompile Include="LevelEditor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MessageHandler.cpp" />
     <ClCompile Include="Passives.cpp" />
@@ -123,6 +124,7 @@
     <ClInclude Include="inputListener.h" />
     <ClInclude Include="inputManager.h" />
     <ClInclude Include="level.h" />
+    <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="MessageListener.h" />
     <ClInclude Include="MyMath.h" />

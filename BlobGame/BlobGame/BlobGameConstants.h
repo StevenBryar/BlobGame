@@ -39,6 +39,11 @@ extern const int TEST_LEVEL_WALL_TILES[];
 
 #define TILE_SPAWN_FLAGS GruntStart|EnemySpawner|PistolEnemy|TeleStart|GlobStart|MotherStart
 
+#define BLOB_LEVEL_TAG 4096
+
+#define MAX_HORIZONTAL_TILES 50
+#define MAX_VERTICAL_TILES 50
+
 #define MORPH_SPEED_INCREASE		4
 #define ALLY_VISION 3
 #define ENEMY_VISION 2

@@ -19,6 +19,7 @@
 #include "UnitFactory.h"
 #include "Vector3.h"
 #include "TileManagement.h"
+#include "LevelEditor.h"
 
 BlobGame* BlobGame::m_Instance = NULL;
 BlobGame::BlobGame() :
@@ -341,6 +342,8 @@ void BlobGame::endOptions(){}
 void BlobGame::beginGame(){
 	m_Level = new Level(NUMBER_OF_HORIZONTAL_TILES,NUMBER_OF_VERTICAL_TILES,
 					TILE_SIZE,TEST_LEVEL_WALL_TILES,m_GameObjects,&createUnit);
+	//m_Level = loadLevel("test.blvl");
+	//saveLevel("test.blvl",m_Level);
 	InputManager::instance()->registerMouseInput(this,MOUSE_MOVED);
 	for(int i = 0;i < m_GameObjects->size();i++){
 		if((*m_GameObjects)[i]->getType() != "GameObject" ||
