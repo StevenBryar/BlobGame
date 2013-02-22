@@ -45,7 +45,7 @@ public:
 	void update();
 private:
 	SelectionManager();
-	~SelectionManager();
+	virtual ~SelectionManager();
 	static SelectionManager* m_Instance;
 	std::map<int,std::vector<Blob*>>* m_HotKeys;
 	std::vector<Unit*>* m_Selected;

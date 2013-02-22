@@ -10,7 +10,8 @@ enum BlobGameStates{
 	MainMenu,
 	PauseMenu,
 	OptionsMenu,
-	GamePlay
+	GamePlay,
+	Editor
 };
 
 class GameObject;
@@ -21,6 +22,7 @@ class Tile;
 class Enemy;
 class Unit;
 class Sprite2d;
+class LevelEditor;
 
 class BlobGame : public Game , public InputListener , public MessageListener{
 public:
@@ -60,7 +62,7 @@ public:
 	void handleMessage(Message msg);
 protected:
 	BlobGame();
-	~BlobGame();
+	virtual ~BlobGame();
 	static BlobGame* m_Instance;
 	void changeState(BlobGameStates state);
 	void updateVision();
@@ -73,6 +75,7 @@ protected:
 	void mainMenu();
 	void optionsMenu();
 	void gamePlay();
+	void editor();
 
 	void beginPause();
 	void endPause();
@@ -82,6 +85,9 @@ protected:
 
 	void beginOptions();
 	void endOptions();
+
+	void beginEditor();
+	void endEditor();
 
 	void beginGame();
 	void endGame();
@@ -94,5 +100,6 @@ protected:
 	Camera* m_Camera;
 	int m_TotalEnergy;
 	int m_TotalPower;
+	LevelEditor* m_Editor;
 };
 #endif

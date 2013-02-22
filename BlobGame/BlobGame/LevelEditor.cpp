@@ -1,17 +1,27 @@
 #include "LevelEditor.h"
 #include "level.h"
 #include "BlobGameConstants.h"
+#include "constants.h"
 #include "common.h"
 #include "tile.h"
+#include "camera.h"
+#include "inputManager.h"
+#include "Util.h"
 #include <fstream>
 #include <iostream>
 
-LevelEditor::LevelEditor(){
-	
+LevelEditor::LevelEditor(Level* level,Camera* camera) :
+m_Level(level),m_Camera(camera){
+	m_CurrentTileType = Ground;
+	InputManager::instance()->registerMouseInput(this,MOUSE_LB_PRESSED);
+	InputManager::instance()->registerKeyinput(this,NUM1,KEY_RELEASED);
+	InputManager::instance()->registerKeyinput(this,NUM2,KEY_RELEASED);
+	InputManager::instance()->registerKeyinput(this,NUM3,KEY_RELEASED);
 }
-LevelEditor::LevelEditor(Level* level){
-	m_Level = level;
+LevelEditor::~LevelEditor(){
+	SafePtrRelease(m_Level);
 }
+
 bool LevelEditor::loadLevelToEditor(std::string path){
 	m_Level = loadLevel(path);
 	if(m_Level){
@@ -20,19 +30,58 @@ bool LevelEditor::loadLevelToEditor(std::string path){
 	return false;
 }
 bool LevelEditor::saveLevelFromEditor(std::string path){
-
-	return true;
+	if(m_Level){
+		saveLevel(path,m_Level);
+		return true;
+	}
+	return false;
 }
 void LevelEditor::update(){
 
 }
 
-//void LevelEditor::keyInputCallback(keyType key,inputEvent event){
-//
-//}
-//void LevelEditor::mouseInputCalback(inputEvent event,int x,int y){
-//
-//}
+void LevelEditor::setCamera(Camera* camera){m_Camera = camera;}
+Camera* LevelEditor::getCamera(){return m_Camera;}
+
+void LevelEditor::keyInputCallback(keyType key,inputEvent event){
+	switch(event){
+	case KEY_RELEASED:
+		switch(key){
+		case NUM1:
+			m_CurrentTileType = Wall;
+			break;
+		case NUM2:
+			m_CurrentTileType = Ground;
+			break;
+		case NUM3:
+			saveLevelFromEditor("test.blvl");
+			break;
+		}
+		break;
+	}
+}
+void LevelEditor::mouseInputCalback(inputEvent event,int x,int y){
+	if(m_Level && m_Camera){
+		switch(event){
+		case MOUSE_LB_PRESSED:{
+			Tile* tile;
+			Tile* tileToReplace;
+			if(ContainsFlags(m_CurrentTileType,(Wall|Ground))){
+				tileToReplace = m_Level->getTileForPosition(
+				Util::instance()->screenToWorldCoordX(x,m_Camera),
+				Util::instance()->screenToWorldCoordY(y,m_Camera));
+				if(!ContainsFlags(tileToReplace->getTileTypes(),m_CurrentTileType)){
+					tile = new Tile(m_CurrentTileType);
+					tile->setPosition(tileToReplace->getPositionX(),
+										tileToReplace->getPositionY());
+					m_Level->changeTile(tile);
+				}
+			}
+			break;
+			}
+		}
+	}
+}
 
 bool loadPreview(std::string* name,unsigned int* width,unsigned int* height){
 	std::fstream file;
@@ -114,4 +163,5 @@ void saveLevel(std::string path,Level* level){
 		tileTypes = (*level->getTiles())[i]->getTileTypes();
 		outputFile.write((char*)&tileTypes,sizeof(unsigned int));
 	}
+	outputFile.close();
 }

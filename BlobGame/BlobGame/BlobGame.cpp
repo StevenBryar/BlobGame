@@ -70,9 +70,12 @@ void BlobGame::loadContent(){
 }
 void BlobGame::initialize(){
 	m_Camera = new Camera();
+	m_Level = NULL;
 	m_GameObjects = new std::vector<GameObject*>();
 	m_GameObjectsToDelete = new std::vector<GameObject*>();
 	m_Effects = new std::vector<Sprite2d*>();
+	m_Editor = NULL;
+	InputManager::instance()->registerMouseInput(this,MOUSE_MOVED);
 }
 void BlobGame::update(){
 	(this->*blobUpdate)();
@@ -85,7 +88,7 @@ std::vector<GameObject*> BlobGame::getObjects(){return *m_GameObjects;}
 
 void BlobGame::reset(){
 	initialize();
-	changeState(GamePlay);
+	changeState(Editor);
 }
 
 void BlobGame::setTotalEnergy(int e){m_TotalEnergy = e;}
@@ -222,6 +225,9 @@ void BlobGame::changeState(BlobGameStates state){
 	case PauseMenu:
 		endPause();
 		break;
+	case Editor:
+		endEditor();
+		break;
 	}
 	switch(state){
 	case MainMenu:
@@ -240,6 +246,10 @@ void BlobGame::changeState(BlobGameStates state){
 		beginPause();
 		blobUpdate = &BlobGame::pauseMenu;
 		break;
+	case Editor:
+		beginEditor();
+		blobUpdate = &BlobGame::editor;
+		break;
 	}
 	m_CurrentState = state;
 }
@@ -252,6 +262,9 @@ void BlobGame::mainMenu(){
 }
 void BlobGame::optionsMenu(){
 
+}
+void BlobGame::editor(){
+	m_Editor->update();
 }
 void BlobGame::gamePlay(){
 	MessageHandler::Instance()->update();
@@ -339,12 +352,18 @@ void BlobGame::endMainMenu(){}
 void BlobGame::beginOptions(){}
 void BlobGame::endOptions(){}
 
+void BlobGame::beginEditor(){
+	m_Editor = new LevelEditor(NULL,m_Camera);
+	m_Editor->loadLevelToEditor("test.blvl");
+}
+void BlobGame::endEditor(){}
+
 void BlobGame::beginGame(){
 	m_Level = new Level(NUMBER_OF_HORIZONTAL_TILES,NUMBER_OF_VERTICAL_TILES,
 					TILE_SIZE,TEST_LEVEL_WALL_TILES,m_GameObjects,&createUnit);
 	//m_Level = loadLevel("test.blvl");
 	//saveLevel("test.blvl",m_Level);
-	InputManager::instance()->registerMouseInput(this,MOUSE_MOVED);
+	
 	for(int i = 0;i < m_GameObjects->size();i++){
 		if((*m_GameObjects)[i]->getType() != "GameObject" ||
 			(*m_GameObjects)[i]->getType() != "Tile"){
@@ -370,7 +389,7 @@ void BlobGame::endGame(){
 }
 void BlobGame::mouseInputCalback(inputEvent event,int x,int y){
 	double delta = Util::instance()->getDelta();
-	if(getState() == GamePlay){
+	if(getState() == GamePlay || getState() == Editor){
 		if(event == MOUSE_MOVED){
 			if(x < 2){
 				m_Camera->move(-CAMERA_SPEED*delta,0);
