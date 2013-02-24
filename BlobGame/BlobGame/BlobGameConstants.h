@@ -70,6 +70,7 @@ extern const int TEST_LEVEL_WALL_TILES[];
 #define PISTOL_HIT 3
 #define REMOVE_TILE_EFFECT 4
 #define REMOVE_UNIT_STATUS 7
+#define CHANGE_TO_GAME 8
 
 #define BASE_BLOB_CONSUME_TIME 50
 

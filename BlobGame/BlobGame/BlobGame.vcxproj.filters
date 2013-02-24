@@ -136,6 +136,9 @@
     <ClCompile Include="LevelEditor.cpp">
       <Filter>BlobGame\MainGame</Filter>
     </ClCompile>
+    <ClCompile Include="uiButton.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2dSprite.h">
@@ -233,6 +236,9 @@
     </ClInclude>
     <ClInclude Include="LevelEditor.h">
       <Filter>BlobGame\MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="uiButton.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

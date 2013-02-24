@@ -102,6 +102,7 @@
     <ClCompile Include="spriteManager.cpp" />
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="TileManagement.cpp" />
+    <ClCompile Include="uiButton.cpp" />
     <ClCompile Include="unit.cpp" />
     <ClCompile Include="UnitFactory.cpp" />
     <ClCompile Include="Util.cpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="spriteManager.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="TileManagement.h" />
+    <ClInclude Include="uiButton.h" />
     <ClInclude Include="unit.h" />
     <ClInclude Include="UnitFactory.h" />
     <ClInclude Include="Util.h" />

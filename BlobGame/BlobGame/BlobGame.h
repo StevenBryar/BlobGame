@@ -60,11 +60,11 @@ public:
 	void addEffect(Sprite2d* effect);
 
 	void handleMessage(Message msg);
+	void changeState(BlobGameStates state);
 protected:
 	BlobGame();
 	virtual ~BlobGame();
 	static BlobGame* m_Instance;
-	void changeState(BlobGameStates state);
 	void updateVision();
 
 	void loadContent();
@@ -102,4 +102,6 @@ protected:
 	int m_TotalPower;
 	LevelEditor* m_Editor;
 };
+
+void testCallBack();
 #endif

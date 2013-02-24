@@ -20,6 +20,7 @@
 #include "Vector3.h"
 #include "TileManagement.h"
 #include "LevelEditor.h"
+#include "uiButton.h"
 
 BlobGame* BlobGame::m_Instance = NULL;
 BlobGame::BlobGame() :
@@ -37,7 +38,9 @@ BlobGame::~BlobGame(){
 	SafePtrRelease(m_Effects);
 	SafePtrRelease(m_Level);
 	SafePtrRelease(m_Camera);
+	SafePtrRelease(m_Editor);
 	SafePtrRelease(m_GameObjectsToDelete);
+	InputManager::instance()->removeAllOf(this);
 	SelectionManager::instance()->cleanupInstance();
 	MessageHandler::Instance()->cleanUpInstance();
 }
@@ -88,7 +91,7 @@ std::vector<GameObject*> BlobGame::getObjects(){return *m_GameObjects;}
 
 void BlobGame::reset(){
 	initialize();
-	changeState(Editor);
+	changeState(MainMenu);
 }
 
 void BlobGame::setTotalEnergy(int e){m_TotalEnergy = e;}
@@ -258,7 +261,12 @@ void BlobGame::pauseMenu(){
 
 }
 void BlobGame::mainMenu(){
+	MessageHandler::Instance()->update();
 
+
+	for(int i = 0;i < m_GameObjects->size();i++){
+		(*m_GameObjects)[i]->update();
+	}
 }
 void BlobGame::optionsMenu(){
 
@@ -346,19 +354,30 @@ void BlobGame::updateVision(){
 void BlobGame::beginPause(){}
 void BlobGame::endPause(){}
 
-void BlobGame::beginMainMenu(){}
-void BlobGame::endMainMenu(){}
+void BlobGame::beginMainMenu(){
+	UiButton* playB = new UiButton(400,100,64,64,"PathGuy.png","TestEnemy.png","GroundTile.png",
+									FIRE_ON_RELEASED|HIGHLIGHT_ON_HOVER,m_Camera,&testCallBack);
+	m_GameObjects->push_back(playB);
+}
+void BlobGame::endMainMenu(){
+	SafeVectorDelete(*m_GameObjects);
+	m_GameObjects->clear();
+}
 
 void BlobGame::beginOptions(){}
 void BlobGame::endOptions(){}
 
 void BlobGame::beginEditor(){
+	m_Camera->moveTo(0,0);
 	m_Editor = new LevelEditor(NULL,m_Camera);
 	m_Editor->loadLevelToEditor("test.blvl");
 }
-void BlobGame::endEditor(){}
+void BlobGame::endEditor(){
+	SafePtrRelease(m_Editor);
+}
 
 void BlobGame::beginGame(){
+	m_Camera->moveTo(0,0);
 	m_Level = new Level(NUMBER_OF_HORIZONTAL_TILES,NUMBER_OF_VERTICAL_TILES,
 					TILE_SIZE,TEST_LEVEL_WALL_TILES,m_GameObjects,&createUnit);
 	//m_Level = loadLevel("test.blvl");
@@ -389,7 +408,7 @@ void BlobGame::endGame(){
 }
 void BlobGame::mouseInputCalback(inputEvent event,int x,int y){
 	double delta = Util::instance()->getDelta();
-	if(getState() == GamePlay || getState() == Editor){
+	if(getState() == GamePlay || getState() == Editor|| getState() == MainMenu){
 		if(event == MOUSE_MOVED){
 			if(x < 2){
 				m_Camera->move(-CAMERA_SPEED*delta,0);
@@ -501,7 +520,16 @@ void BlobGame::handleMessage(Message msg){
 		}
 		break;
 	}
+	case CHANGE_TO_GAME:
+		changeState(GamePlay);
+		break;
 	default:
 		break;
 	}
+}
+
+void testCallBack(){
+	MessageHandler::Instance()->
+		createMessage(CHANGE_TO_GAME,BlobGame::instance(),
+						BlobGame::instance(),NULL,0);
 }
