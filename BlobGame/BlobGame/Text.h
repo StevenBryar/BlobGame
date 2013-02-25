@@ -1,27 +1,36 @@
 #ifndef TEXT_H
 #define TEXT_H
 
-class sf::Font;
-class sf::String;
+#include "SFML\Graphics\Text.hpp"
 #include <string>
+
+enum textAttribute{
+	FADING,
+	RISING,
+	FALLING,
+	SHRINKING,
+	GROWING,
+	TO_THE_LEFT,
+	TO_THE_RIGHT,
+};
+
+class Vector3;
 
 class Text{
 public:
-	Text();
-	Text(sf::Font font,std::string text);
-	Text(sf::Font font,std::string text,int size);
-	Text(sf::Font font,std::string text,int size,float x = 0,float y = 0);
+	Text(sf::Font* font,std::string text,int size,Vector3 color,int alpha = 255,float x = 0,float y = 0);
 
-	void setAttributes();
-	void setFont(sf::Font font);
 	void setText(std::string s);
-	void setPosX(float x);
-	void setPosY(float y);
+	void setPosition(float x,float y);
 	void setSize(int size);
+	void setColor(Vector3 rgb,int alpha);
+	void addAttribute(textAttribute att);
+	void setAttributes(textAttribute att);
 
 	void update();
 
 protected:
-	sf::String* m_string;
+	unsigned int m_TextAtt;
+	sf::Text* m_String;
 };
 #endif

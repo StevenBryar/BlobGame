@@ -139,6 +139,9 @@
     <ClCompile Include="uiButton.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Base\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2dSprite.h">
@@ -239,6 +242,9 @@
     </ClInclude>
     <ClInclude Include="uiButton.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Base\Render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
