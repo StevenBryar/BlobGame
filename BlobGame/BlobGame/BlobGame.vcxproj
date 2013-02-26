@@ -101,6 +101,7 @@
     <ClCompile Include="selectionManager.cpp" />
     <ClCompile Include="spriteManager.cpp" />
     <ClCompile Include="Text.cpp" />
+    <ClCompile Include="TextManager.cpp" />
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="TileManagement.cpp" />
     <ClCompile Include="uiButton.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="selectionManager.h" />
     <ClInclude Include="spriteManager.h" />
     <ClInclude Include="Text.h" />
+    <ClInclude Include="TextManager.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="TileManagement.h" />
     <ClInclude Include="uiButton.h" />
