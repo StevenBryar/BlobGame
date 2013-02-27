@@ -30,18 +30,18 @@ public:
 	void reset();
 	void cleanupInstance();
 	static BlobGame* instance();
-	void mouseInputCalback(inputEvent event,int x,int y);
-	Camera* getCamera();
+	void mouseInputCalback(const inputEvent& event,const int& x,const int& y);
+	Camera* getCamera() const;
 	void setCamera(Camera* camera);
-	BlobGameStates getState();
+	BlobGameStates getState() const;
 	
-	Level* getLevel();
-	std::vector<GameObject*> getObjects();
+	Level* getLevel() const;
+	std::vector<GameObject*> getObjects() const;
 
-	void setTotalEnergy(int e);
-	int getTotalEnergy();
-	void setTotalPower(int e);
-	int getTotalPower();
+	void setTotalEnergy(const int& e);
+	int getTotalEnergy() const;
+	void setTotalPower(const int& e);
+	int getTotalPower() const;
 
 	GameObject* pointWithinObject(float x,float y);
 
@@ -59,8 +59,8 @@ public:
 	void deleteObject(GameObject* obj);
 	void addEffect(Sprite2d* effect);
 
-	void handleMessage(Message msg);
-	void changeState(BlobGameStates state);
+	void handleMessage(const Message& msg);
+	void changeState(const BlobGameStates& state);
 protected:
 	BlobGame();
 	virtual ~BlobGame();

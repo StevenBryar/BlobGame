@@ -5,14 +5,14 @@
 
 class Tile : public GameObject{
 public:
-	Tile(unsigned int tileTypes);
+	Tile(const unsigned int& tileTypes);
 	~Tile();
 
-	void update(double delta);
+	void update(const double& delta);
 
-	void setTileTypes(unsigned int types);
-    unsigned int getTileTypes();
-	std::string getType();
+	void setTileTypes(const unsigned int& types);
+    unsigned int getTileTypes() const;
+	std::string getType() const;
 protected:
 	unsigned int m_TileTypes;
 	static int m_TileCount;

@@ -49,7 +49,7 @@ SelectionManager::~SelectionManager(){
 	SafePtrRelease(m_Selected);
 	SpriteManager::instance()->deleteSprite(m_DragSprite);
 }
-void SelectionManager::keyInputCallback(keyType key,inputEvent event){
+void SelectionManager::keyInputCallback(const keyType& key,const inputEvent& event){
 	float worldX = Util::instance()->screenToWorldCoordX(Util::instance()->getCursorX(),BlobGame::instance()->getCamera());
 	float worldY = Util::instance()->screenToWorldCoordY(Util::instance()->getCursorY(),BlobGame::instance()->getCamera());
 	switch(event){
@@ -84,7 +84,7 @@ void SelectionManager::keyInputCallback(keyType key,inputEvent event){
 			break;
 	}
 }
-void SelectionManager::mouseInputCalback(inputEvent inEvent,int x,int y){
+void SelectionManager::mouseInputCalback(const inputEvent& inEvent,const int& x,const int& y){
 	float worldX = Util::instance()->screenToWorldCoordX(x,BlobGame::instance()->getCamera());
 	float worldY = Util::instance()->screenToWorldCoordY(y,BlobGame::instance()->getCamera());
 	bool allySelect = false;

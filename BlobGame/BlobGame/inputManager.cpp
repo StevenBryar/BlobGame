@@ -48,17 +48,17 @@ InputManager::~InputManager(){
 }
 
 void InputManager::registerKeyinput(InputListener* listener,
-							keyType key,inputEvent event){
+							const keyType& key,const inputEvent& event){
 	m_InputsToAdd->insert(std::pair<InputListener*,InputType>
 		(listener,InputType(event,key)));
 }
 void InputManager::registerMouseInput(InputListener* listener,
-										inputEvent event){
+										const inputEvent& event){
 	m_InputsToAdd->insert(std::pair<InputListener*,InputType>
 		(listener,InputType(event,none)));
 }
 
-void InputManager::handleKeyInput(inputEvent event,keyType key){
+void InputManager::handleKeyInput(const inputEvent& event,const keyType& key) const{
 		std::multimap<InputListener*, 
 		InputType>::iterator iterator;
 
@@ -68,7 +68,7 @@ void InputManager::handleKeyInput(inputEvent event,keyType key){
 				iterator->second.key == key)
 					iterator->first->keyInputCallback(key,event);
 }
-void InputManager::handleMouseInput(inputEvent event,int x,int y){
+void InputManager::handleMouseInput(const inputEvent& event,const int& x,const int& y) const{
 	std::multimap<InputListener*, 
 		InputType>::iterator iterator;
 
@@ -79,7 +79,7 @@ void InputManager::handleMouseInput(inputEvent event,int x,int y){
 }
 
 void InputManager::pauseInput(InputListener* listener,
-								InputType type){
+								const InputType& type){
 	m_InputsToRemove->insert(std::pair<InputListener*,InputType>
 		(listener,type));
 
@@ -104,7 +104,7 @@ void InputManager::pauseAll(){
 				pauseInput(iterator->first,iterator->second);
 }
 
-void InputManager::resumeInput(InputListener* listener,InputType type){
+void InputManager::resumeInput(InputListener* listener,const InputType& type){
 		std::multimap<InputListener*, 
 		InputType>::iterator iterator;
 	for(iterator = m_InputsPaused->begin();
@@ -140,7 +140,7 @@ void InputManager::resumeAll(){
 		resumeInput(iterator->first,iterator->second);
 }
 
-void InputManager::removeInput(InputListener* listener,InputType type){
+void InputManager::removeInput(InputListener* listener,const InputType& type){
 	m_InputsToRemove->insert(std::pair<InputListener*,InputType>
 		(listener,type));
 }

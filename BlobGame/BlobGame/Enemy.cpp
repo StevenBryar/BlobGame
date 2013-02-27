@@ -19,9 +19,9 @@
 
 int Enemy::m_EnemyCount = 0;
 
-Enemy::Enemy(std::vector<Enemy*>* mates,std::string spriteFileName,
-	std::vector<Tile*> (*getAttackRange)(Tile* currentTile,int dirFacing,Level* level),
-	void (*fire)(Tile* currentTile,int dirFacing,Level* level,Enemy* attacker),int aRange) :
+Enemy::Enemy(std::vector<Enemy*>* mates,const std::string& spriteFileName,
+	std::vector<Tile*> (*getAttackRange)(Tile* currentTile,const int& dirFacing,Level* level),
+	void (*fire)(Tile* currentTile,const int& dirFacing,Level* level,Enemy* attacker),const int& aRange) :
 Unit(),m_SquadMates(mates),
 getAttackRange(getAttackRange),
 fire(fire),
@@ -37,9 +37,9 @@ m_AttackRange(aRange){
 	m_Name = "Enemy" + intToString(m_EnemyCount);
 }
 
-Enemy::Enemy(std::vector<Enemy*>* mates,Tile* currentTile,std::string spriteFileName,
-	std::vector<Tile*> (*getAttackRange)(Tile* currentTile,int dirFacing,Level* level),
-	void (*fire)(Tile* currentTile,int dirFacing,Level* level,Enemy* attacker),int aRange) :
+Enemy::Enemy(std::vector<Enemy*>* mates,Tile* currentTile,const std::string& spriteFileName,
+	std::vector<Tile*> (*getAttackRange)(Tile* currentTile,const int& dirFacing,Level* level),
+	void (*fire)(Tile* currentTile,const int& dirFacing,Level* level,Enemy* attacker),const int& aRange) :
 Unit(currentTile),m_SquadMates(mates),
 getAttackRange(getAttackRange),
 fire(fire),
@@ -55,10 +55,10 @@ m_AttackRange(aRange){
 	m_Name = "Enemy" + intToString(m_EnemyCount);
 }
 
-Enemy::Enemy(std::vector<Enemy*>* mates,int health,int damage,
-	int attackSpeed,int moveSpeed,int armour,std::string spriteFileName,
-	std::vector<Tile*> (*getAttackRange)(Tile* currentTile,int dirFacing,Level* level),
-	void (*fire)(Tile* currentTile,int dirFacing,Level* level,Enemy* attacker),int aRange) :
+Enemy::Enemy(std::vector<Enemy*>* mates,const int& health,const int& damage,
+	const int& attackSpeed,const int& moveSpeed,const int& armour,const std::string& spriteFileName,
+	std::vector<Tile*> (*getAttackRange)(Tile* currentTile,const int& dirFacing,Level* level),
+	void (*fire)(Tile* currentTile,const int& dirFacing,Level* level,Enemy* attacker),const int& aRange) :
 Unit(health,damage,attackSpeed,moveSpeed,armour),
 m_SquadMates(mates),
 getAttackRange(getAttackRange),
@@ -75,10 +75,10 @@ m_AttackRange(aRange){
 	m_Name = "Enemy" + intToString(m_EnemyCount);
 }
 
-Enemy::Enemy(std::vector<Enemy*>* mates,int health,int damage,
-	int attackSpeed,int moveSpeed,int armour,Tile* currentTile,std::string spriteFileName,
-	std::vector<Tile*> (*getAttackRange)(Tile* currentTile,int dirFacing,Level* level),
-	void (*fire)(Tile* currentTile,int dirFacing,Level* level,Enemy* attacker),int aRange) :
+Enemy::Enemy(std::vector<Enemy*>* mates,const int& health,const int& damage,
+	const int& attackSpeed,const int& moveSpeed,const int& armour,Tile* currentTile,const std::string& spriteFileName,
+	std::vector<Tile*> (*getAttackRange)(Tile* currentTile,const int& dirFacing,Level* level),
+	void (*fire)(Tile* currentTile,const int& dirFacing,Level* level,Enemy* attacker),const int& aRange) :
 Unit(health,damage,attackSpeed,moveSpeed,armour,currentTile),
 m_SquadMates(mates),
 getAttackRange(getAttackRange),
@@ -157,7 +157,7 @@ void Enemy::idle(){
 	EnemyUpdate = NULL;
 	m_Target = NULL;
 }
-std::vector<Enemy*>* Enemy::getSquadMates(){
+std::vector<Enemy*>* Enemy::getSquadMates() const{
 	return m_SquadMates;
 }
 void Enemy::setSquadMates(std::vector<Enemy*>* mates){
@@ -174,11 +174,11 @@ Enemy* Enemy::getSquadLeader(){
 		}
 	}
 }
-EnemyStates Enemy::getState(){return m_State;}
-bool Enemy::isSquadLeader(){return m_SquadLeader;}
-void Enemy::setIsSquadLeader(bool isLeader){m_SquadLeader = isLeader;}
-std::string Enemy::getAllegiance(){return "Foe";}
-std::string Enemy::getType(){return "Enemy";}
+EnemyStates Enemy::getState() const{return m_State;}
+bool Enemy::isSquadLeader()const {return m_SquadLeader;}
+void Enemy::setIsSquadLeader(const bool& isLeader){m_SquadLeader = isLeader;}
+std::string Enemy::getAllegiance() const{return "Foe";}
+std::string Enemy::getType() const{return "Enemy";}
 
 void Enemy::die(){
 	MessageHandler::Instance()->createMessage(2,this,BlobGame::instance(),this,100);
@@ -330,7 +330,7 @@ void Enemy::rePosUpdate(){
 	}
 }
 
-void Enemy::handleMessage(Message msg){
+void Enemy::handleMessage(const Message& msg){
 	switch(msg.type){
 	default:
 		break;

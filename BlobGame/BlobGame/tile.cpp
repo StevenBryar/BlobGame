@@ -6,7 +6,7 @@
 #include "common.h"
 
 int Tile::m_TileCount = 0;
-Tile::Tile(unsigned int tileTypes) :
+Tile::Tile(const unsigned int& tileTypes) :
  m_TileTypes(tileTypes){
 	 if((tileTypes & Ground) == Ground){
 		setSprite(SpriteManager::instance()->
@@ -25,11 +25,11 @@ Tile::Tile(unsigned int tileTypes) :
 
 Tile::~Tile(){}
 
-std::string Tile::getType(){
+std::string Tile::getType() const{
 	return "Tile";
 }
 
-void Tile::update(double delta){}
+void Tile::update(const double& delta){}
 
-void Tile::setTileTypes(unsigned int types){m_TileTypes = types;}
-unsigned int Tile::getTileTypes(){return m_TileTypes;}
+void Tile::setTileTypes(const unsigned int& types){m_TileTypes = types;}
+unsigned int Tile::getTileTypes() const{return m_TileTypes;}

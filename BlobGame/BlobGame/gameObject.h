@@ -8,29 +8,29 @@ class Sprite2d;
 
 class GameObject{
 public:
-float getRotation();
-float getPositionX();
-float getOriginX();
-float getPositionY();
-float getOriginY();
-float getHeight();
-float getWidth();
-virtual std::string getType();
-std::string getName();
-Sprite2d* getSprite();
+float getRotation() const;
+float getPositionX() const;
+float getOriginX() const;
+float getPositionY() const;
+float getOriginY() const;
+float getHeight() const;
+float getWidth() const;
+virtual std::string getType() const;
+std::string getName() const;
+Sprite2d* getSprite() const;
 
-void setRotation(float r);
-void setPositionX(float x);
-void setOriginX(float x);
-void setPositionY(float y);
-void setOriginY(float y);
-void setHeight(float h);
-void setWidth(float w);
+void setRotation(const float& r);
+void setPositionX(const float& x);
+void setOriginX(const float& x);
+void setPositionY(const float& y);
+void setOriginY(const float& y);
+void setHeight(const float& h);
+void setWidth(const float& w);
 void setSprite(Sprite2d* sprite);
 
-void setPosition(float x,float y);
-void setOrigin(float x,float y);
-void setSize(float height,float width);
+void setPosition(const float& x,const float& y);
+void setOrigin(const float& x,const float& y);
+void setSize(const float& height,const float& width);
 
 	GameObject();
 	virtual ~GameObject();

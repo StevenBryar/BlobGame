@@ -23,14 +23,14 @@ LevelEditor::~LevelEditor(){
 	InputManager::instance()->removeAllOf(this);
 }
 
-bool LevelEditor::loadLevelToEditor(std::string path){
+bool LevelEditor::loadLevelToEditor(const std::string& path){
 	m_Level = loadLevel(path);
 	if(m_Level){
 		return true;
 	}
 	return false;
 }
-bool LevelEditor::saveLevelFromEditor(std::string path){
+bool LevelEditor::saveLevelFromEditor(const std::string& path){
 	if(m_Level){
 		saveLevel(path,m_Level);
 		return true;
@@ -42,9 +42,9 @@ void LevelEditor::update(){
 }
 
 void LevelEditor::setCamera(Camera* camera){m_Camera = camera;}
-Camera* LevelEditor::getCamera(){return m_Camera;}
+Camera* LevelEditor::getCamera() const{return m_Camera;}
 
-void LevelEditor::keyInputCallback(keyType key,inputEvent event){
+void LevelEditor::keyInputCallback(const keyType& key,const inputEvent& event){
 	switch(event){
 	case KEY_RELEASED:
 		switch(key){
@@ -61,7 +61,7 @@ void LevelEditor::keyInputCallback(keyType key,inputEvent event){
 		break;
 	}
 }
-void LevelEditor::mouseInputCalback(inputEvent event,int x,int y){
+void LevelEditor::mouseInputCalback(const inputEvent& event,const int& x,const int& y){
 	if(m_Level && m_Camera){
 		switch(event){
 		case MOUSE_LB_PRESSED:{
@@ -105,7 +105,7 @@ bool loadPreview(std::string* name,unsigned int* width,unsigned int* height){
 	file.close();
 	return true;
 }
-Level* loadLevel(std::string path){
+Level* loadLevel(const std::string& path){
 	int tileTypes[MAX_HORIZONTAL_TILES*MAX_VERTICAL_TILES];
 	std::fstream file(path,std::ios::in | std::ios::binary);
 	if(!file){
@@ -136,7 +136,7 @@ Level* loadLevel(std::string path){
 	file.close();
 	return new Level(levelWidth,levelHeight,TILE_SIZE,tileTypes,NULL,NULL);
 }
-void saveLevel(std::string path,Level* level){
+void saveLevel(const std::string& path,Level* level){
 	std::ifstream file(path);
 	if(file){
 		file.close();

@@ -24,47 +24,47 @@ void Util::update(){
 	m_Delta = m_Clock.getElapsedTime().asSeconds() - m_TimeSinceUpdate;
 	m_TimeSinceUpdate = m_Clock.getElapsedTime().asSeconds();
 }
-double Util::getDelta(){
+double Util::getDelta() const{
 	return m_Delta;
 }
-int Util::getElapsedTime(){
+int Util::getElapsedTime() const{
 	return m_Clock.getElapsedTime().asMilliseconds();
 }
 
-bool Util::isKeyDown(keyType key){
+bool Util::isKeyDown(const keyType& key) const{
 	if(sf::Keyboard::isKeyPressed((sf::Keyboard::Key)key)){
 		return true;
 	}
 	return false;
 }
-bool Util::isKeyUp(keyType key){
+bool Util::isKeyUp(const keyType& key) const{
 	return !isKeyDown(key);
 }
 
-float Util::screenToWorldCoordX(int pointScreenPosX,Camera* camera){
+float Util::screenToWorldCoordX(const int& pointScreenPosX,Camera* camera){
 	return camera->getWorldPosX() + pointScreenPosX;
 }
-float Util::screenToWorldCoordY(int pointScreenPosY,Camera* camera){
+float Util::screenToWorldCoordY(const int& pointScreenPosY,Camera* camera){
 	return camera->getWorldPosY() + pointScreenPosY;
 }
-float Util::worldToScreenCoordX(int pointWorldPosX,Camera* camera){
+float Util::worldToScreenCoordX(const int& pointWorldPosX,Camera* camera){
 	return pointWorldPosX - camera->getWorldPosX();
 }
-float Util::worldToScreenCoordY(int pointWorldPosY,Camera* camera){
+float Util::worldToScreenCoordY(const int& pointWorldPosY,Camera* camera){
 	return pointWorldPosY - camera->getWorldPosY();
 }
 
-bool Util::rectIntersection(float x1,float y1,float w1,float h1,
-							float x2,float y2,float w2,float h2){
+bool Util::rectIntersection(const float& x1,const float& y1,const float& w1,const float& h1,
+							const float& x2,const float& y2,const float& w2,const float& h2){
 	return   (x1 < (x2+w2) &&
 			 (x1+w1) > x2  &&
 			  y1 < (y2+h2) &&
 			 (y1+h1) > y2);
 }
 
-int Util::getCursorX(){
+int Util::getCursorX() const{
 	return sf::Mouse::getPosition().x;
 }
-int Util::getCursorY(){
+int Util::getCursorY() const{
 	return sf::Mouse::getPosition().y;
 }

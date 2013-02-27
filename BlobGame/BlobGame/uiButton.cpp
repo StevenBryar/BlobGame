@@ -6,8 +6,8 @@
 #include "constants.h"
 #include "spriteManager.h"
 
-UiButton::UiButton(int offsetX,int offsetY,int width,int height,std::string defaultSprite,
-					unsigned int buttonAtt,Camera* camera,void(*call)()) :
+UiButton::UiButton(const int& offsetX,const int& offsetY,const int& width,const int& height,const std::string& defaultSprite,
+					const unsigned int& buttonAtt,Camera* camera,void(*call)()) :
 m_DefaultSprite(defaultSprite),
 m_ButtonAtt(buttonAtt),
 m_Camera(camera),
@@ -22,8 +22,8 @@ m_OffsetY(offsetY){
 	InputManager::instance()->registerMouseInput(this,MOUSE_LB_RELEASED);
 	m_Sprite = SpriteManager::instance()->createSprite(this,m_DefaultSprite,0);
 }
-UiButton::UiButton(int offsetX,int offsetY,int width,int height,std::string defaultSprite,
-					std::string downSprite,unsigned int buttonAtt,Camera* camera,void(*call)()) :
+UiButton::UiButton(const int& offsetX,const int& offsetY,const int& width,const int& height,const std::string& defaultSprite,
+					const std::string& downSprite,const unsigned int& buttonAtt,Camera* camera,void(*call)()) :
 m_DefaultSprite(defaultSprite),
 m_DownSprite(downSprite),
 m_ButtonAtt(buttonAtt),
@@ -39,8 +39,8 @@ m_OffsetY(offsetY){
 	InputManager::instance()->registerMouseInput(this,MOUSE_LB_RELEASED);
 	m_Sprite = SpriteManager::instance()->createSprite(this,m_DefaultSprite,0);
 }
-UiButton::UiButton(int offsetX,int offsetY,int width,int height,std::string defaultSprite,std::string downSprite,
-					std::string highlightSprite,unsigned int buttonAtt,Camera* camera,void(*call)()) :
+UiButton::UiButton(const int& offsetX,const int& offsetY,const int& width,const int& height,const std::string& defaultSprite,const std::string& downSprite,
+					const std::string& highlightSprite,const unsigned int& buttonAtt,Camera* camera,void(*call)()) :
 m_DefaultSprite(defaultSprite),
 m_DownSprite(downSprite),
 m_HighlightSprite(highlightSprite),
@@ -68,16 +68,16 @@ void UiButton::update(){
 		setPositionY(m_Camera->getWorldPosY()+m_OffsetY);
 	}
 }
-void UiButton::addAttribute(ButtonAtt att){
+void UiButton::addAttribute(const ButtonAtt& att){
 	if(!ContainsFlags(m_ButtonAtt,att)){
 		m_ButtonAtt |= att;
 	}
 }
-void UiButton::setAttributes(unsigned int atts){m_ButtonAtt = atts;}
+void UiButton::setAttributes(const unsigned int& atts){m_ButtonAtt = atts;}
 void UiButton::setCamera(Camera* camera){m_Camera  = camera;}
-Camera* UiButton::getCamera(){return m_Camera;}
+Camera* UiButton::getCamera() const{return m_Camera;}
 
-void UiButton::mouseInputCalback(inputEvent event,int x,int y){
+void UiButton::mouseInputCalback(const inputEvent& event,const int& x,const int& y){
 	switch(event){
 	case MOUSE_MOVED:
 		if(!m_Hover && ContainsFlags(m_ButtonAtt,HIGHLIGHT_ON_HOVER)  &&

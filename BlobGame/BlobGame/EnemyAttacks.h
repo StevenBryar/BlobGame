@@ -12,10 +12,10 @@
 #include <string>
 #include "common.h"
 
-std::vector<Tile*> pistolRange(Tile* currentTile,int dirFacing,Level* level);
-std::vector<Tile*> flameRange(Tile* currentTile,int dirFacing,Level* level);
+std::vector<Tile*> pistolRange(Tile* currentTile,const int& dirFacing,Level* level);
+std::vector<Tile*> flameRange(Tile* currentTile,const int& dirFacing,Level* level);
 
-inline void pistolAttack(Tile* currentTile,int dirFacing,Level* level,Enemy* attacker){
+inline void pistolAttack(Tile* currentTile,const int& dirFacing,Level* level,Enemy* attacker){
 	std::vector<Tile*> tiles = pistolRange(currentTile,dirFacing,level);
 	unsigned int time = Util::instance()->getElapsedTime();
 	for(int i = 0;i < tiles.size();i++){
@@ -25,7 +25,7 @@ inline void pistolAttack(Tile* currentTile,int dirFacing,Level* level,Enemy* att
 	}
 }
 
-inline std::vector<Tile*> pistolRange(Tile* currentTile,int dirFacing,Level* level){
+inline std::vector<Tile*> pistolRange(Tile* currentTile,const int& dirFacing,Level* level){
 	Tile* (*AdjacentTile)(Tile* tile,Level* level);
 	std::vector<Tile*> tiles;
 	switch(dirFacing){
@@ -59,7 +59,7 @@ inline std::vector<Tile*> pistolRange(Tile* currentTile,int dirFacing,Level* lev
 	return tiles;
 }
 
-inline void FlameAttack(Tile* currentTile,int dirFacing,Level* level,Enemy* attacker){
+inline void FlameAttack(Tile* currentTile,const int& dirFacing,Level* level,Enemy* attacker){
 	std::vector<Tile*> tiles = flameRange(currentTile,dirFacing,level);
 	unsigned int time = Util::instance()->getElapsedTime();
 	for(int i = 0;i < tiles.size();i++){
@@ -70,7 +70,7 @@ inline void FlameAttack(Tile* currentTile,int dirFacing,Level* level,Enemy* atta
 
 }
 
-std::vector<Tile*> flameRange(Tile* currentTile,int dirFacing,Level* level){
+std::vector<Tile*> flameRange(Tile* currentTile,const int& dirFacing,Level* level){
 	int tilesToLeft = 1;
 	int tilesToRight = 1;
 	bool straightPathBlocked = false;

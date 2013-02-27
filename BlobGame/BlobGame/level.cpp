@@ -12,10 +12,10 @@
 #include "2dSprite.h"
 #include "Abilities.h"
 
-Level::Level(unsigned int horizontalTiles, unsigned int verticalTiles, 
-				unsigned int tileSize,const int tileTypes[],
+Level::Level(const unsigned int& horizontalTiles, const unsigned int& verticalTiles, 
+				const unsigned int& tileSize,const int tileTypes[],
 				std::vector<GameObject*>* objects,
-				GameObject*(factory)(unsigned int flags,Tile* tile)){
+				GameObject*(factory)(const unsigned int& flags,Tile* tile)){
 					m_Tiles = new std::vector<Tile*>();
 	m_HorizontalTiles = horizontalTiles;
 	m_VerticalTiles = verticalTiles;
@@ -65,7 +65,7 @@ Level::~Level(){
 	SafePtrRelease(m_Tiles);
 }
 
-void Level::update(double delta){
+void Level::update(const double& delta){
 	//Update all the game tiles
 	for(int i = 0; i < getNumberOfHorizontalTiles() * 
 		getNumberOfVerticalTiles(); i++)
@@ -73,21 +73,21 @@ void Level::update(double delta){
 			(*m_Tiles)[i]->update(delta);
 }
 
-std::string Level::getName(){
+std::string Level::getName() const{
 	return m_Name;
 }
-void Level::setName(std::string name){
+void Level::setName(const std::string& name){
 	m_Name = name;
 }
 
-bool Level::validateTileCoordinates(int coordinatesX, int coordinatesY){
+bool Level::validateTileCoordinates(const int& coordinatesX,const int& coordinatesY){
     if(coordinatesX < 0 || coordinatesY < 0 || coordinatesX >= 
 		getNumberOfHorizontalTiles() || coordinatesY >= getNumberOfVerticalTiles()) {
         return false;
     } 
     return true;
 }
-std::vector<Tile*>* Level::getTiles(){
+std::vector<Tile*>* Level::getTiles() const{
 	return m_Tiles;
 }
 
@@ -102,25 +102,25 @@ void Level::changeTile(Tile* replacementTile){
 	}
 }
 
-unsigned int Level::getNumberOfHorizontalTiles(){
+unsigned int Level::getNumberOfHorizontalTiles() const{
 	return m_HorizontalTiles;
 }
 
-unsigned int Level::getNumberOfVerticalTiles(){
+unsigned int Level::getNumberOfVerticalTiles() const{
 	return m_VerticalTiles;
 }
 
-int Level::getTileCoordinateForPosition(int position){
+int Level::getTileCoordinateForPosition(const int& position){
 	return (position / m_TileSize);
 }
 
-int Level::getTileIndexForPosition(int positionX, int positionY){
+int Level::getTileIndexForPosition(const int& positionX,const int& positionY){
 	int coordinatesX = getTileCoordinateForPosition(positionX);
 	int coordinatesY = getTileCoordinateForPosition(positionY);
 	return getTileIndexForCoordinates(coordinatesX, coordinatesY);
 }
 
-int Level::getTileIndexForCoordinates(int coordinatesX, int coordinatesY){
+int Level::getTileIndexForCoordinates(const int& coordinatesX,const int& coordinatesY){
 	//Validate the coordinates, then calculate the array index
 	if(validateTileCoordinates(coordinatesX, coordinatesY) == true){
 		return coordinatesX + (coordinatesY * getNumberOfHorizontalTiles());
@@ -133,15 +133,15 @@ int Level::getTileIndexForTile(Tile* tile){
 	return getTileIndexForPosition(tile->getPositionX(), tile->getPositionY());
 }
 
-Tile* Level::getTileForPosition(int positionX, int positionY){
+Tile* Level::getTileForPosition(const int& positionX,const int& positionY){
 	return getTileForTileIndex(getTileIndexForPosition(positionX, positionY));
 }
 
-Tile* Level::getTileForCoordinates(int coordinatesX, int coordinatesY){
+Tile* Level::getTileForCoordinates(const int& coordinatesX,const int& coordinatesY){
 	return getTileForTileIndex(getTileIndexForCoordinates(coordinatesX, coordinatesY));
 }
 
-Tile* Level::getTileForTileIndex(int index){
+Tile* Level::getTileForTileIndex(const int& index){
 	if(index >= 0 && index < (getNumberOfHorizontalTiles() * getNumberOfVerticalTiles())){
 		return (*m_Tiles)[index];
 	}

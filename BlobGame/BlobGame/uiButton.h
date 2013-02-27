@@ -14,21 +14,22 @@ class Sprite2d;
 class Camera;
 class UiButton : public GameObject,public InputListener{
 public:
-	UiButton(int offsetX,int offsetY,int width,int height,std::string defaultSprite,unsigned int buttonAtt,Camera* camera,void(*func)());
-	UiButton(int offsetX,int offsetY,int width,int height,std::string defaultSprite,std::string downSprite,unsigned int buttonAtt,Camera* camera,void(*func)());
-	UiButton(int offsetX,int offsetY,int width,int height,std::string defaultSprite,std::string downSprite,std::string highlightSprite,unsigned int buttonAtt,Camera* camera,void(*func)());
+	UiButton(const int& offsetX,const int& offsetY,const int& width,const int& height,const std::string& defaultSprite,const unsigned int& buttonAtt,Camera* camera,void(*func)());
+	UiButton(const int& offsetX,const int& offsetY,const int& width,const int& height,const std::string& defaultSprite,const std::string& downSprite,const unsigned int& buttonAtt,Camera* camera,void(*func)());
+	UiButton(const int& offsetX,const int& offsetY,const int& width,const int& height,const std::string& defaultSprite,const std::string& downSprite,
+		    const std::string& highlightSprite,const unsigned int& buttonAtt,Camera* camera,void(*func)());
 	virtual ~UiButton();
 
 	void(*callBack)();
 
 	void update();
 
-	void addAttribute(ButtonAtt att);
-	void setAttributes(unsigned int atts);
+	void addAttribute(const ButtonAtt& att);
+	void setAttributes(const unsigned int& atts);
 	void setCamera(Camera* camera);
-	Camera* getCamera();
+	Camera* getCamera() const;
 
-	void mouseInputCalback(inputEvent event,int x,int y);
+	void mouseInputCalback(const inputEvent& event,const int& x,const int& y);
 protected:
 	std::string m_DefaultSprite;
 	std::string m_DownSprite;

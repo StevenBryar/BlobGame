@@ -6,23 +6,23 @@ class Tile;
 class PathNode{
 public:
 	PathNode(Tile* tile);
-	PathNode(Tile* tile,int scoreG,int scoreH);
-	PathNode(Tile* tile,int scoreG,int scoreH,PathNode* parentNode);
+	PathNode(Tile* tile,const int& scoreG,const int& scoreH);
+	PathNode(Tile* tile,const int& scoreG,const int& scoreH,PathNode* parentNode);
 	PathNode(PathNode* pathNode);
 	~PathNode();
 
-	Tile* getTile();
+	Tile* getTile() const;
 
-	void setScoreG(int scoreG);
-	int getScoreG();
+	void setScoreG(const int& scoreG);
+	int getScoreG() const;
 
-	void setScoreH(int scoreH);
-	int getScoreH();
+	void setScoreH(const int& scoreH);
+	int getScoreH() const;
 
-	int getFinalScore();
+	int getFinalScore() const;
 
 	void setParentNode(PathNode* parent);
-	PathNode* getParentNode();
+	PathNode* getParentNode() const;
 
 private:
 	Tile* m_Tile;

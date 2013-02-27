@@ -266,7 +266,7 @@ void SortOpenList(PathNode* node,std::vector<PathNode*>* openList)
 	}
 }
 
-std::vector<Tile*> getSquareVision(Level* level,int visionRange,Tile* centerTile){
+std::vector<Tile*> getSquareVision(Level* level,const int& visionRange,Tile* centerTile){
 	//sides
 	std::vector<Tile*> tiles;
 	int tileXCoor = level->getTileCoordinateForPosition(centerTile->getPositionX());

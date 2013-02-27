@@ -15,18 +15,18 @@ public:
 	static Util* instance();
 	static void cleanUpInstance();
 	void update();
-	double getDelta();
-	int getElapsedTime();
-	bool isKeyDown(keyType key);
-	bool isKeyUp(keyType key);
-	float screenToWorldCoordX(int pointScreenPosX,Camera* camera);
-	float screenToWorldCoordY(int pointScreenPosY,Camera* camera);
-	float worldToScreenCoordX(int pointWorldPosX,Camera* camera);
-	float worldToScreenCoordY(int pointWorldPosY,Camera* camera);
-	bool rectIntersection(float x1,float y1,float w1,float h1,
-							float x2,float y2,float w2,float h2);
-	int getCursorX();
-	int getCursorY();
+	double getDelta() const;
+	int getElapsedTime() const;
+	bool isKeyDown(const keyType& key) const;
+	bool isKeyUp(const keyType& key) const;
+	float screenToWorldCoordX(const int& pointScreenPosX,Camera* camera);
+	float screenToWorldCoordY(const int& pointScreenPosY,Camera* camera);
+	float worldToScreenCoordX(const int& pointWorldPosX,Camera* camera);
+	float worldToScreenCoordY(const int& pointWorldPosY,Camera* camera);
+	bool rectIntersection(const float& x1,const float& y1,const float& w1,const float& h1,
+							const float& x2,const float& y2,const float& w2,const float& h2);
+	int getCursorX() const;
+	int getCursorY() const;
 private:
 	Util();
 	~Util();

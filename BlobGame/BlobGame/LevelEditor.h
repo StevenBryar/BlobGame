@@ -13,16 +13,16 @@ public:
 	LevelEditor(Level* level,Camera* camera);
 	virtual ~LevelEditor();
 
-	bool loadLevelToEditor(std::string path);
-	bool saveLevelFromEditor(std::string path);
+	bool loadLevelToEditor(const std::string& path);
+	bool saveLevelFromEditor(const std::string& path);
 	void setCamera(Camera* camera);
-	Camera* getCamera();
+	Camera* getCamera() const;
 	void update();
 
-	void keyInputCallback(keyType key,inputEvent event);
-	void mouseInputCalback(inputEvent event,int x,int y);
+	void keyInputCallback(const keyType& key,const inputEvent& event);
+	void mouseInputCalback(const inputEvent& event,const int& x,const int& y);
 protected:
-	void changeTile(unsigned int tileType,int posX,int posY);
+	void changeTile(const unsigned int& tileType,const int& posX,const int& posY);
 
 
 	Level* m_Level;
@@ -31,6 +31,6 @@ protected:
 };
 
 bool   loadPreview(std::string* name,unsigned int* width,unsigned int* height);
-Level* loadLevel(std::string path);
-void   saveLevel(std::string path,Level* level);
+Level* loadLevel(const std::string& path);
+void   saveLevel(const std::string& path,Level* level);
 #endif

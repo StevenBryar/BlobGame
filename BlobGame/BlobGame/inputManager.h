@@ -13,8 +13,9 @@ public:
 	inputEvent event;
 	keyType key;
 
-	InputType(inputEvent aEvent,keyType aKey)
-	{event = aEvent;key = aKey;}
+	InputType(const inputEvent& aEvent,const keyType& aKey){
+		event = aEvent;key = aKey;
+	}
 
 	bool operator==(const InputType& type) const{
 		if(this->event == type.event &&
@@ -34,22 +35,22 @@ public:
 	static void cleanUpInstance();
 
 	void registerKeyinput(InputListener* listener,
-							keyType key,inputEvent event);
+							const keyType& key,const inputEvent& event);
 	void registerMouseInput(InputListener* listener,
-								inputEvent event);
+								const inputEvent& event);
 
-	void handleKeyInput(inputEvent event,keyType key);
-	void handleMouseInput(inputEvent event,int x,int y);
+	void handleKeyInput(const inputEvent& event,const keyType& key) const;
+	void handleMouseInput(const inputEvent& event,const int& x,const int& y) const;
 
-	void pauseInput(InputListener* listener,InputType type);
+	void pauseInput(InputListener* listener,const InputType& type);
 	void pauseAllOf(InputListener* listener);
 	void pauseAll();
 
-	void resumeInput(InputListener* listener,InputType type);
+	void resumeInput(InputListener* listener,const InputType& type);
 	void resumeAllOf(InputListener* listener);
 	void resumeAll();
 
-	void removeInput(InputListener* listener,InputType type);
+	void removeInput(InputListener* listener,const InputType& type);
 	void removeAllOf(InputListener* listener);
 
 	void update();

@@ -33,9 +33,9 @@ void TextManager::cleanupInstance(){
 	}
 	m_Instance = NULL;
 }
-Text* TextManager::createText(std::string text,std::string fontName,int fontSize,
-				 Vector3 color,int alpha,int x,int y,
-				 textAttribute atts,bool deleteAfterTime,float timeTillDelete){
+Text* TextManager::createText(const std::string& text,const std::string& fontName,const int& fontSize,
+				 const Vector3& color,const int& alpha,const int& x,const int& y,
+				 const textAttribute& atts,const bool& deleteAfterTime,const float& timeTillDelete){
 	Text* t = NULL;
 	if(m_Fonts->find(fontName) != m_Fonts->end()){
 		t = new Text(m_Fonts->at(fontName),text,fontSize,color,atts,alpha,x,y);
@@ -55,23 +55,23 @@ void TextManager::deleteText(Text* text){
 		}
 	}
 }
-void TextManager::loadFont(const std::string file){
+void TextManager::loadFont(const std::string& file){
 	if(m_Fonts->find(file) == m_Fonts->end()){
 		sf::Font* font = new sf::Font();
 		if(font->loadFromFile(file)){
-		m_Fonts->insert(std::pair<const std::string,sf::Texture*>
+		m_Fonts->insert(std::pair<const std::string,sf::Font*>
 							(file,font));
 		}
 	}
 }
-std::vector<Text*>* TextManager::getTexts(){return m_Texts;}
+std::vector<Text*>* TextManager::getTexts() const{return m_Texts;}
 void TextManager::update(){
 	for(int i = 0;i < m_Texts->size();i++){
 		(*m_Texts)[i]->update();
 	}
 }
 
-void TextManager::handleMessage(Message msg){
+void TextManager::handleMessage(const Message& msg){
 	switch(msg.type){
 	case 10:
 

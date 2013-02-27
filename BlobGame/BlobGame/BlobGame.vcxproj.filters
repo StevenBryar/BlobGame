@@ -139,10 +139,10 @@
     <ClCompile Include="uiButton.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Text.cpp">
+    <ClCompile Include="TextManager.cpp">
       <Filter>Base\Render</Filter>
     </ClCompile>
-    <ClCompile Include="TextManager.cpp">
+    <ClCompile Include="Text.cpp">
       <Filter>Base\Render</Filter>
     </ClCompile>
   </ItemGroup>
@@ -246,10 +246,10 @@
     <ClInclude Include="uiButton.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Text.h">
+    <ClInclude Include="TextManager.h">
       <Filter>Base\Render</Filter>
     </ClInclude>
-    <ClInclude Include="TextManager.h">
+    <ClInclude Include="Text.h">
       <Filter>Base\Render</Filter>
     </ClInclude>
   </ItemGroup>

@@ -17,13 +17,13 @@ public:
 	static SpriteManager* instance();
 	void cleanupInstance();
 	Sprite2d* createSprite(GameObject* entity,
-	std::string textureName,unsigned int drawOrder);
+	const std::string& textureName,const unsigned int& drawOrder);
 	void deleteSprite(GameObject* owner);
 	void deleteSprite(Sprite2d* sprite);
-	void loadTexture(const std::string file);
+	void loadTexture(const std::string& file);
 	std::vector<Sprite2d*>* getSprites();
 	Sprite2d* getSprite(GameObject* owner);
-	Sprite2d* getSprite(std::string name);
+	Sprite2d* getSprite(const std::string& name);
 	void update();
 
 private:

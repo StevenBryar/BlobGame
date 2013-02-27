@@ -12,12 +12,12 @@ class TextManager : public MessageListener{
 public:
 	static TextManager* instance();
 	void cleanupInstance();
-	Text* createText(std::string text,std::string fontName,int fontSize,
-						Vector3 color,int alpha,int x,int y,textAttribute atts,
-							bool deleteAfterTime,float timeTillDelete);
+	Text* createText(const std::string& text,const std::string& fontName,const int& fontSize,
+						const Vector3& color,const int& alpha,const int& x,const int& y,const textAttribute& atts,
+							const bool& deleteAfterTime,const float& timeTillDelete);
 	void deleteText(Text* text);
-	void loadFont(const std::string file);
-	std::vector<Text*>* getTexts();
+	void loadFont(const std::string& file);
+	std::vector<Text*>* getTexts() const;
 	void update();
 
 protected:
@@ -27,6 +27,6 @@ protected:
 
 	std::vector<Text*>* m_Texts;
 	std::map<std::string,sf::Font*>* m_Fonts;
-	void handleMessage(Message msg);
+	void handleMessage(const Message& msg);
 };
 #endif

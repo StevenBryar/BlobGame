@@ -43,7 +43,7 @@ void SpriteManager::update(){
 			iterator->second->update();
 	}
 }
-Sprite2d* SpriteManager::createSprite(GameObject* entity,std::string textureName,unsigned int drawOrder){
+Sprite2d* SpriteManager::createSprite(GameObject* entity,const std::string& textureName,const unsigned int& drawOrder){
 	Sprite2d* sprite = NULL;
 	if(m_Textures->find(textureName) != m_Textures->end()){
 		sprite = new Sprite2d(entity,m_Textures->at(textureName));
@@ -75,7 +75,7 @@ void SpriteManager::deleteSprite(Sprite2d* sprite){
 		}
 	}
 }
-void SpriteManager::loadTexture(std::string file){
+void SpriteManager::loadTexture(const std::string& file){
 	if(m_Textures->find(file) == m_Textures->end()){
 		sf::Texture* texture = new sf::Texture();
 		if(texture->loadFromFile(file)){
@@ -95,7 +95,7 @@ Sprite2d* SpriteManager::getSprite(GameObject* owner){
 	}
 	return NULL;
 }
-Sprite2d* SpriteManager::getSprite(std::string name){
+Sprite2d* SpriteManager::getSprite(const std::string& name){
 	std::multimap<unsigned int,Sprite2d*>::iterator iterator;
 	for(iterator = m_Sprites->begin();
 		iterator != m_Sprites->end();iterator++){

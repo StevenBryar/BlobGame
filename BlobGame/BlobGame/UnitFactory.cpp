@@ -86,7 +86,7 @@ GameObject* createPistolEnemy(Tile* tile){
 	return enemy;
 }
 
-GameObject* createUnit(unsigned int spawnFlags,Tile* tile){
+GameObject* createUnit(const unsigned int& spawnFlags,Tile* tile){
 	if(ContainsFlags(spawnFlags,GruntStart)){
 		return createGrunt(tile);
 	}

@@ -40,8 +40,8 @@ class SelectionManager :
 public:
 	static SelectionManager* instance();
 	void cleanupInstance();
-	void keyInputCallback(keyType key,inputEvent event);
-	void mouseInputCalback(inputEvent event,int x,int y);
+	void keyInputCallback(const keyType& key,const inputEvent& event);
+	void mouseInputCalback(const inputEvent& event,const int& x,const int& y);
 	void update();
 private:
 	SelectionManager();

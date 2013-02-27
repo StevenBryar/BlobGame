@@ -83,21 +83,21 @@ void BlobGame::initialize(){
 void BlobGame::update(){
 	(this->*blobUpdate)();
 }
-Camera* BlobGame::getCamera(){return m_Camera;}
+Camera* BlobGame::getCamera() const{return m_Camera;}
 void BlobGame::setCamera(Camera* camera){m_Camera = camera;}
-BlobGameStates BlobGame::getState(){return m_CurrentState;}
-Level* BlobGame::getLevel(){return m_Level;}
-std::vector<GameObject*> BlobGame::getObjects(){return *m_GameObjects;}
+BlobGameStates BlobGame::getState() const{return m_CurrentState;}
+Level* BlobGame::getLevel() const{return m_Level;}
+std::vector<GameObject*> BlobGame::getObjects() const{return *m_GameObjects;}
 
 void BlobGame::reset(){
 	initialize();
 	changeState(MainMenu);
 }
 
-void BlobGame::setTotalEnergy(int e){m_TotalEnergy = e;}
-int BlobGame::getTotalEnergy(){return m_TotalEnergy;}
-void BlobGame::setTotalPower(int e){m_TotalPower = e;}
-int BlobGame::getTotalPower(){return m_TotalPower;}
+void BlobGame::setTotalEnergy(const int& e){m_TotalEnergy = e;}
+int BlobGame::getTotalEnergy() const{return m_TotalEnergy;}
+void BlobGame::setTotalPower(const int& e){m_TotalPower = e;}
+int BlobGame::getTotalPower() const{return m_TotalPower;}
 
 GameObject* BlobGame::pointWithinObject(float x,float y){
 	x = Util::instance()->screenToWorldCoordX(x,m_Camera);
@@ -217,7 +217,7 @@ std::vector<Unit*> BlobGame::unitsWithinArea(std::vector<Tile*> tiles){
 	return units;
 }
 
-void BlobGame::changeState(BlobGameStates state){
+void BlobGame::changeState(const BlobGameStates& state){
 	switch(m_CurrentState){
 	case MainMenu:
 		endMainMenu();
@@ -406,7 +406,7 @@ void BlobGame::endGame(){
 	SafePtrRelease(m_GameObjectsToDelete);
 	SelectionManager::instance()->cleanupInstance();
 }
-void BlobGame::mouseInputCalback(inputEvent event,int x,int y){
+void BlobGame::mouseInputCalback(const inputEvent& event,const int& x,const int& y){
 	double delta = Util::instance()->getDelta();
 	if(getState() == GamePlay || getState() == Editor|| getState() == MainMenu){
 		if(event == MOUSE_MOVED){
@@ -425,7 +425,7 @@ void BlobGame::mouseInputCalback(inputEvent event,int x,int y){
 		}
 	}
 }
-void BlobGame::handleMessage(Message msg){
+void BlobGame::handleMessage(const Message& msg){
 	switch(msg.type){
 	case 2:{
 		Unit* unit = (Unit*)msg.extraInfo;

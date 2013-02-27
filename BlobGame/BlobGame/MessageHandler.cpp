@@ -25,17 +25,17 @@ MessageHandler::~MessageHandler(){
 	SafeVectorDelete(*m_Messages);
 	SafePtrRelease(m_Messages);
 }
-void MessageHandler::createMessage(int type,MessageListener* sender,MessageListener* reciever,
-					void* extraInfo,double timeToSend){
+void MessageHandler::createMessage(const int& type,MessageListener* sender,MessageListener* reciever,
+						void* extraInfo,const double& timeToSend){
 	createMessage(type,sender,reciever,extraInfo,timeToSend,"None");
 }
-void MessageHandler::createMessage(int type,MessageListener* sender,MessageListener* reciever,
-	void* extraInfo,double timeToSend,std::string name){
+void MessageHandler::createMessage(const int& type,MessageListener* sender,MessageListener* reciever,
+									void* extraInfo,const double& timeToSend,const std::string& name){
 	Message* msg = new Message(sender,reciever,extraInfo,timeToSend,type,name);
 	m_Messages->push_back(msg);
 }
-void MessageHandler::createMessage(int type,MessageListener* sender,MessageListener* recievers[],
-					void* extraInfo,double timeToSend,int numOfRecievers){
+void MessageHandler::createMessage(const int& type,MessageListener* sender,MessageListener* recievers[],
+										void* extraInfo,const double& timeToSend,const int& numOfRecievers){
 	for(int i = 0;i < numOfRecievers;i++){
 		createMessage(type,sender,recievers[i],extraInfo,timeToSend);
 	}
@@ -59,7 +59,7 @@ void MessageHandler::update(){
 		}
 	}
 }
-void MessageHandler::deleteMessage(std::string name){
+void MessageHandler::deleteMessage(const std::string& name){
 	std::vector<Message*> msgs = *m_Messages;
 	for(int i = 0;i < msgs.size();i++){
 		if(msgs[i]->name == name){
@@ -74,6 +74,6 @@ void MessageHandler::deleteMessage(Message* message){
 		}
 	}
 }
-void MessageHandler::sendMessage(Message* msg){
+void MessageHandler::sendMessage(Message* msg) const{
 		msg->reciever->handleMessage(*msg);
 }

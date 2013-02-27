@@ -17,7 +17,7 @@
 #include "Abilities.h"
 #include "UnitFactory.h"
 
-bool teleport(Blob* caster,int cursorWorldX,int cursorWorldY){
+bool teleport(Blob* caster,const int& cursorWorldX,const int& cursorWorldY){
 	Tile* tile = BlobGame::instance()->getLevel()->
 			getTileForPosition(cursorWorldX,cursorWorldY);
 	if(tile && !ContainsFlags(tile->getTileTypes(),BLOB_UNWALKABLES)){
@@ -27,7 +27,7 @@ bool teleport(Blob* caster,int cursorWorldX,int cursorWorldY){
 	}
 	return false;
 }
-bool groupTeleport(Blob* caster,int cursorWorldX,int cursorWorldY){
+bool groupTeleport(Blob* caster,const int& cursorWorldX,const int& cursorWorldY){
 	Tile* targetTile = BlobGame::instance()->getLevel()->
 			getTileForPosition(cursorWorldX,cursorWorldY);
 	if(targetTile && !ContainsFlags(targetTile->getTileTypes(),BLOB_UNWALKABLES)){
@@ -66,7 +66,7 @@ bool groupTeleport(Blob* caster,int cursorWorldX,int cursorWorldY){
 	}
 	return false;
 }
-bool gooTrap(Blob* caster,int cursorWorldX,int cursorWorldY){
+bool gooTrap(Blob* caster,const int& cursorWorldX,const int& cursorWorldY){
 	Tile* targetTile = BlobGame::instance()->getLevel()->
 						getTileForPosition(cursorWorldX,cursorWorldY);
 	Enemy* enemy;
@@ -79,13 +79,13 @@ bool gooTrap(Blob* caster,int cursorWorldX,int cursorWorldY){
 	}
 	return false;
 }
-bool morphSpeed(Blob* caster,int cursorWorldX,int cursorWorldY){
+bool morphSpeed(Blob* caster,const int& cursorWorldX,const int& cursorWorldY){
 	//send change speed message to dispatch(will be sent caster when effect wears off.
 	caster->setMoveSpeed(caster->getMoveSpeed()+MORPH_SPEED_INCREASE);
 	MessageHandler::Instance()->createMessage(0,caster,caster,NULL,150);
 	return true;
 }
-bool split(Blob* caster,int cursorWorldX,int cursorWorldY){
+bool split(Blob* caster,const int& cursorWorldX,const int& cursorWorldY){
 	Tile* startTile = caster->getCurrentTile();
 	Tile* targetTiles[8] = {
 		AdjacentTileLeft(startTile,BlobGame::instance()->getLevel()),
@@ -113,7 +113,7 @@ bool split(Blob* caster,int cursorWorldX,int cursorWorldY){
 	}
 	return didAbility;
 }
-bool teleToCaster(Blob* caster,int cursorWorldX,int cursorWorldY){
+bool teleToCaster(Blob* caster,const int& cursorWorldX,const int& cursorWorldY){
 	Blob* blob;
 	Tile* tile = BlobGame::instance()->getLevel()->
 			getTileForPosition(cursorWorldX,cursorWorldY);
@@ -139,7 +139,7 @@ bool teleToCaster(Blob* caster,int cursorWorldX,int cursorWorldY){
 	}
 	return false;
 }
-bool gasAttack(Blob* caster,int cursorWorldX,int cursorWorldY){
+bool gasAttack(Blob* caster,const int& cursorWorldX,const int& cursorWorldY){
 	Tile* startTile = caster->getCurrentTile();
 	Sprite2d* sprite;
 	Tile* targetTiles[9] = {
@@ -169,7 +169,7 @@ bool gasAttack(Blob* caster,int cursorWorldX,int cursorWorldY){
 	}
 	return didAbility;
 }
-bool spawnGrunt(Blob* caster,int cursorWorldX,int cursorWorldY){
+bool spawnGrunt(Blob* caster,const int& cursorWorldX,const int& cursorWorldY){
 	std::vector<Tile*> tiles = getSquareVision(BlobGame::instance()->getLevel(),1,caster->getCurrentTile());
 	for(int i = 0;i < tiles.size();i++){
 		if(!ContainsFlags(tiles[i]->getTileTypes(),Wall) &&
@@ -188,7 +188,7 @@ bool spawnGrunt(Blob* caster,int cursorWorldX,int cursorWorldY){
 	}
 	return false;
 }
-bool spawnTele(Blob* caster,int cursorWorldX,int cursorWorldY){
+bool spawnTele(Blob* caster,const int& cursorWorldX,const int& cursorWorldY){
 	std::vector<Tile*> tiles = getSquareVision(BlobGame::instance()->getLevel(),1,caster->getCurrentTile());
 	for(int i = 0;i < tiles.size();i++){
 		if(!ContainsFlags(tiles[i]->getTileTypes(),Wall) &&
@@ -203,7 +203,7 @@ bool spawnTele(Blob* caster,int cursorWorldX,int cursorWorldY){
 	}
 	return false;
 }
-bool spawnGlob(Blob* caster,int cursorWorldX,int cursorWorldY){
+bool spawnGlob(Blob* caster,const int& cursorWorldX,const int& cursorWorldY){
 	std::vector<Tile*> tiles = getSquareVision(BlobGame::instance()->getLevel(),1,caster->getCurrentTile());
 	for(int i = 0;i < tiles.size();i++){
 		if(!ContainsFlags(tiles[i]->getTileTypes(),Wall) &&

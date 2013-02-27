@@ -14,26 +14,26 @@ GameObject::~GameObject(){
 }
 void GameObject::update(){}
 
-std::string GameObject::getType(){
+std::string GameObject::getType() const{
 	return "GameObject";
 }
-std::string GameObject::getName(){return m_Name;}
-float GameObject::getRotation(){return m_Rotation;}
-float GameObject::getPositionX(){return m_PositionX;}
-float GameObject::getOriginX(){return m_OriginX;}
-float GameObject::getPositionY(){return m_PositionY;}
-float GameObject::getOriginY(){return m_OriginY;}
-float GameObject::getHeight(){return m_Height;}
-float GameObject::getWidth(){return m_Width;}
-Sprite2d* GameObject::getSprite(){return m_Sprite;}
+std::string GameObject::getName() const{return m_Name;}
+float GameObject::getRotation() const{return m_Rotation;}
+float GameObject::getPositionX() const{return m_PositionX;}
+float GameObject::getOriginX() const{return m_OriginX;}
+float GameObject::getPositionY() const{return m_PositionY;}
+float GameObject::getOriginY() const{return m_OriginY;}
+float GameObject::getHeight() const{return m_Height;}
+float GameObject::getWidth() const{return m_Width;}
+Sprite2d* GameObject::getSprite() const{return m_Sprite;}
 
-void GameObject::setRotation(float r){m_Rotation = r;}
-void GameObject::setPositionX(float x){m_PositionX = x;}
-void GameObject::setOriginX(float x){m_OriginX = x;}
-void GameObject::setPositionY(float y){m_PositionY = y;}
-void GameObject::setOriginY(float y){m_OriginY = y;}
-void GameObject::setHeight(float h){m_Height = h;}
-void GameObject::setWidth(float w){m_Width = w;}
+void GameObject::setRotation(const float& r){m_Rotation = r;}
+void GameObject::setPositionX(const float& x){m_PositionX = x;}
+void GameObject::setOriginX(const float& x){m_OriginX = x;}
+void GameObject::setPositionY(const float& y){m_PositionY = y;}
+void GameObject::setOriginY(const float& y){m_OriginY = y;}
+void GameObject::setHeight(const float& h){m_Height = h;}
+void GameObject::setWidth(const float& w){m_Width = w;}
 void GameObject::setSprite(Sprite2d* sprite){
 	if(m_Sprite){
 	SpriteManager::instance()->deleteSprite(m_Sprite);
@@ -42,15 +42,15 @@ void GameObject::setSprite(Sprite2d* sprite){
 	
 }
 
-void GameObject::setPosition(float x,float y){
+void GameObject::setPosition(const float& x,const float& y){
 	setPositionX(x);
 	setPositionY(y);
 }
-void GameObject::setOrigin(float x,float y){
+void GameObject::setOrigin(const float& x,const float& y){
 	setOriginX(x);
 	setOriginY(y);
 }
-void GameObject::setSize(float height,float width){
+void GameObject::setSize(const float& height,const float& width){
 	setHeight(height);
 	setWidth(width);
 }

@@ -12,9 +12,9 @@ struct Ability{
 	double coolDownDuration;
 	std::string name;
 	bool targetAbility;
-	bool (*useAbility)(Blob* caster,int cursorWorldX,int cursorWorldY);
+	bool (*useAbility)(Blob* caster,const int& cursorWorldX,const int& cursorWorldY);
 	
-	Ability(std::string name,double cdDuration,bool tAbility,bool (*useAbility)(Blob*,int,int)){
+	Ability(const std::string& name,const double& cdDuration,const bool& tAbility,bool (*useAbility)(Blob*,const int&,const int&)){
 		this->useAbility = useAbility;
 		this->name = name;
 		coolDownDuration = cdDuration;
@@ -35,27 +35,27 @@ class Blob : public Unit{
 public:
 	Blob();
 	Blob(Tile* currentTile);
-	Blob(int health,int damage,int attackSpeed,
-			int moveSpeed,int armour);
-	Blob(int health,int damage,int attackSpeed,
-			int moveSpeed,int armour,Tile* currentTile);
+	Blob(const int& health,const int& damage,const int& attackSpeed,
+			const int& moveSpeed,const int& armour);
+	Blob(const int& health,const int& damage,const int& attackSpeed,
+			const int& moveSpeed,const int& armour,Tile* currentTile);
 	virtual ~Blob();
-	void useAbility(keyType key,int cursorWorldX,int cursorWorldY);
+	void useAbility(const keyType& key,const int& cursorWorldX,const int& cursorWorldY);
 	
-	Ability* getAbilityFromKey(keyType key);
-	Ability* getAbilityFromName(std::string name);
-	std::map<keyType,Ability*>* getAbilities();
-	void addAbilty(Ability* a,keyType key);
+	Ability* getAbilityFromKey(const keyType& key);
+	Ability* getAbilityFromName(const std::string& name);
+	std::map<keyType,Ability*>* getAbilities() const;
+	void addAbilty(Ability* a,const keyType& key);
 	void removeAbility(Ability* a);
-	void removeAbility(keyType key);
+	void removeAbility(const keyType& key);
 
 	virtual void update();
-	std::string getAllegiance();
+	std::string getAllegiance() const;
 	virtual std::string getType();
-	virtual void handleMessage(Message msg);
+	virtual void handleMessage(const Message& msg);
 	void die();
-	int getEnergy();
-	void setEnergy(int e);
+	int getEnergy() const;
+	void setEnergy(const int& e);
 
 protected:
 	int m_EnergyResource;

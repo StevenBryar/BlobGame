@@ -23,42 +23,42 @@ enum EnemyStates{
 
 class Enemy : public Unit{
 public:
-	Enemy(std::vector<Enemy*>* mates,std::string spriteFileName,
-		std::vector<Tile*> (*getAttackRange)(Tile* currentTile,int dirFacing,Level* level),
-		void (*fire)(Tile* currentTile,int dirFacing,Level* level,Enemy* attacker),int aRange);
+	Enemy(std::vector<Enemy*>* mates,const std::string& spriteFileName,
+		std::vector<Tile*> (*getAttackRange)(Tile* currentTile,const int& dirFacing,Level* level),
+		void (*fire)(Tile* currentTile,const int& dirFacing,Level* level,Enemy* attacker),const int& aRange);
 
-	Enemy(std::vector<Enemy*>* mates,Tile* currentTile,std::string spriteFileName,
-		std::vector<Tile*> (*getAttackRange)(Tile* currentTile,int dirFacing,Level* level),
-		void (*fire)(Tile* currentTile,int dirFacing,Level* level,Enemy* attacker),int aRange);
+	Enemy(std::vector<Enemy*>* mates,Tile* currentTile,const std::string& spriteFileName,
+		std::vector<Tile*> (*getAttackRange)(Tile* currentTile,const int& dirFacing,Level* level),
+		void (*fire)(Tile* currentTile,const int& dirFacing,Level* level,Enemy* attacker),const int& aRange);
 
-	Enemy(std::vector<Enemy*>* mates,int health,int damage,int attackSpeed,
-			int moveSpeed,int armour,std::string spriteFileName,
-			std::vector<Tile*> (*getAttackRange)(Tile* currentTile,int dirFacing,Level* level),
-			void (*fire)(Tile* currentTile,int dirFacing,Level* level,Enemy* attacker),int aRange);
+	Enemy(std::vector<Enemy*>* mates,const int& health,const int& damage,const int& attackSpeed,
+			const int& moveSpeed,const int& armour,const std::string& spriteFileName,
+			std::vector<Tile*> (*getAttackRange)(Tile* currentTile,const int& dirFacing,Level* level),
+			void (*fire)(Tile* currentTile,const int& dirFacing,Level* level,Enemy* attacker),const int& aRange);
 
-	Enemy(std::vector<Enemy*>* mates, int health,int damage,int attackSpeed,
-			int moveSpeed,int armour,Tile* currentTile,std::string spriteFileName,
-			std::vector<Tile*> (*getAttackRange)(Tile* currentTile,int dirFacing,Level* level),
-			void (*fire)(Tile* currentTile,int dirFacing,Level* level,Enemy* attacker),int aRange);
+	Enemy(std::vector<Enemy*>* mates, const int& health,const int& damage,const int& attackSpeed,
+			const int& moveSpeed,const int& armour,Tile* currentTile,const std::string& spriteFileName,
+			std::vector<Tile*> (*getAttackRange)(Tile* currentTile,const int& dirFacing,Level* level),
+			void (*fire)(Tile* currentTile,const int& dirFacing,Level* level,Enemy* attacker),const int& aRange);
 	~Enemy();
 	void search();
 	void hold();
 	void idle();
-	std::vector<Enemy*>* getSquadMates();
+	std::vector<Enemy*>* getSquadMates() const;
 	void setSquadMates(std::vector<Enemy*>* mates);
 	Enemy* getSquadLeader();
-	EnemyStates getState();
-	bool isSquadLeader();
-	void setIsSquadLeader(bool isLeader);
+	EnemyStates getState() const;
+	bool isSquadLeader() const;
+	void setIsSquadLeader(const bool& isLeader);
 	void update();
-	void handleMessage(Message msg);
-	std::string getAllegiance();
-	std::string getType();
+	void handleMessage(const Message& msg);
+	std::string getAllegiance() const;
+	std::string getType() const;
 protected:
 	void die();
 	void (Enemy::*EnemyUpdate)();
-	std::vector<Tile*> (*getAttackRange)(Tile* currentTile,int dirFacing,Level* level);
-	void (*fire)(Tile* currentTile,int dirFacing,Level* level,Enemy* attacker);
+	std::vector<Tile*> (*getAttackRange)(Tile* currentTile,const int& dirFacing,Level* level);
+	void (*fire)(Tile* currentTile,const int& dirFacing,Level* level,Enemy* attacker);
 	void changeState(EnemyStates state);
 	void searchUpdate();
 	void holdUpdate();

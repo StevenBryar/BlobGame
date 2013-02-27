@@ -55,8 +55,8 @@ m_Unwalkables(0){
 	m_PassivesToDelete = new std::vector<void (*)(Unit*)>();
 	m_Passives = new std::vector<void (*)(Unit*)>();
 }
-Unit::Unit(int health,int damage,int attackSpeed,
-	int moveSpeed,int armour) :
+Unit::Unit(const int& health,const int& damage,const int& attackSpeed,
+	const int& moveSpeed,const int& armour) :
 GameObject(),
 m_Path(NULL),
 m_DestinationTile(NULL),
@@ -75,8 +75,8 @@ m_Unwalkables(0){
 	m_PassivesToDelete = new std::vector<void (*)(Unit*)>();
 	m_Passives = new std::vector<void (*)(Unit*)>();
 }
-Unit::Unit(int health,int damage,int attackSpeed,
-	int moveSpeed,int armour,Tile* currentTile):
+Unit::Unit(const int& health,const int& damage,const int& attackSpeed,
+	const int& moveSpeed,const int& armour,Tile* currentTile):
 GameObject(),
 m_Path(NULL),
 m_DestinationTile(NULL),
@@ -92,8 +92,8 @@ m_Unwalkables(0){
 	m_PassivesToDelete = new std::vector<void (*)(Unit*)>();
 	m_Passives = new std::vector<void (*)(Unit*)>();
 }
-Unit::Unit(int health,int damage,int attackSpeed,
-			int moveSpeed,int armour,Tile* currentTile,Level* level) :
+Unit::Unit(const int& health,const int& damage,const int& attackSpeed,
+			const int& moveSpeed,const int& armour,Tile* currentTile,Level* level) :
 GameObject(),
 m_Path(NULL),
 m_DestinationTile(NULL),
@@ -155,7 +155,7 @@ std::vector<void (*)(Unit*)>* Unit::getPassives(){
 std::string Unit::getType(){return "Unit";}
 
 void Unit::attack(Unit* aUnit){aUnit->hit(getDamage());}
-void Unit::hit(int damage){setHealth(getHealth() - damage);}
+void Unit::hit(const int& damage){setHealth(getHealth() - damage);}
 void Unit::die(){}
 
 void Unit::setCurrentTile(Tile* tile){
@@ -177,8 +177,8 @@ void Unit::setDestinationTile(Tile* tile){
 				m_Level,m_Unwalkables,calcBaseGScore);
 	}
 }
-Tile* Unit::getCurrentTile(){return m_CurrentTile;}
-Tile* Unit::getDestinationTile(){return m_DestinationTile;}
+Tile* Unit::getCurrentTile() const{return m_CurrentTile;}
+Tile* Unit::getDestinationTile() const{return m_DestinationTile;}
 
 void Unit::update(){
 	moveLerp();
@@ -285,27 +285,27 @@ void Unit::fullStop(){
 		SafePtrRelease(m_Path);
 	}
 }
-void Unit::setHealth(int hp){m_Health = hp;}
-void Unit::setMoveSpeed(int moveSpeed){m_MoveSpeed = moveSpeed;}
-void Unit::setDamage(int damage){m_Damage = damage;}
-void Unit::setAttackSpeed(int attackSpeed){m_AttackSpeed = attackSpeed;}
-void Unit::setArmour(int armour){m_Armour = armour;}
+void Unit::setHealth(const int& hp){m_Health = hp;}
+void Unit::setMoveSpeed(const int& moveSpeed){m_MoveSpeed = moveSpeed;}
+void Unit::setDamage(const int& damage){m_Damage = damage;}
+void Unit::setAttackSpeed(const int& attackSpeed){m_AttackSpeed = attackSpeed;}
+void Unit::setArmour(const int& armour){m_Armour = armour;}
 void Unit::setTarget(Unit* target){m_Target = target;}
 void Unit::setLevel(Level* level){m_Level = level;}
-void Unit::setAttackTimer(float attackTimer){m_AttackTimer = attackTimer;}
-void Unit::setUnwalkables(unsigned int unWalkables){m_Unwalkables = unWalkables;}
+void Unit::setAttackTimer(const float& attackTimer){m_AttackTimer = attackTimer;}
+void Unit::setUnwalkables(const unsigned int& unWalkables){m_Unwalkables = unWalkables;}
 
-int Unit::getHealth(){return m_Health;}
-int Unit::getMoveSpeed(){return m_MoveSpeed;}
-int Unit::getDamage(){return m_Damage;}
-int Unit::getAttackSpeed(){return m_AttackSpeed;}
-int Unit::getArmour(){return m_Armour;}
-Unit* Unit::getTarget(){return m_Target;}
-float Unit::getAttackTimer(){return m_AttackTimer;}
+int Unit::getHealth() const{return m_Health;}
+int Unit::getMoveSpeed() const{return m_MoveSpeed;}
+int Unit::getDamage() const{return m_Damage;}
+int Unit::getAttackSpeed() const{return m_AttackSpeed;}
+int Unit::getArmour() const{return m_Armour;}
+Unit* Unit::getTarget() const{return m_Target;}
+float Unit::getAttackTimer() const{return m_AttackTimer;}
 std::string Unit::getAllegiance(){return "Neutral";}
-void Unit::changeDirection(int d){setRotation(90.0f*d);}
-int Unit::getDirection(){return getRotation()/90;}
-void Unit::addStatus(UnitStuff status){m_UnitStatus |= status;}
-void Unit::setStatus(unsigned int status){m_UnitStatus = status;}
-unsigned int Unit::getStatus(){return m_UnitStatus;}
-unsigned int Unit::getUnwalkables(){return m_Unwalkables;}
+void Unit::changeDirection(const int& d){setRotation(90.0f*d);}
+int Unit::getDirection() {return getRotation()/90;}
+void Unit::addStatus(const UnitStuff& status){m_UnitStatus |= status;}
+void Unit::setStatus(const unsigned int& status){m_UnitStatus = status;}
+unsigned int Unit::getStatus() const{return m_UnitStatus;}
+unsigned int Unit::getUnwalkables() const{return m_Unwalkables;}

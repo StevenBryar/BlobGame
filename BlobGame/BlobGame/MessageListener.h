@@ -7,6 +7,6 @@ class MessageHandler;
 class MessageListener{
 	friend class MessageHandler;
 protected:
-	virtual void handleMessage(Message msg) = 0;
+	virtual void handleMessage(const Message& msg) = 0;
 };
 #endif

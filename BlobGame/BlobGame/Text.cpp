@@ -4,7 +4,7 @@
 #include "Vector3.h"
 #include "common.h"
 
-Text::Text(sf::Font* font,std::string text,int size,Vector3 color,textAttribute atts,int alpha,float x,float y){
+Text::Text(sf::Font* font,const std::string& text,const int& size,const Vector3& color,const textAttribute& atts,const int& alpha,const float& x,const float& y){
 	m_String->setFont(*font);
 	m_String->setCharacterSize(size);
 	m_String->setString(text);
@@ -39,36 +39,36 @@ void Text::update(){
 		setPosition(getPosX()+0.5,getPosY());
 	}
 }
-void Text::setText(std::string s){
+void Text::setText(const std::string s){
 	m_String->setString(s);
 }
-void Text::setPosition(float x,float y){
+void Text::setPosition(const float x,const float y){
 	m_String->setPosition(x,y);
 }
-void Text::setSize(int size){
+void Text::setSize(const int size){
 	m_String->setCharacterSize(size);
 }
-void Text::setColor(Vector3 rgb,int alpha){
+void Text::setColor(const Vector3 rgb,const int alpha){
 	sf::Color tColor(rgb.X,rgb.Y,rgb.Z,alpha);
 	m_String->setColor(tColor);
 }
-void Text::addAttribute(textAttribute att){
+void Text::addAttribute(const textAttribute att){
 	if(!ContainsFlags(m_TextAtt,att)){
 		m_TextAtt |= att;
 	}
 }
-void Text::setAttributes(textAttribute att){
+void Text::setAttributes(const textAttribute att){
 	m_TextAtt = att;
 }
-std::string Text::getText(){return m_String->getString();}
-float Text::getPosX(){return m_String->getPosition().x;}
-float Text::getPosY(){return m_String->getPosition().y;}
-int Text::getSize(){return m_String->getCharacterSize();}
-Vector3 Text::getColor(){
+std::string Text::getText() const{return m_String->getString();}
+float Text::getPosX() const{return m_String->getPosition().x;}
+float Text::getPosY() const{return m_String->getPosition().y;}
+int Text::getSize() const{return m_String->getCharacterSize();}
+Vector3 Text::getColor() const{
 	Vector3 color(m_String->getColor().r,
 				  m_String->getColor().g,
 				  m_String->getColor().b);
 	return color;
 }	
-int Text::getAlpha(){return m_String->getColor().a;}
-unsigned int Text::getAttributes(){return m_TextAtt;}
+int Text::getAlpha() const{return m_String->getColor().a;}
+unsigned int Text::getAttributes() const{return m_TextAtt;}

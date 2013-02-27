@@ -36,8 +36,8 @@ Unit(currentTile){
 	m_Name = "Blob" + intToString(m_BlobCount);
 }
 
-Blob::Blob(int health,int damage,int attackSpeed,
-	int moveSpeed,int armour) :
+Blob::Blob(const int& health,const int& damage,const int& attackSpeed,
+	const int& moveSpeed,const int& armour) :
 m_EnergyResource(0),
 Unit(health,damage,attackSpeed,moveSpeed,armour){
 	m_BlobCount++;
@@ -45,8 +45,8 @@ Unit(health,damage,attackSpeed,moveSpeed,armour){
 	m_Name = "Blob" + intToString(m_BlobCount);
 }
 
-Blob::Blob(int health,int damage,int attackSpeed,
-	int moveSpeed,int armour,Tile* currentTile) :
+Blob::Blob(const int& health,const int& damage,const int& attackSpeed,
+	const int& moveSpeed,const int& armour,Tile* currentTile) :
 m_EnergyResource(0),
 Unit(health,damage,attackSpeed,moveSpeed,armour,currentTile){
 	m_BlobCount++;
@@ -59,7 +59,7 @@ Blob::~Blob(){
 	 SafePtrRelease(m_Abilities);
 }
 
-Ability* Blob::getAbilityFromKey(keyType key){
+Ability* Blob::getAbilityFromKey(const keyType& key){
 	std::map<keyType,Ability*>::iterator iterator;
 	for(iterator = m_Abilities->begin();
 		iterator != m_Abilities->end();iterator++){
@@ -69,7 +69,7 @@ Ability* Blob::getAbilityFromKey(keyType key){
 	}
 	return NULL;
 }
-Ability* Blob::getAbilityFromName(std::string name){
+Ability* Blob::getAbilityFromName(const std::string& name){
 	std::map<keyType,Ability*>::iterator iterator;
 	for(iterator = m_Abilities->begin();
 		iterator != m_Abilities->end();iterator++){
@@ -80,7 +80,7 @@ Ability* Blob::getAbilityFromName(std::string name){
 	return NULL;
 }
 
-void Blob::useAbility(keyType key,int cursorWorldX,int cursorWorldY){
+void Blob::useAbility(const keyType& key,const int& cursorWorldX,const int& cursorWorldY){
 	Ability* a;
 	if((a = getAbilityFromKey(key))){
 		if(!a->onCoolDown &&
@@ -94,7 +94,7 @@ void Blob::useAbility(keyType key,int cursorWorldX,int cursorWorldY){
 	}
 }
 
-void Blob::addAbilty(Ability* a,keyType key){
+void Blob::addAbilty(Ability* a,const keyType& key){
 	if(!getAbilityFromKey(key)){
 		std::map<keyType,Ability*>::iterator i;
 		for(i = m_Abilities->begin();i != m_Abilities->end();i++){
@@ -115,14 +115,14 @@ void Blob::removeAbility(Ability* a){
 		}
 	}
 }
-void Blob::removeAbility(keyType key){
+void Blob::removeAbility(const keyType& key){
 	Ability* a = getAbilityFromKey(key);
 	if(a){
 		removeAbility(a);
 	}
 }
 
-std::map<keyType,Ability*>* Blob::getAbilities(){
+std::map<keyType,Ability*>* Blob::getAbilities() const{
 	return m_Abilities;
 }
 void Blob::updateAbilities(){
@@ -183,13 +183,13 @@ void Blob::die(){
 	}
 	//play death animation
 }
-int Blob::getEnergy(){
+int Blob::getEnergy() const{
 	return m_EnergyResource;
 }
-void Blob::setEnergy(int e){
+void Blob::setEnergy(const int& e){
 	m_EnergyResource = e;
 }
-void Blob::handleMessage(Message msg){
+void Blob::handleMessage(const Message& msg){
 	switch(msg.type){
 	case 0:
 		setMoveSpeed(getMoveSpeed()-MORPH_SPEED_INCREASE);
@@ -199,5 +199,5 @@ void Blob::handleMessage(Message msg){
 	}
 }
 
-std::string Blob::getAllegiance(){return "Ally";}
+std::string Blob::getAllegiance() const{return "Ally";}
 std::string Blob::getType(){return "Blob";}

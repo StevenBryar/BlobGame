@@ -17,16 +17,16 @@ public:
 	Unit();
 	Unit(Tile* currentTile);
 	Unit(Tile* currentTile,Level* level);
-	Unit(int health,int damage,int attackSpeed,
-			int moveSpeed,int armour);
-	Unit(int health,int damage,int attackSpeed,
-			int moveSpeed,int armour,Tile* currentTile);
-	Unit(int health,int damage,int attackSpeed,
-			int moveSpeed,int armour,Tile* currentTile,Level* level);
+	Unit(const int& health,const int& damage,const int& attackSpeed,
+			const int& moveSpeed,const int& armour);
+	Unit(const int& health,const int& damage,const int& attackSpeed,
+			const int& moveSpeed,const int& armour,Tile* currentTile);
+	Unit(const int& health,const int& damage,const int& attackSpeed,
+			const int& moveSpeed,const int& armour,Tile* currentTile,Level* level);
 	virtual ~Unit();
 
 	virtual void attack(Unit* aUnit);
-	virtual void hit(int damage);
+	virtual void hit(const int& damage);
 
 	virtual void update();
 
@@ -38,30 +38,30 @@ public:
 	void stop();
 	void fullStop();
 
-	Tile* getCurrentTile();
-	Tile* getDestinationTile();
+	Tile* getCurrentTile() const;
+	Tile* getDestinationTile() const;
 
-	void setHealth(int hp);
-	void setMoveSpeed(int moveSpeed);
-	void setDamage(int damage);
-	void setAttackSpeed(int attackSpeed);
-	void setArmour(int armour);
+	void setHealth(const int& hp);
+	void setMoveSpeed(const int& moveSpeed);
+	void setDamage(const int& damage);
+	void setAttackSpeed(const int& attackSpeed);
+	void setArmour(const int& armour);
 	void setTarget(Unit* target);
-	void setAttackTimer(float attackTimer);
-	void setUnwalkables(unsigned int unWalkables);
+	void setAttackTimer(const float& attackTimer);
+	void setUnwalkables(const unsigned int& unWalkables);
 
-	int getHealth();
-	int getMoveSpeed();
-	int getDamage();
-	int getAttackSpeed();
-	int getArmour();
-	Unit* getTarget();
-	float getAttackTimer();
-	unsigned int getUnwalkables();
+	int getHealth() const;
+	int getMoveSpeed() const;
+	int getDamage() const;
+	int getAttackSpeed() const;
+	int getArmour() const;
+	Unit* getTarget() const;
+	float getAttackTimer() const;
+	unsigned int getUnwalkables() const;
 
-	void addStatus(UnitStuff status);
-	void setStatus(unsigned int status);
-	unsigned int getStatus();
+	void addStatus(const UnitStuff& status);
+	void setStatus(const unsigned int& status);
+	unsigned int getStatus() const;
 
 	virtual std::string getAllegiance();
 	virtual std::string getType();
@@ -70,10 +70,10 @@ public:
 	void removePassive(void (*passive)(Unit*));
 	std::vector<void (*)(Unit*)>* getPassives();
 
-	void changeDirection(int d);
+	void changeDirection(const int& d);
 	int getDirection();
 
-	virtual void handleMessage(Message msg) = 0;
+	virtual void handleMessage(const Message& msg) = 0;
 protected:
 	virtual void die();
 	void moveLerp();

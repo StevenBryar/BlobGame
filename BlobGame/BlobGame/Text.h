@@ -18,22 +18,22 @@ class Vector3;
 
 class Text{
 public:
-	Text(sf::Font* font,std::string text,int size,Vector3 color,textAttribute atts,int alpha = 255,float x = 0,float y = 0);
+	Text(sf::Font* font,const std::string& text,const int& size,const Vector3& color,const textAttribute& atts,const int& alpha = 255,const float& x = 0,const float& y = 0);
 
-	void setText(std::string s);
-	void setPosition(float x,float y);
-	void setSize(int size);
-	void setColor(Vector3 rgb,int alpha);
-	void addAttribute(textAttribute att);
-	void setAttributes(textAttribute att);
+	void setText(const std::string s);
+	void setPosition(const float x,const float y);
+	void setSize(const int size);
+	void setColor(const Vector3 rgb,const int alpha);
+	void addAttribute(const textAttribute att);
+	void setAttributes(const textAttribute att);
 
-	std::string getText();
-	float getPosX();
-	float getPosY();
-	int getSize();
-	Vector3 getColor();
-	int getAlpha();
-	unsigned int getAttributes();
+	std::string getText() const;
+	float getPosX() const;
+	float getPosY() const;
+	int getSize() const;
+	Vector3 getColor() const;
+	int getAlpha() const;
+	unsigned int getAttributes() const;
 
 	void update();
 

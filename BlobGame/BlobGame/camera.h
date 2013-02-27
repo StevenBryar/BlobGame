@@ -10,24 +10,24 @@ public:
 	Camera();
 	Camera(sf::View* view);
 	~Camera();
-	void rotate(float rotation);
-	void moveTo(float x,float y);
-	void centre(float x,float y);
-	void zoom(float z);
-	void move(float x,float y);
-	void setSize(float x,float y);
+	void rotate(const float& rotation);
+	void moveTo(const float& x,const float& y);
+	void centre(const float& x,const float& y);
+	void zoom(const float& z);
+	void move(const float& x,const float& y);
+	void setSize(const float& x,const float& y);
 	void setView(sf::View* view);
 	void setFollow(GameObject* thing);
 
-	float getRotation();
-	GameObject* getFollow();
-	sf::View* getView();
-	float getWidth();
-	float getHeight();
-	float getCentreX();
-	float getCentreY();
-	float getWorldPosX();
-	float getWorldPosY();
+	float getRotation() const;
+	GameObject* getFollow() const;
+	sf::View* getView() const;
+	float getWidth() const;
+	float getHeight() const;
+	float getCentreX() const;
+	float getCentreY() const;
+	float getWorldPosX() const;
+	float getWorldPosY() const;
 
 private:
 	sf::View* m_View;
