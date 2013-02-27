@@ -31,6 +31,7 @@ int main(){
 		delta = theClock.getElapsedTime().asSeconds() - lastUpdateTime;
 		lastUpdateTime = theClock.getElapsedTime().asSeconds();
 		sf::Event event;
+		InputManager::instance()->update();
 		while(window->pollEvent(event)){
 			switch(event.type){
 			case sf::Event::Closed:
@@ -90,7 +91,6 @@ int main(){
 				}
 			}
 		}
-		InputManager::instance()->update();
 		BlobGame::instance()->update();
 		SpriteManager::instance()->update();
 		Renderer::instance()->render(window,BlobGame::instance()->getCamera());

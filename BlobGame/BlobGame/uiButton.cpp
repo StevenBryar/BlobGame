@@ -97,17 +97,14 @@ void UiButton::mouseInputCalback(const inputEvent& event,const int& x,const int&
 		}
 		break;
 	case MOUSE_LB_PRESSED:
-		if(ContainsFlags(m_ButtonAtt,FIRE_ON_PRESSED) &&
-		  (x > m_OffsetX && x < (m_OffsetX+m_Width) &&
-		   y > m_OffsetY && y < (m_OffsetY+m_Height)) &&
-		   callBack){
-		  	callBack();
-		}
 		if(!m_DownSprite.empty() &&
 		  (x > m_OffsetX && x < (m_OffsetX+m_Width) &&
 		   y > m_OffsetY && y < (m_OffsetY+m_Height))){
 		   SpriteManager::instance()->deleteSprite(m_Sprite);
 		   m_Sprite = SpriteManager::instance()->createSprite(this,m_DownSprite,0);
+		   if(ContainsFlags(m_ButtonAtt,FIRE_ON_PRESSED) && callBack){
+			   callBack();
+		   }
 		}
 		break;
 	case MOUSE_LB_RELEASED:

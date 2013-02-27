@@ -199,5 +199,5 @@ void Blob::handleMessage(const Message& msg){
 	}
 }
 
-std::string Blob::getAllegiance() const{return "Ally";}
+std::string Blob::getAllegiance() {return "Ally";}
 std::string Blob::getType(){return "Blob";}

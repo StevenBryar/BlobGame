@@ -52,8 +52,8 @@ public:
 	void setIsSquadLeader(const bool& isLeader);
 	void update();
 	void handleMessage(const Message& msg);
-	std::string getAllegiance() const;
-	std::string getType() const;
+	std::string getAllegiance();
+	std::string getType();
 protected:
 	void die();
 	void (Enemy::*EnemyUpdate)();

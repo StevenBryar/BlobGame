@@ -50,8 +50,8 @@ public:
 	void removeAbility(const keyType& key);
 
 	virtual void update();
-	std::string getAllegiance() const;
-	virtual std::string getType();
+	std::string getAllegiance();
+	std::string getType();
 	virtual void handleMessage(const Message& msg);
 	void die();
 	int getEnergy() const;

@@ -15,7 +15,7 @@ float getPositionY() const;
 float getOriginY() const;
 float getHeight() const;
 float getWidth() const;
-virtual std::string getType() const;
+virtual std::string getType();
 std::string getName() const;
 Sprite2d* getSprite() const;
 

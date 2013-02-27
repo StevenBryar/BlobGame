@@ -14,7 +14,7 @@ GameObject::~GameObject(){
 }
 void GameObject::update(){}
 
-std::string GameObject::getType() const{
+std::string GameObject::getType(){
 	return "GameObject";
 }
 std::string GameObject::getName() const{return m_Name;}

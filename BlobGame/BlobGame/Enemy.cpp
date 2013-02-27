@@ -177,8 +177,8 @@ Enemy* Enemy::getSquadLeader(){
 EnemyStates Enemy::getState() const{return m_State;}
 bool Enemy::isSquadLeader()const {return m_SquadLeader;}
 void Enemy::setIsSquadLeader(const bool& isLeader){m_SquadLeader = isLeader;}
-std::string Enemy::getAllegiance() const{return "Foe";}
-std::string Enemy::getType() const{return "Enemy";}
+std::string Enemy::getAllegiance(){return "Foe";}
+std::string Enemy::getType(){return "Enemy";}
 
 void Enemy::die(){
 	MessageHandler::Instance()->createMessage(2,this,BlobGame::instance(),this,100);

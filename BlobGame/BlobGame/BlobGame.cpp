@@ -218,43 +218,45 @@ std::vector<Unit*> BlobGame::unitsWithinArea(std::vector<Tile*> tiles){
 }
 
 void BlobGame::changeState(const BlobGameStates& state){
-	switch(m_CurrentState){
-	case MainMenu:
-		endMainMenu();
-		break;
-	case OptionsMenu:
-		endOptions();
-		break;
-	case PauseMenu:
-		endPause();
-		break;
-	case Editor:
-		endEditor();
-		break;
+	if(state != m_CurrentState){
+		switch(m_CurrentState){
+		case MainMenu:
+			endMainMenu();
+			break;
+		case OptionsMenu:
+			endOptions();
+			break;
+		case PauseMenu:
+			endPause();
+			break;
+		case Editor:
+			endEditor();
+			break;
+		}
+		switch(state){
+		case MainMenu:
+			beginMainMenu();
+			blobUpdate = &BlobGame::mainMenu;
+			break;
+		case GamePlay:
+			beginGame();
+			blobUpdate = &BlobGame::gamePlay;
+			break;
+		case OptionsMenu:
+			beginOptions();
+			blobUpdate = &BlobGame::optionsMenu;
+			break;
+		case PauseMenu:
+			beginPause();
+			blobUpdate = &BlobGame::pauseMenu;
+			break;
+		case Editor:
+			beginEditor();
+			blobUpdate = &BlobGame::editor;
+			break;
+		}
+		m_CurrentState = state;
 	}
-	switch(state){
-	case MainMenu:
-		beginMainMenu();
-		blobUpdate = &BlobGame::mainMenu;
-		break;
-	case GamePlay:
-		beginGame();
-		blobUpdate = &BlobGame::gamePlay;
-		break;
-	case OptionsMenu:
-		beginOptions();
-		blobUpdate = &BlobGame::optionsMenu;
-		break;
-	case PauseMenu:
-		beginPause();
-		blobUpdate = &BlobGame::pauseMenu;
-		break;
-	case Editor:
-		beginEditor();
-		blobUpdate = &BlobGame::editor;
-		break;
-	}
-	m_CurrentState = state;
 }
 
 void BlobGame::pauseMenu(){
@@ -262,8 +264,6 @@ void BlobGame::pauseMenu(){
 }
 void BlobGame::mainMenu(){
 	MessageHandler::Instance()->update();
-
-
 	for(int i = 0;i < m_GameObjects->size();i++){
 		(*m_GameObjects)[i]->update();
 	}
