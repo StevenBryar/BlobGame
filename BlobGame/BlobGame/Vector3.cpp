@@ -23,6 +23,7 @@ const Vector3 Vector3::One()
 	Vector3 tempVec;
 	tempVec.X = 1;
 	tempVec.Y = 1;
+	tempVec.Z = 1;
 
 	return tempVec;
 }

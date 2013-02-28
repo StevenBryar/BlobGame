@@ -17,8 +17,11 @@ enum textAttribute{
 class Vector3;
 
 class Text{
+	friend class Renderer;
 public:
-	Text(sf::Font* font,const std::string& text,const int& size,const Vector3& color,const textAttribute& atts,const int& alpha = 255,const float& x = 0,const float& y = 0);
+	Text(sf::Font* font,const std::string& text,const int& size,const Vector3& color,
+		const unsigned int& atts,const int& alpha = 255,const float& x = 0,const float& y = 0);
+	~Text();
 
 	void setText(const std::string s);
 	void setPosition(const float x,const float y);

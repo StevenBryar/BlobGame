@@ -4,7 +4,8 @@
 #include "Vector3.h"
 #include "common.h"
 
-Text::Text(sf::Font* font,const std::string& text,const int& size,const Vector3& color,const textAttribute& atts,const int& alpha,const float& x,const float& y){
+Text::Text(sf::Font* font,const std::string& text,const int& size,const Vector3& color,const unsigned int& atts,const int& alpha,const float& x,const float& y){
+	m_String = new sf::Text();
 	m_String->setFont(*font);
 	m_String->setCharacterSize(size);
 	m_String->setString(text);
@@ -12,6 +13,9 @@ Text::Text(sf::Font* font,const std::string& text,const int& size,const Vector3&
 	sf::Color tColor(color.X,color.Y,color.Z,alpha);
 	m_String->setColor(tColor);
 	m_TextAtt = atts;
+}
+Text::~Text(){
+	SafePtrRelease(m_String);
 }
 
 void Text::update(){

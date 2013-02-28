@@ -13,7 +13,7 @@ public:
 	static TextManager* instance();
 	void cleanupInstance();
 	Text* createText(const std::string& text,const std::string& fontName,const int& fontSize,
-						const Vector3& color,const int& alpha,const int& x,const int& y,const textAttribute& atts,
+						const Vector3& color,const int& alpha,const int& x,const int& y,const unsigned int& atts,
 							const bool& deleteAfterTime,const float& timeTillDelete);
 	void deleteText(Text* text);
 	void loadFont(const std::string& file);

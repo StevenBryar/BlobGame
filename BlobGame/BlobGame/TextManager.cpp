@@ -35,13 +35,14 @@ void TextManager::cleanupInstance(){
 }
 Text* TextManager::createText(const std::string& text,const std::string& fontName,const int& fontSize,
 				 const Vector3& color,const int& alpha,const int& x,const int& y,
-				 const textAttribute& atts,const bool& deleteAfterTime,const float& timeTillDelete){
+				 const unsigned int& atts,const bool& deleteAfterTime,const float& timeTillDelete){
 	Text* t = NULL;
 	if(m_Fonts->find(fontName) != m_Fonts->end()){
 		t = new Text(m_Fonts->at(fontName),text,fontSize,color,atts,alpha,x,y);
 		if(deleteAfterTime){
 			MessageHandler::Instance()->createMessage(10,this,this,t,timeTillDelete);
 		}
+		m_Texts->push_back(t);
 	}
 	return t;
 }

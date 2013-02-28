@@ -1,6 +1,8 @@
 #include "Renderer.h"
 #include "Camera.h"
 #include "SpriteManager.h"
+#include "TextManager.h"
+#include "Text.h"
 #include "2dSprite.h"
 #include <vector>
 
@@ -35,6 +37,11 @@ void Renderer::render(sf::RenderWindow* window,Camera* theCamera){
 		if(!sprites[i]->getHidden()){
 			window->draw((*sprites[i]->m_Sprite));
 		}
+	}
+	std::vector<Text*> texts = 
+		(*TextManager::instance()->getTexts());
+	for(int i = 0;i < texts.size();i++){
+		window->draw(*texts[i]->m_String);
 	}
 	window->display();
 }

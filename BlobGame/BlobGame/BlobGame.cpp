@@ -21,6 +21,7 @@
 #include "TileManagement.h"
 #include "LevelEditor.h"
 #include "uiButton.h"
+#include "TextManager.h"
 
 BlobGame* BlobGame::m_Instance = NULL;
 BlobGame::BlobGame() :
@@ -43,6 +44,7 @@ BlobGame::~BlobGame(){
 	InputManager::instance()->removeAllOf(this);
 	SelectionManager::instance()->cleanupInstance();
 	MessageHandler::Instance()->cleanUpInstance();
+	TextManager::instance()->cleanupInstance();
 }
 
 void BlobGame::cleanupInstance(){
@@ -70,6 +72,8 @@ void BlobGame::loadContent(){
 		loadTexture("ScrollSelect.png");
 	SpriteManager::instance()->
 		loadTexture("PosionCloud.png");
+	TextManager::instance()->
+		loadFont("tfa_squaresans.ttf");
 }
 void BlobGame::initialize(){
 	m_Camera = new Camera();
@@ -358,6 +362,8 @@ void BlobGame::beginMainMenu(){
 	UiButton* playB = new UiButton(400,100,64,64,"PathGuy.png","TestEnemy.png","GroundTile.png",
 									FIRE_ON_RELEASED|HIGHLIGHT_ON_HOVER,m_Camera,&testCallBack);
 	m_GameObjects->push_back(playB);
+	Vector3 c(100,20,50);
+	TextManager::instance()->createText("test","tfa_squaresans.ttf",30,c,255,100,100,0,false,0);
 }
 void BlobGame::endMainMenu(){
 	SafeVectorDelete(*m_GameObjects);
