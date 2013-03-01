@@ -142,6 +142,7 @@
     <ClInclude Include="tile.h" />
     <ClInclude Include="TileManagement.h" />
     <ClInclude Include="uiButton.h" />
+    <ClInclude Include="uiListMenu.h" />
     <ClInclude Include="unit.h" />
     <ClInclude Include="UnitFactory.h" />
     <ClInclude Include="Util.h" />

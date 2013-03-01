@@ -103,5 +103,5 @@ protected:
 	LevelEditor* m_Editor;
 };
 
-void testCallBack();
+void testCallBack(void* thing);
 #endif

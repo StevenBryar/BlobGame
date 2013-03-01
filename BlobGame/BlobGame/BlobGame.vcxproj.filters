@@ -252,5 +252,8 @@
     <ClInclude Include="Text.h">
       <Filter>Base\Render</Filter>
     </ClInclude>
+    <ClInclude Include="uiListMenu.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

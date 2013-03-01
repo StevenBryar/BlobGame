@@ -534,7 +534,7 @@ void BlobGame::handleMessage(const Message& msg){
 	}
 }
 
-void testCallBack(){
+void testCallBack(void* thing){
 	MessageHandler::Instance()->
 		createMessage(CHANGE_TO_GAME,BlobGame::instance(),
 						BlobGame::instance(),NULL,0);

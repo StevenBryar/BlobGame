@@ -7,13 +7,14 @@
 #include "spriteManager.h"
 
 UiButton::UiButton(const int& offsetX,const int& offsetY,const int& width,const int& height,const std::string& defaultSprite,
-					const unsigned int& buttonAtt,Camera* camera,void(*call)()) :
+					const unsigned int& buttonAtt,Camera* camera,void(*call)(void* extra),void* cbParam) :
 m_DefaultSprite(defaultSprite),
 m_ButtonAtt(buttonAtt),
 m_Camera(camera),
 callBack(call),
 m_OffsetX(offsetX),
-m_OffsetY(offsetY){
+m_OffsetY(offsetY),
+m_CallBackParam(cbParam){
 	setWidth(width);
 	setHeight(height);
 	m_Hover = false;
@@ -23,14 +24,15 @@ m_OffsetY(offsetY){
 	m_Sprite = SpriteManager::instance()->createSprite(this,m_DefaultSprite,0);
 }
 UiButton::UiButton(const int& offsetX,const int& offsetY,const int& width,const int& height,const std::string& defaultSprite,
-					const std::string& downSprite,const unsigned int& buttonAtt,Camera* camera,void(*call)()) :
+					const std::string& downSprite,const unsigned int& buttonAtt,Camera* camera,void(*call)(void* extra),void* cbParam) :
 m_DefaultSprite(defaultSprite),
 m_DownSprite(downSprite),
 m_ButtonAtt(buttonAtt),
 m_Camera(camera),
 callBack(call),
 m_OffsetX(offsetX),
-m_OffsetY(offsetY){
+m_OffsetY(offsetY),
+m_CallBackParam(cbParam){
 	setWidth(width);
 	setHeight(height);
 	m_Hover = false;
@@ -40,7 +42,7 @@ m_OffsetY(offsetY){
 	m_Sprite = SpriteManager::instance()->createSprite(this,m_DefaultSprite,0);
 }
 UiButton::UiButton(const int& offsetX,const int& offsetY,const int& width,const int& height,const std::string& defaultSprite,const std::string& downSprite,
-					const std::string& highlightSprite,const unsigned int& buttonAtt,Camera* camera,void(*call)()) :
+					const std::string& highlightSprite,const unsigned int& buttonAtt,Camera* camera,void(*call)(void* extra),void* cbParam) :
 m_DefaultSprite(defaultSprite),
 m_DownSprite(downSprite),
 m_HighlightSprite(highlightSprite),
@@ -48,7 +50,8 @@ m_ButtonAtt(buttonAtt),
 m_Camera(camera),
 callBack(call),
 m_OffsetX(offsetX),
-m_OffsetY(offsetY){
+m_OffsetY(offsetY),
+m_CallBackParam(cbParam){
 	setWidth(width);
 	setHeight(height);
 	m_Hover = false;
@@ -73,9 +76,12 @@ void UiButton::addAttribute(const ButtonAtt& att){
 		m_ButtonAtt |= att;
 	}
 }
+void UiButton::setCallBackParam(void* param){m_CallBackParam = param;}
 void UiButton::setAttributes(const unsigned int& atts){m_ButtonAtt = atts;}
 void UiButton::setCamera(Camera* camera){m_Camera  = camera;}
 Camera* UiButton::getCamera() const{return m_Camera;}
+void* UiButton::getCallBackParam() const{return m_CallBackParam;}
+unsigned int UiButton::getAttributes() const{return m_ButtonAtt;}
 
 void UiButton::mouseInputCalback(const inputEvent& event,const int& x,const int& y){
 	switch(event){
@@ -103,7 +109,7 @@ void UiButton::mouseInputCalback(const inputEvent& event,const int& x,const int&
 		   SpriteManager::instance()->deleteSprite(m_Sprite);
 		   m_Sprite = SpriteManager::instance()->createSprite(this,m_DownSprite,0);
 		   if(ContainsFlags(m_ButtonAtt,FIRE_ON_PRESSED) && callBack){
-			   callBack();
+			   callBack(m_CallBackParam);
 		   }
 		}
 		break;
@@ -112,7 +118,7 @@ void UiButton::mouseInputCalback(const inputEvent& event,const int& x,const int&
 		  (x > m_OffsetX && x < (m_OffsetX+m_Width) &&
 		   y > m_OffsetY && y < (m_OffsetY+m_Height)) &&
 		   callBack){
-		  	callBack();
+		  	callBack(m_CallBackParam);
 		}
 		if(!m_DefaultSprite.empty()){
 		   SpriteManager::instance()->deleteSprite(m_Sprite);
