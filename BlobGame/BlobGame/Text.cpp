@@ -13,6 +13,7 @@ Text::Text(sf::Font* font,const std::string& text,const int& size,const Vector3&
 	sf::Color tColor(color.X,color.Y,color.Z,alpha);
 	m_String->setColor(tColor);
 	m_TextAtt = atts;
+	m_Visible = true;
 }
 Text::~Text(){
 	SafePtrRelease(m_String);
@@ -43,25 +44,26 @@ void Text::update(){
 		setPosition(getPosX()+0.5,getPosY());
 	}
 }
-void Text::setText(const std::string s){
+void Text::setVisible(const bool& v){m_Visible = v;}
+void Text::setText(const std::string& s){
 	m_String->setString(s);
 }
-void Text::setPosition(const float x,const float y){
+void Text::setPosition(const float& x,const float& y){
 	m_String->setPosition(x,y);
 }
-void Text::setSize(const int size){
+void Text::setSize(const int& size){
 	m_String->setCharacterSize(size);
 }
-void Text::setColor(const Vector3 rgb,const int alpha){
+void Text::setColor(const Vector3& rgb,const int& alpha){
 	sf::Color tColor(rgb.X,rgb.Y,rgb.Z,alpha);
 	m_String->setColor(tColor);
 }
-void Text::addAttribute(const textAttribute att){
+void Text::addAttribute(const textAttribute& att){
 	if(!ContainsFlags(m_TextAtt,att)){
 		m_TextAtt |= att;
 	}
 }
-void Text::setAttributes(const textAttribute att){
+void Text::setAttributes(const textAttribute& att){
 	m_TextAtt = att;
 }
 std::string Text::getText() const{return m_String->getString();}
@@ -76,3 +78,4 @@ Vector3 Text::getColor() const{
 }	
 int Text::getAlpha() const{return m_String->getColor().a;}
 unsigned int Text::getAttributes() const{return m_TextAtt;}
+bool Text::getVisible() const{return m_Visible;}

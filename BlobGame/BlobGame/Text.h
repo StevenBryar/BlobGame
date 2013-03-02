@@ -23,12 +23,13 @@ public:
 		const unsigned int& atts,const int& alpha = 255,const float& x = 0,const float& y = 0);
 	~Text();
 
-	void setText(const std::string s);
-	void setPosition(const float x,const float y);
-	void setSize(const int size);
-	void setColor(const Vector3 rgb,const int alpha);
-	void addAttribute(const textAttribute att);
-	void setAttributes(const textAttribute att);
+	void setText(const std::string& s);
+	void setPosition(const float& x,const float& y);
+	void setSize(const int& size);
+	void setColor(const Vector3& rgb,const int& alpha);
+	void addAttribute(const textAttribute& att);
+	void setAttributes(const textAttribute& att);
+	void setVisible(const bool& v);
 
 	std::string getText() const;
 	float getPosX() const;
@@ -37,10 +38,12 @@ public:
 	Vector3 getColor() const;
 	int getAlpha() const;
 	unsigned int getAttributes() const;
+	bool getVisible() const;
 
 	void update();
 
 protected:
+	bool m_Visible;
 	unsigned int m_TextAtt;
 	sf::Text* m_String;
 };

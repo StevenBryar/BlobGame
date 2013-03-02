@@ -41,7 +41,9 @@ void Renderer::render(sf::RenderWindow* window,Camera* theCamera){
 	std::vector<Text*> texts = 
 		(*TextManager::instance()->getTexts());
 	for(int i = 0;i < texts.size();i++){
-		window->draw(*texts[i]->m_String);
+		if(texts[i]->getVisible()){
+			window->draw(*texts[i]->m_String);
+		}
 	}
 	window->display();
 }

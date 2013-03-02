@@ -105,6 +105,7 @@
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="TileManagement.cpp" />
     <ClCompile Include="uiButton.cpp" />
+    <ClCompile Include="uiListMenu.cpp" />
     <ClCompile Include="unit.cpp" />
     <ClCompile Include="UnitFactory.cpp" />
     <ClCompile Include="Util.cpp" />

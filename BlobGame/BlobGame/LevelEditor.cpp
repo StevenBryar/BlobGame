@@ -20,7 +20,6 @@ m_Level(level),m_Camera(camera){
 }
 LevelEditor::~LevelEditor(){
 	SafePtrRelease(m_Level);
-	InputManager::instance()->removeAllOf(this);
 }
 
 bool LevelEditor::loadLevelToEditor(const std::string& path){

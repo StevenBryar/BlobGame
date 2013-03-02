@@ -145,6 +145,9 @@
     <ClCompile Include="Text.cpp">
       <Filter>Base\Render</Filter>
     </ClCompile>
+    <ClCompile Include="uiListMenu.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2dSprite.h">

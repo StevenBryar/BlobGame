@@ -62,7 +62,7 @@ m_CallBackParam(cbParam){
 }
 
 UiButton::~UiButton(){
-	InputManager::instance()->removeAllOf(this);
+	
 }
 
 void UiButton::update(){

@@ -41,7 +41,6 @@ BlobGame::~BlobGame(){
 	SafePtrRelease(m_Camera);
 	SafePtrRelease(m_Editor);
 	SafePtrRelease(m_GameObjectsToDelete);
-	InputManager::instance()->removeAllOf(this);
 	SelectionManager::instance()->cleanupInstance();
 	MessageHandler::Instance()->cleanUpInstance();
 	TextManager::instance()->cleanupInstance();
