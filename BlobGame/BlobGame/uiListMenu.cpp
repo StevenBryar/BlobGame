@@ -4,7 +4,6 @@
 #include "inputManager.h"
 #include "constants.h"
 #include "common.h"
-#include "Vector3.h"
 #include "camera.h"
 #include "TextManager.h"
 
@@ -28,6 +27,8 @@ UiElement(screenPosX,screenPosY,camera){
 	}
 	m_StartOfVisibles = 1;
 	m_Selected = 1;
+	m_DefaultColor = Vector3(200,50,80);
+	m_SelectedColor = Vector3(100,130,40);
 }
 
 UiListMenu::~UiListMenu(){
@@ -74,6 +75,8 @@ void UiListMenu::scrollDown(){
 	}
 	updateMenu();
 }
+void UiListMenu::setDefaultTextColor(const Vector3& color){m_DefaultColor = color;}
+void UiListMenu::setSelectedTextColor(const Vector3& color){m_SelectedColor = color;}
 void UiListMenu::setOffsetX(const int& x){m_TextOffsetX = x; updateMenu();}
 void UiListMenu::setOffsetY(const int& y){m_TextOffsetY = y; updateMenu();}
 void UiListMenu::setUpButton(UiButton* up){m_Up = up;}
@@ -94,6 +97,8 @@ int UiListMenu::getMaxVisibleEntries() const{return m_MaxEntriesVisible;}
 std::map<int,Text*>* UiListMenu::getEntries() const{return m_Entries;}
 Text* UiListMenu::getSelectedEntry() const{return m_Entries->at(m_Selected);}
 Text* UiListMenu::getEntry(const int& p) const{return m_Entries->at(p);}
+Vector3 UiListMenu::getDefaultTextColor() const{return m_DefaultColor;}
+Vector3 UiListMenu::getSelectedTextColor() const{return m_SelectedColor;}
 
 void UiListMenu::update(){
 	if(m_Camera){
@@ -120,8 +125,7 @@ void UiListMenu::updateMenu(){
 	std::map<int,Text*>::iterator iterator;
 	for(iterator = m_Entries->begin();iterator != m_Entries->end();iterator++){
 		iterator->second->setVisible(false);
-		Vector3 c(200,30,40);
-		iterator->second->setColor(c,iterator->second->getAlpha());
+		iterator->second->setColor(m_DefaultColor,iterator->second->getAlpha());
 	}
 	Text* text = NULL;
 	for(int i = m_StartOfVisibles;
@@ -133,8 +137,7 @@ void UiListMenu::updateMenu(){
 			getScreenPosX()+m_TextOffsetX,
 			getScreenPosY()+(m_EntryHeight*(i-m_StartOfVisibles)+m_TextOffsetY));
 		if(text == getSelectedEntry()){
-			Vector3 c(80,200,40);
-			text->setColor(c,text->getAlpha());
+			text->setColor(m_SelectedColor,text->getAlpha());
 		}
 	}
 }

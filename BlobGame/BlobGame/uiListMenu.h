@@ -3,6 +3,7 @@
 #include "inputListener.h"
 #include "gameObject.h"
 #include "uiElement.h"
+#include "Vector3.h"
 #include <map>
 
 class Text;
@@ -28,6 +29,8 @@ public:
 	void setSelectedEntry(const int& selected);
 	void scrollUp();
 	void scrollDown();
+	void setDefaultTextColor(const Vector3& color);
+	void setSelectedTextColor(const Vector3& color);
 
 	UiButton* getUpButton() const;
 	UiButton* getDownButton() const;
@@ -37,6 +40,8 @@ public:
 	std::map<int,Text*>* getEntries() const;
 	Text* getSelectedEntry() const;
 	Text* getEntry(const int& p) const;
+	Vector3 getDefaultTextColor() const;
+	Vector3 getSelectedTextColor() const;
 
 	void updateMenu();
 	void update();
@@ -49,9 +54,10 @@ protected:
 	int m_Selected;
 	int m_StartOfVisibles;
 	int m_EntryHeight;
+	Vector3 m_DefaultColor;
+	Vector3 m_SelectedColor;
 	std::map<int,Text*>* m_Entries;
 	UiButton* m_Up;
 	UiButton* m_Down;
 };
-
 #endif
