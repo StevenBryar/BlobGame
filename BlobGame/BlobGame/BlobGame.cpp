@@ -363,18 +363,22 @@ void BlobGame::endPause(){}
 void BlobGame::beginMainMenu(){
 	UiButton* playB = new UiButton(400,100,64,64,"PathGuy.png","TestEnemy.png","GroundTile.png",
 									FIRE_ON_RELEASED|HIGHLIGHT_ON_HOVER,m_Camera,&testCallBack,NULL);
-	UiListMenu* menu = new UiListMenu(100,100,m_Camera,playB,NULL);
+	UiButton* playB2 = new UiButton(600,100,64,64,"PathGuy.png","TestEnemy.png","GroundTile.png",
+									FIRE_ON_RELEASED|HIGHLIGHT_ON_HOVER,m_Camera,&testCallBack2,NULL);
+	UiListMenu* menu = new UiListMenu(100,100,m_Camera,playB,playB2);
 	menu->setHeight(200);
 	menu->setWidth(200);
 	m_GameObjects->push_back(menu);
 	
 	Vector3 c(100,20,50);
 	Text* text = TextManager::instance()->createText("test","tfa_squaresans.ttf",30,c,255,100,100,0,false,0);
-	menu->addEntry(1,text);
+	menu->addEntry(text);
 	text = TextManager::instance()->createText("test2","tfa_squaresans.ttf",30,c,255,100,100,0,false,0);
-	menu->addEntry(2,text);
+	menu->addEntry(text);
 	text = TextManager::instance()->createText("test3","tfa_squaresans.ttf",30,c,255,100,100,0,false,0);
-	menu->addEntry(3,text);
+	menu->addEntry(text);
+	text = TextManager::instance()->createText("test4","tfa_squaresans.ttf",30,c,255,100,100,0,false,0);
+	menu->addEntry(text);
 	
 }
 void BlobGame::endMainMenu(){
@@ -547,7 +551,10 @@ void BlobGame::handleMessage(const Message& msg){
 }
 
 void testCallBack(void* thing){
-	MessageHandler::Instance()->
-		createMessage(CHANGE_TO_GAME,BlobGame::instance(),
-						BlobGame::instance(),NULL,0);
+	UiListMenu* menu = (UiListMenu*)thing;
+	menu->scrollDown();
+}
+void testCallBack2(void* thing){
+	UiListMenu* menu = (UiListMenu*)thing;
+	menu->scrollUp();
 }

@@ -38,10 +38,9 @@ UiListMenu::~UiListMenu(){
 	}
 	SafePtrRelease(m_Entries);
 }
-void UiListMenu::addEntry(const int& position,Text* entry){
-	if(m_Entries){
-		m_Entries->insert(std::pair<int,Text*>(position,entry));
-	}
+void UiListMenu::addEntry(Text* entry){
+
+	m_Entries->insert(std::pair<int,Text*>(m_Entries->size()+1,entry));
 	updateMenu();
 }
 bool UiListMenu::deleteEntry(Text* entry){
@@ -62,13 +61,30 @@ void UiListMenu::clearEntries(){
 	}
 	m_Entries->clear();
 }
+
+void UiListMenu::scrollUp(){
+	if(m_StartOfVisibles > 1){
+		m_StartOfVisibles--;
+	}
+	updateMenu();
+}
+void UiListMenu::scrollDown(){
+	if((m_Entries->size()-m_MaxEntriesVisible) >= m_StartOfVisibles){
+		m_StartOfVisibles++;
+	}
+	updateMenu();
+}
 void UiListMenu::setOffsetX(const int& x){m_TextOffsetX = x; updateMenu();}
 void UiListMenu::setOffsetY(const int& y){m_TextOffsetY = y; updateMenu();}
 void UiListMenu::setUpButton(UiButton* up){m_Up = up;}
 void UiListMenu::setDownButton(UiButton* down){m_Down = down;}
 void UiListMenu::setMaxVisibleEntries(const int& max){m_MaxEntriesVisible = max; updateMenu();}
 void UiListMenu::setEntries(std::map<int,Text*>* entry){m_Entries = entry; updateMenu();}
-void UiListMenu::setSelectedEntry(const int& selected){m_Selected = selected;updateMenu();}
+void UiListMenu::setSelectedEntry(const int& selected){
+	if(selected > 0 && selected <= m_Entries->size()){
+		m_Selected = selected;updateMenu();
+	}
+}
 
 UiButton* UiListMenu::getUpButton() const{return m_Up;}
 UiButton* UiListMenu::getDownButton() const{return m_Down;}	
@@ -100,7 +116,6 @@ void UiListMenu::update(){
 			getPositionY()+(m_EntryHeight*(i-m_StartOfVisibles)+m_TextOffsetY));
 	}
 }
-
 void UiListMenu::updateMenu(){
 	std::map<int,Text*>::iterator iterator;
 	for(iterator = m_Entries->begin();iterator != m_Entries->end();iterator++){

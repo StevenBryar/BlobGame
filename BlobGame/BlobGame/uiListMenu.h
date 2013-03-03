@@ -12,10 +12,10 @@ class UiListMenu : public UiElement , public InputListener{
 public:
 	UiListMenu(const int& screenPosX,const int& screenPosY,Camera* camera,
 				UiButton* scrollUp,UiButton* scrollDown,const int& textOffsetX = 0,
-					const int& textOffsetY = 0,const int& maxVisibleEntries = 4,int entryHeight = 30);
+					const int& textOffsetY = 0,const int& maxVisibleEntries = 3,int entryHeight = 30);
 	virtual ~UiListMenu();
 
-	void addEntry(const int& position,Text* entry);
+	void addEntry(Text* entry);
 	bool deleteEntry(Text* entry);
 	void clearEntries();
 
@@ -26,6 +26,8 @@ public:
 	void setMaxVisibleEntries(const int& max);
 	void setEntries(std::map<int,Text*>* entry);
 	void setSelectedEntry(const int& selected);
+	void scrollUp();
+	void scrollDown();
 
 	UiButton* getUpButton() const;
 	UiButton* getDownButton() const;

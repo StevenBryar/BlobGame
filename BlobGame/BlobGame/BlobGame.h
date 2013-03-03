@@ -104,4 +104,5 @@ protected:
 };
 
 void testCallBack(void* thing);
+void testCallBack2(void* thing);
 #endif
