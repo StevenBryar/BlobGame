@@ -148,6 +148,9 @@
     <ClCompile Include="uiListMenu.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="uiElement.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2dSprite.h">
@@ -256,6 +259,9 @@
       <Filter>Base\Render</Filter>
     </ClInclude>
     <ClInclude Include="uiListMenu.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="uiElement.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

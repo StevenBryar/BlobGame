@@ -10,11 +10,9 @@ UiButton::UiButton(const int& offsetX,const int& offsetY,const int& width,const 
 					const unsigned int& buttonAtt,Camera* camera,void(*call)(void* extra),void* cbParam) :
 m_DefaultSprite(defaultSprite),
 m_ButtonAtt(buttonAtt),
-m_Camera(camera),
 callBack(call),
-m_OffsetX(offsetX),
-m_OffsetY(offsetY),
-m_CallBackParam(cbParam){
+m_CallBackParam(cbParam),
+UiElement(offsetX,offsetY,camera){
 	setWidth(width);
 	setHeight(height);
 	m_Hover = false;
@@ -28,11 +26,9 @@ UiButton::UiButton(const int& offsetX,const int& offsetY,const int& width,const 
 m_DefaultSprite(defaultSprite),
 m_DownSprite(downSprite),
 m_ButtonAtt(buttonAtt),
-m_Camera(camera),
 callBack(call),
-m_OffsetX(offsetX),
-m_OffsetY(offsetY),
-m_CallBackParam(cbParam){
+m_CallBackParam(cbParam),
+UiElement(offsetX,offsetY,camera){
 	setWidth(width);
 	setHeight(height);
 	m_Hover = false;
@@ -47,11 +43,9 @@ m_DefaultSprite(defaultSprite),
 m_DownSprite(downSprite),
 m_HighlightSprite(highlightSprite),
 m_ButtonAtt(buttonAtt),
-m_Camera(camera),
 callBack(call),
-m_OffsetX(offsetX),
-m_OffsetY(offsetY),
-m_CallBackParam(cbParam){
+m_CallBackParam(cbParam),
+UiElement(offsetX,offsetY,camera){
 	setWidth(width);
 	setHeight(height);
 	m_Hover = false;
@@ -64,13 +58,6 @@ m_CallBackParam(cbParam){
 UiButton::~UiButton(){
 	
 }
-
-void UiButton::update(){
-	if(m_Camera){
-		setPositionX(m_Camera->getWorldPosX()+m_OffsetX);
-		setPositionY(m_Camera->getWorldPosY()+m_OffsetY);
-	}
-}
 void UiButton::addAttribute(const ButtonAtt& att){
 	if(!ContainsFlags(m_ButtonAtt,att)){
 		m_ButtonAtt |= att;
@@ -78,8 +65,6 @@ void UiButton::addAttribute(const ButtonAtt& att){
 }
 void UiButton::setCallBackParam(void* param){m_CallBackParam = param;}
 void UiButton::setAttributes(const unsigned int& atts){m_ButtonAtt = atts;}
-void UiButton::setCamera(Camera* camera){m_Camera  = camera;}
-Camera* UiButton::getCamera() const{return m_Camera;}
 void* UiButton::getCallBackParam() const{return m_CallBackParam;}
 unsigned int UiButton::getAttributes() const{return m_ButtonAtt;}
 
@@ -88,15 +73,15 @@ void UiButton::mouseInputCalback(const inputEvent& event,const int& x,const int&
 	case MOUSE_MOVED:
 		if(!m_Hover && ContainsFlags(m_ButtonAtt,HIGHLIGHT_ON_HOVER)  &&
 						!m_HighlightSprite.empty() &&
-						(x > m_OffsetX && x < (m_OffsetX+m_Width) &&
-						y > m_OffsetY && y < (m_OffsetY+m_Height))){
+						(x > m_ScreenPosX && x < (m_ScreenPosX+m_Width) &&
+						y > m_ScreenPosY && y < (m_ScreenPosY+m_Height))){
 			m_Hover = true;
 			SpriteManager::instance()->deleteSprite(m_Sprite);
 			m_Sprite = SpriteManager::instance()->createSprite(this,m_HighlightSprite,0);
 		}
 		else if(m_Hover && 
-			x < m_OffsetX || x > (m_OffsetX+m_Width) ||
-			y < m_OffsetY || y > (m_OffsetY+m_Height)){
+			x < m_ScreenPosX || x > (m_ScreenPosX+m_Width) ||
+			y < m_ScreenPosY || y > (m_ScreenPosY+m_Height)){
 			m_Hover = false;
 			SpriteManager::instance()->deleteSprite(m_Sprite);
 			m_Sprite = SpriteManager::instance()->createSprite(this,m_DefaultSprite,0);
@@ -104,8 +89,8 @@ void UiButton::mouseInputCalback(const inputEvent& event,const int& x,const int&
 		break;
 	case MOUSE_LB_PRESSED:
 		if(!m_DownSprite.empty() &&
-		  (x > m_OffsetX && x < (m_OffsetX+m_Width) &&
-		   y > m_OffsetY && y < (m_OffsetY+m_Height))){
+		  (x > m_ScreenPosX && x < (m_ScreenPosX+m_Width) &&
+		   y > m_ScreenPosY && y < (m_ScreenPosY+m_Height))){
 		   SpriteManager::instance()->deleteSprite(m_Sprite);
 		   m_Sprite = SpriteManager::instance()->createSprite(this,m_DownSprite,0);
 		   if(ContainsFlags(m_ButtonAtt,FIRE_ON_PRESSED) && callBack){
@@ -115,8 +100,8 @@ void UiButton::mouseInputCalback(const inputEvent& event,const int& x,const int&
 		break;
 	case MOUSE_LB_RELEASED:
 		if(ContainsFlags(m_ButtonAtt,FIRE_ON_RELEASED) &&
-		  (x > m_OffsetX && x < (m_OffsetX+m_Width) &&
-		   y > m_OffsetY && y < (m_OffsetY+m_Height)) &&
+		  (x > m_ScreenPosX && x < (m_ScreenPosX+m_Width) &&
+		   y > m_ScreenPosY && y < (m_ScreenPosY+m_Height)) &&
 		   callBack){
 		  	callBack(m_CallBackParam);
 		}

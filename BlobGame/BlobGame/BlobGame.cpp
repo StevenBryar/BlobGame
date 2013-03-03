@@ -22,6 +22,8 @@
 #include "LevelEditor.h"
 #include "uiButton.h"
 #include "TextManager.h"
+#include "Text.h"
+#include "uiListMenu.h"
 
 BlobGame* BlobGame::m_Instance = NULL;
 BlobGame::BlobGame() :
@@ -93,6 +95,7 @@ Level* BlobGame::getLevel() const{return m_Level;}
 std::vector<GameObject*> BlobGame::getObjects() const{return *m_GameObjects;}
 
 void BlobGame::reset(){
+	InputManager::instance()->cleanUpInstance();
 	initialize();
 	changeState(MainMenu);
 }
@@ -359,10 +362,20 @@ void BlobGame::endPause(){}
 
 void BlobGame::beginMainMenu(){
 	UiButton* playB = new UiButton(400,100,64,64,"PathGuy.png","TestEnemy.png","GroundTile.png",
-									FIRE_ON_RELEASED|HIGHLIGHT_ON_HOVER,m_Camera,&testCallBack);
-	m_GameObjects->push_back(playB);
+									FIRE_ON_RELEASED|HIGHLIGHT_ON_HOVER,m_Camera,&testCallBack,NULL);
+	UiListMenu* menu = new UiListMenu(100,100,m_Camera,playB,NULL);
+	menu->setHeight(200);
+	menu->setWidth(200);
+	m_GameObjects->push_back(menu);
+	
 	Vector3 c(100,20,50);
-	TextManager::instance()->createText("test","tfa_squaresans.ttf",30,c,255,100,100,0,false,0);
+	Text* text = TextManager::instance()->createText("test","tfa_squaresans.ttf",30,c,255,100,100,0,false,0);
+	menu->addEntry(1,text);
+	text = TextManager::instance()->createText("test2","tfa_squaresans.ttf",30,c,255,100,100,0,false,0);
+	menu->addEntry(2,text);
+	text = TextManager::instance()->createText("test3","tfa_squaresans.ttf",30,c,255,100,100,0,false,0);
+	menu->addEntry(3,text);
+	
 }
 void BlobGame::endMainMenu(){
 	SafeVectorDelete(*m_GameObjects);

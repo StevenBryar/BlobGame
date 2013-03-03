@@ -1,7 +1,7 @@
 #ifndef UIBUTTON_H
 #define UIBUTTON_H
 #include "inputListener.h"
-#include "gameObject.h"
+#include "uiElement.h"
 #include <string>
 
 enum ButtonAtt{
@@ -12,7 +12,7 @@ enum ButtonAtt{
 
 class Sprite2d;
 class Camera;
-class UiButton : public GameObject,public InputListener{
+class UiButton : public UiElement,public InputListener{
 public:
 	UiButton(const int& offsetX,const int& offsetY,const int& width,const int& height,const std::string& defaultSprite,
 				const unsigned int& buttonAtt,Camera* camera,void(*func)(void* extra),void* cbParam);
@@ -24,14 +24,10 @@ public:
 
 	void(*callBack)(void* extra);
 
-	void update();
-
 	void addAttribute(const ButtonAtt& att);
 	void setAttributes(const unsigned int& atts);
-	void setCamera(Camera* camera);
 	void setCallBackParam(void* param);
 
-	Camera* getCamera() const;
 	unsigned int getAttributes() const;
 	void* getCallBackParam() const;
 
@@ -41,10 +37,7 @@ protected:
 	std::string m_DownSprite;
 	std::string m_HighlightSprite;
 	unsigned int m_ButtonAtt;
-	Camera* m_Camera;
 	bool m_Hover;
-	int m_OffsetX;
-	int m_OffsetY;
 	void* m_CallBackParam;
 };
 #endif
