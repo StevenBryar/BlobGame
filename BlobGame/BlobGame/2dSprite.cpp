@@ -27,8 +27,8 @@ void Sprite2d::update(){
 		setPosition(m_Owner->getPositionX() + m_Owner->getOriginX(),
 					m_Owner->getPositionY() + m_Owner->getOriginY());
 		setRotation(m_Owner->getRotation());
-		setScale(m_Owner->getWidth()/m_Sprite->getGlobalBounds().width,
-			m_Owner->getHeight()/m_Sprite->getGlobalBounds().height);
+		setScale(m_Owner->getWidth()/m_Sprite->getLocalBounds().width,
+			m_Owner->getHeight()/m_Sprite->getLocalBounds().height);
 	}
 }
 void Sprite2d::move(const float& x,const float& y){

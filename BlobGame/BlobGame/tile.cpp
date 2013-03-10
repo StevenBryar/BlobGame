@@ -7,6 +7,7 @@
 
 int Tile::m_TileCount = 0;
 Tile::Tile(const unsigned int& tileTypes) :
+GameObject(),
  m_TileTypes(tileTypes){
 	 if(ContainsFlags(tileTypes,Ground)){
 		setSprite(SpriteManager::instance()->

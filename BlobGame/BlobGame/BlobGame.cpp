@@ -329,7 +329,8 @@ void BlobGame::updateVision(){
 	std::vector<Tile*> tiles = *m_Level->getTiles();
 	for(i = 0;i < m_Level->getNumberOfHorizontalTiles()*
 				  m_Level->getNumberOfVerticalTiles();i++){
-		if(tiles[i]->getSprite()->getColor() != colorVec2){
+		if(!ContainsFlags(tiles[i]->getTileTypes(),Hole) && 
+						  tiles[i]->getSprite()->getColor() != colorVec2){
 		   tiles[i]->getSprite()->setColor(colorVec2);
 		}
 	}
@@ -344,7 +345,8 @@ void BlobGame::updateVision(){
 			for(int j = 0;j < tiles3.size();j++){
 				if(tiles2.size() == 0){
 					tiles2.push_back(tiles3[j]);
-					if(tiles3[j]->getSprite()->getColor() != colorVec){
+					if(!ContainsFlags(tiles3[j]->getTileTypes(),Hole) &&
+						tiles3[j]->getSprite()->getColor() != colorVec){
 						tiles3[j]->getSprite()->setColor(150,150,150,255);
 					}
 					continue;
@@ -355,7 +357,8 @@ void BlobGame::updateVision(){
 					}
 					else if(k == tiles2.size()-1){
 						tiles2.push_back(tiles3[j]);
-						if(tiles3[j]->getSprite()->getColor() != colorVec){
+						if(!ContainsFlags(tiles3[j]->getTileTypes(),Hole) &&
+							tiles3[j]->getSprite()->getColor() != colorVec){
 							tiles3[j]->getSprite()->setColor(150,150,150,255);
 						}
 					}
@@ -402,14 +405,11 @@ void BlobGame::endEditor(){
 
 void BlobGame::beginGame(){
 	m_Camera->moveTo(0,0);
-	m_Level = new Level(NUMBER_OF_HORIZONTAL_TILES,NUMBER_OF_VERTICAL_TILES,
-					TILE_SIZE,TEST_LEVEL_WALL_TILES,m_GameObjects,&createUnit);
-	//m_Level = loadLevel("test.blvl");
+	m_Level = loadLevel("test.blvl",false,m_GameObjects,&createUnit);
 	//saveLevel("test.blvl",m_Level);
 	
 	for(int i = 0;i < m_GameObjects->size();i++){
-		if((*m_GameObjects)[i]->getType() != "GameObject" ||
-			(*m_GameObjects)[i]->getType() != "Tile"){
+		if((*m_GameObjects)[i]->getType() != "GameObject"){
 				Unit* unit = (Unit*)(*m_GameObjects)[i];
 				unit->setLevel(m_Level);
 		}

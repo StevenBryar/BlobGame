@@ -46,7 +46,7 @@ Level::Level(const unsigned int& horizontalTiles, const unsigned int& verticalTi
 	//cycle through tileTypes array.
 	//look for gameObject indicators
 	//create gameObjects needed.
-	if(objects || factory){
+	if(objects && factory){
 		for(int i = 0;i < getNumberOfVerticalTiles()*
 							getNumberOfHorizontalTiles();i++){
 			GameObject* gameObject;

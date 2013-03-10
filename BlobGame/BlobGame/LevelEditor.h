@@ -10,6 +10,7 @@ class Tile;
 class Camera;
 class UiListMenu;
 class Sprite2d;
+class GameObject;
 
 class LevelEditor : public InputListener {
 public:
@@ -34,6 +35,8 @@ protected:
 };
 
 bool   loadPreview(std::string* name,unsigned int* width,unsigned int* height);
-Level* loadLevel(const std::string& path,bool fullSize);
+Level* loadLevel(const std::string& path,bool editMode,
+				std::vector<GameObject*>* objects,
+				GameObject*(factory)(const unsigned int& flags,Tile* tile));
 void   saveLevel(const std::string& path,Level* level);
 #endif

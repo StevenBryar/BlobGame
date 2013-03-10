@@ -14,6 +14,7 @@
 #include "Util.h"
 #include "2dSprite.h"
 #include "spriteManager.h"
+#include "gameObject.h"
 #include "Util.h"
 #include <fstream>
 #include <iostream>
@@ -54,7 +55,7 @@ LevelEditor::~LevelEditor(){
 }
 
 bool LevelEditor::loadLevelToEditor(const std::string& path){
-	m_Level = loadLevel(path,true);
+	m_Level = loadLevel(path,true,NULL,NULL);
 	if(m_Level){
 		std::vector<Tile*>* tiles = m_Level->getTiles();
 		for(int i = 0;i < tiles->size();i++){
@@ -244,7 +245,9 @@ bool loadPreview(std::string* name,unsigned int* width,unsigned int* height){
 	file.close();
 	return true;
 }
-Level* loadLevel(const std::string& path,bool fullSize){
+Level* loadLevel(const std::string& path,bool editMode,std::vector<GameObject*>* objects,
+				GameObject*(factory)(const unsigned int& flags,Tile* tile)){
+
 	int tileTypes[MAX_HORIZONTAL_TILES*MAX_VERTICAL_TILES];
 	std::fstream file(path,std::ios::in | std::ios::binary);
 	if(!file){
@@ -269,23 +272,25 @@ Level* loadLevel(const std::string& path,bool fullSize){
 	std::string name(buffer,nameLength);
 	delete[] buffer;
 	Level* level = NULL;
-	if(fullSize){
+	if(editMode){
 		Tile* newTile = NULL;
 		Tile* oldTile = NULL;
-		for(int i = 0;(i < levelWidth*levelHeight || fullSize) && 
+		for(int i = 0;(i < levelWidth*levelHeight || editMode) && 
 			           i < (MAX_HORIZONTAL_TILES*MAX_VERTICAL_TILES);i++){
 			tileTypes[i] = Empty;
 		}
-		level = new Level(MAX_HORIZONTAL_TILES,MAX_VERTICAL_TILES,TILE_SIZE,tileTypes,NULL,NULL);
+		level = new Level(MAX_HORIZONTAL_TILES,MAX_VERTICAL_TILES,TILE_SIZE,tileTypes,objects,factory);
 		unsigned int tileType = 0;
 		for(int i = 0;i < levelHeight;i++){
 			for(int j = 0;j < levelWidth;j++){
 				file.read((char*)&tileType,sizeof(unsigned int));
-				oldTile = level->getTileForCoordinates(j,i);
-				newTile = new Tile(tileType);
-				newTile->setPosition(oldTile->getPositionX(),oldTile->getPositionY());
-				level->changeTile(newTile);
-				oldTile = NULL;
+				if(!ContainsFlags(tileType,Hole)){
+					oldTile = level->getTileForCoordinates(j,i);
+					newTile = new Tile(tileType);
+					newTile->setPosition(oldTile->getPositionX(),oldTile->getPositionY());
+					level->changeTile(newTile);
+					oldTile = NULL;
+				}
 			}
 		}
 	}
@@ -294,7 +299,7 @@ Level* loadLevel(const std::string& path,bool fullSize){
 					 i < (MAX_HORIZONTAL_TILES*MAX_VERTICAL_TILES);i++){
 			file.read((char*)&tileTypes[i],sizeof(unsigned int));
 		}
-		level = new Level(levelWidth,levelHeight,TILE_SIZE,tileTypes,NULL,NULL);
+		level = new Level(levelWidth,levelHeight,TILE_SIZE,tileTypes,objects,factory);
 	}
 	file.close();
 	return level;
