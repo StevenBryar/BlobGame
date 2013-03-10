@@ -39,6 +39,7 @@ int main(){
 				InputManager::instance()->cleanUpInstance();
 				BlobGame::instance()->cleanupInstance();
 				Renderer::instance()->cleanupInstance();
+				Util::instance()->cleanUpInstance();
 				window->close();
 				return 0;
 			case sf::Event::LostFocus:
@@ -73,6 +74,11 @@ int main(){
 							(MOUSE_LB_PRESSED,sf::Mouse::getPosition(*window).x,
 							sf::Mouse::getPosition(*window).y);
 					}
+					else if(event.mouseButton.button == sf::Mouse::Right){
+						InputManager::instance()->handleMouseInput
+							(MOUSE_RB_PRESSED,sf::Mouse::getPosition(*window).x,
+							sf::Mouse::getPosition(*window).y);
+					}
 				}
 				break;
 			case sf::Event::KeyReleased:
@@ -85,6 +91,7 @@ int main(){
 						InputManager::instance()->cleanUpInstance();
 						BlobGame::instance()->cleanupInstance();
 						Renderer::instance()->cleanupInstance();
+						Util::instance()->cleanUpInstance();
 						window->close();
 						return 0;
 					}

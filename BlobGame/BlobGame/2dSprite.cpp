@@ -64,3 +64,4 @@ float Sprite2d::getHeight() const{return (m_Sprite->getLocalBounds().height*getS
 Vector3 Sprite2d::getColor() const{return Vector3(m_Sprite->getColor().r,m_Sprite->getColor().g,m_Sprite->getColor().b);}
 int Sprite2d::getColorApha() const{return m_Sprite->getColor().a;}
 std::string Sprite2d::getName() const{return m_Name;}
+GameObject* Sprite2d::getOwner() const{return m_Owner;}

@@ -24,6 +24,7 @@
 #include "TextManager.h"
 #include "Text.h"
 #include "uiListMenu.h"
+#include <direct.h>
 
 BlobGame* BlobGame::m_Instance = NULL;
 BlobGame::BlobGame() :
@@ -70,9 +71,23 @@ void BlobGame::loadContent(){
 	SpriteManager::instance()->
 		loadTexture("WallTile.png");
 	SpriteManager::instance()->
+		loadTexture("EmptyTile.png");
+	SpriteManager::instance()->
 		loadTexture("ScrollSelect.png");
 	SpriteManager::instance()->
 		loadTexture("PosionCloud.png");
+	SpriteManager::instance()->
+		loadTexture("PlayDefault.png");
+	SpriteManager::instance()->
+		loadTexture("PlayS.png");
+	SpriteManager::instance()->
+		loadTexture("PlayH.png");
+	SpriteManager::instance()->
+		loadTexture("EditorD.png");
+	SpriteManager::instance()->
+		loadTexture("EditorH.png");
+	SpriteManager::instance()->
+		loadTexture("EditorS.png");
 	TextManager::instance()->
 		loadFont("tfa_squaresans.ttf");
 }
@@ -361,7 +376,12 @@ void BlobGame::beginPause(){}
 void BlobGame::endPause(){}
 
 void BlobGame::beginMainMenu(){
-	
+	UiButton* menuButton = new UiButton(300,50,128,128,"PlayDefault.png","PlayS.png","PlayH.png",
+					FIRE_ON_RELEASED|HIGHLIGHT_ON_HOVER,m_Camera,&changeGameState,(void*)GamePlay);
+	m_GameObjects->push_back(menuButton);
+	menuButton = new UiButton(300,178,128,128,"EditorD.png","EditorS.png","EditorH.png",
+					FIRE_ON_RELEASED|HIGHLIGHT_ON_HOVER,m_Camera,&changeGameState,(void*)Editor);
+	m_GameObjects->push_back(menuButton);
 }
 void BlobGame::endMainMenu(){
 	SafeVectorDelete(*m_GameObjects);
@@ -412,7 +432,7 @@ void BlobGame::endGame(){
 }
 void BlobGame::mouseInputCalback(const inputEvent& event,const int& x,const int& y){
 	double delta = Util::instance()->getDelta();
-	if(getState() == GamePlay || getState() == Editor|| getState() == MainMenu){
+	if(getState() == GamePlay || getState() == Editor){
 		if(event == MOUSE_MOVED){
 			if(x < 2){
 				m_Camera->move(-CAMERA_SPEED*delta,0);
@@ -524,14 +544,20 @@ void BlobGame::handleMessage(const Message& msg){
 		}
 		break;
 	}
-	case CHANGE_TO_GAME:
-		changeState(GamePlay);
+	case CHANGE_STATE:{
+		int s  = (int)msg.extraInfo;
+		changeState((BlobGameStates)s);
 		break;
+	}
 	default:
 		break;
 	}
 }
 
+void changeGameState(void* state){
+	MessageHandler::Instance()->createMessage(CHANGE_STATE,
+		BlobGame::instance(),BlobGame::instance(),state,0);
+}
 void testCallBack(void* thing){
 	UiListMenu* menu = (UiListMenu*)thing;
 	menu->scrollDown();

@@ -38,6 +38,7 @@ public:
 	float getHeight() const;
 	std::string getName() const;
 	bool getHidden() const;
+	GameObject* getOwner() const;
 
 	void move(const float& x,const float& y);
 protected:

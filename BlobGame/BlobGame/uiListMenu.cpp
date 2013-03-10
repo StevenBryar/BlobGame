@@ -8,14 +8,14 @@
 #include "TextManager.h"
 
 UiListMenu::UiListMenu(const int& screenPosX,const int& screenPosY,Camera* camera,
-						UiButton* scrollUp,UiButton* scrollDown,const int& textOffsetX,
-							const int& textOffsetY,const int& maxVisibleEntries,int entryHeight) :
+						UiButton* scrollUp,UiButton* scrollDown,std::string font,
+						const int& textOffsetX,const int& maxVisibleEntries,int entryHeight) :
 m_Up(scrollUp),
 m_Down(scrollDown),
 m_TextOffsetX(textOffsetX),
-m_TextOffsetY(textOffsetY),
 m_MaxEntriesVisible(maxVisibleEntries),
 m_EntryHeight(entryHeight),
+m_Font(font),
 UiElement(screenPosX,screenPosY,camera){
 	m_Entries = new std::map<int,Text*>();
 	InputManager::instance()->registerMouseInput(this,MOUSE_LB_RELEASED);
@@ -39,16 +39,16 @@ UiListMenu::~UiListMenu(){
 	}
 	SafePtrRelease(m_Entries);
 }
-void UiListMenu::addEntry(Text* entry){
-
-	m_Entries->insert(std::pair<int,Text*>(m_Entries->size()+1,entry));
+void UiListMenu::addEntry(std::string entry){
+	Text* text = TextManager::instance()->createText(entry,m_Font,m_EntryHeight,m_DefaultColor,255,0,0,0,false,0);
+	m_Entries->insert(std::pair<int,Text*>(m_Entries->size()+1,text));
 	updateMenu();
 }
-bool UiListMenu::deleteEntry(Text* entry){
+bool UiListMenu::deleteEntry(std::string entry){
 	std::map<int,Text*>::iterator i;
 	for(i = m_Entries->begin();i != m_Entries->end();i++){
-		if(i->second == entry){
-			TextManager::instance()->deleteText(entry);
+		if(i->second->getText() == entry){
+			TextManager::instance()->deleteText(i->second);
 			m_Entries->erase(i);
 			return true;
 		}
@@ -78,11 +78,10 @@ void UiListMenu::scrollDown(){
 void UiListMenu::setDefaultTextColor(const Vector3& color){m_DefaultColor = color;}
 void UiListMenu::setSelectedTextColor(const Vector3& color){m_SelectedColor = color;}
 void UiListMenu::setOffsetX(const int& x){m_TextOffsetX = x; updateMenu();}
-void UiListMenu::setOffsetY(const int& y){m_TextOffsetY = y; updateMenu();}
 void UiListMenu::setUpButton(UiButton* up){m_Up = up;}
 void UiListMenu::setDownButton(UiButton* down){m_Down = down;}
 void UiListMenu::setMaxVisibleEntries(const int& max){m_MaxEntriesVisible = max; updateMenu();}
-void UiListMenu::setEntries(std::map<int,Text*>* entry){m_Entries = entry; updateMenu();}
+void UiListMenu::setFont(const std::string& font){m_Font = font;}
 void UiListMenu::setSelectedEntry(const int& selected){
 	if(selected > 0 && selected <= m_Entries->size()){
 		m_Selected = selected;updateMenu();
@@ -92,13 +91,13 @@ void UiListMenu::setSelectedEntry(const int& selected){
 UiButton* UiListMenu::getUpButton() const{return m_Up;}
 UiButton* UiListMenu::getDownButton() const{return m_Down;}	
 int UiListMenu::getTextOffsetX() const{return m_TextOffsetX;}
-int UiListMenu::getTextOffsetY() const{return m_TextOffsetY;}
 int UiListMenu::getMaxVisibleEntries() const{return m_MaxEntriesVisible;}
 std::map<int,Text*>* UiListMenu::getEntries() const{return m_Entries;}
-Text* UiListMenu::getSelectedEntry() const{return m_Entries->at(m_Selected);}
-Text* UiListMenu::getEntry(const int& p) const{return m_Entries->at(p);}
+std::string UiListMenu::getSelectedEntry() const{return m_Entries->at(m_Selected)->getText();}
+std::string UiListMenu::getEntry(const int& p) const{return m_Entries->at(p)->getText();}
 Vector3 UiListMenu::getDefaultTextColor() const{return m_DefaultColor;}
 Vector3 UiListMenu::getSelectedTextColor() const{return m_SelectedColor;}
+std::string UiListMenu::getFont() const{return m_Font;}
 
 void UiListMenu::update(){
 	if(m_Camera){
@@ -118,7 +117,7 @@ void UiListMenu::update(){
 		text = m_Entries->at(i);
 		text->setPosition(
 			getPositionX()+m_TextOffsetX,
-			getPositionY()+(m_EntryHeight*(i-m_StartOfVisibles)+m_TextOffsetY));
+			getPositionY()+(m_EntryHeight*(i-m_StartOfVisibles)));
 	}
 }
 void UiListMenu::updateMenu(){
@@ -135,16 +134,15 @@ void UiListMenu::updateMenu(){
 		text->setVisible(true);
 		text->setPosition(
 			getScreenPosX()+m_TextOffsetX,
-			getScreenPosY()+(m_EntryHeight*(i-m_StartOfVisibles)+m_TextOffsetY));
-		if(text == getSelectedEntry()){
+			getScreenPosY()+(m_EntryHeight*(i-m_StartOfVisibles)));
+		if(text->getText() == getSelectedEntry()){
 			text->setColor(m_SelectedColor,text->getAlpha());
 		}
 	}
 }
 
-void UiListMenu::mouseInputCalback(const inputEvent& event,
-									const int& x,const int& y){
-	switch(event){
+void UiListMenu::mouseInputCalback(const inputEvent& event,const int& x,const int& y){
+switch(event){
 	case MOUSE_LB_RELEASED:
 		if(x > getScreenPosX() && x < (getScreenPosX()+getWidth()) &&
 		   y > getScreenPosY() && y < (getScreenPosY()+getHeight())){

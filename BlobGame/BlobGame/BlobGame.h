@@ -101,8 +101,10 @@ protected:
 	int m_TotalEnergy;
 	int m_TotalPower;
 	LevelEditor* m_Editor;
+	bool m_Editing;
 };
 
 void testCallBack(void* thing);
 void testCallBack2(void* thing);
+void changeGameState(void* state);
 #endif

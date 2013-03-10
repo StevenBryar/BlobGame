@@ -8,13 +8,17 @@
 int Tile::m_TileCount = 0;
 Tile::Tile(const unsigned int& tileTypes) :
  m_TileTypes(tileTypes){
-	 if((tileTypes & Ground) == Ground){
+	 if(ContainsFlags(tileTypes,Ground)){
 		setSprite(SpriteManager::instance()->
 		 createSprite(this,"GroundTile.png",10));
 	 }
-	 if((tileTypes & Wall) == Wall){
+	 else if(ContainsFlags(tileTypes,Wall)){
 		 setSprite(SpriteManager::instance()->
 		 createSprite(this,"WallTile.png",10));
+	 }
+	 else if(ContainsFlags(tileTypes,Empty)){
+		 setSprite(SpriteManager::instance()->
+		 createSprite(this,"EmptyTile.png",10));
 	 }
 	 m_TileCount++;
 	 m_Name = "Tile" + intToString(m_TileCount);
