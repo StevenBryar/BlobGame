@@ -264,5 +264,8 @@
     <ClInclude Include="uiElement.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="uiTextBox.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

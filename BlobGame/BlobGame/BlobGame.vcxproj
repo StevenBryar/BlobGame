@@ -146,6 +146,7 @@
     <ClInclude Include="uiButton.h" />
     <ClInclude Include="uiElement.h" />
     <ClInclude Include="uiListMenu.h" />
+    <ClInclude Include="uiTextBox.h" />
     <ClInclude Include="unit.h" />
     <ClInclude Include="UnitFactory.h" />
     <ClInclude Include="Util.h" />
