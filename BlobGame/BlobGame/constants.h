@@ -41,4 +41,5 @@ extern const int WINDOW_WIDTH;
 extern const int WINDOW_HEIGHT;
 extern const std::string WINDOW_NAME;
 
+#define TEXT_ENTERED 9
 #endif

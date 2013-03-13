@@ -107,6 +107,7 @@
     <ClCompile Include="uiButton.cpp" />
     <ClCompile Include="uiElement.cpp" />
     <ClCompile Include="uiListMenu.cpp" />
+    <ClCompile Include="uiTextBox.cpp" />
     <ClCompile Include="unit.cpp" />
     <ClCompile Include="UnitFactory.cpp" />
     <ClCompile Include="Util.cpp" />
