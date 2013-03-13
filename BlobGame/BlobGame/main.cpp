@@ -12,6 +12,8 @@
 #include "2dSprite.h"
 #include "BlobGame.h"
 #include "Util.h"
+#include "uiTextBox.h"
+#include "MessageHandler.h"
 
 void updateMouse(sf::Window* window);
 
@@ -78,6 +80,18 @@ int main(){
 						InputManager::instance()->handleMouseInput
 							(MOUSE_RB_PRESSED,sf::Mouse::getPosition(*window).x,
 							sf::Mouse::getPosition(*window).y);
+					}
+				}
+				break;
+			case sf::Event::TextEntered:
+				if(focus && event.text.unicode < 128){
+					std::vector<UiTextBox*>* textBoxes = UiTextBox::getTextBoxes();
+					for(int i = 0;i < textBoxes->size();i++){
+						if((*textBoxes)[i]->getFocus()){
+							MessageHandler::Instance()->
+							createMessage(TEXT_ENTERED,NULL,
+							(*textBoxes)[i],(void*)event.text.unicode,0);
+						}
 					}
 				}
 				break;

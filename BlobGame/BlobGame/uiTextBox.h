@@ -8,19 +8,20 @@
 class Text;
 class Vector3;
 
-class UiTextBox : public UiElement , public MessageListner{
+class UiTextBox : public UiElement , public MessageListener{
 public:
 	UiTextBox(Text* text,Camera* camera,int x = 0,int y = 0,int width = 128,int height = 30);
 	UiTextBox(std::string font,int fontSize,std::string text,Vector3 color,Camera* camera,
 				int x = 0,int y = 0,int width = 128,int height = 30);
 	~UiTextBox();
 	bool getFocus();
-	void setFocux(bool focus);
+	void setFocus(bool focus);
 	std::string getString();
 	void setString(std::string aString);
 	Text* getText();
 	void setText(Text* text);
 	void appendString(std::string aString);
+	void update();
 
 	static std::vector<UiTextBox*>* getTextBoxes();
 protected:

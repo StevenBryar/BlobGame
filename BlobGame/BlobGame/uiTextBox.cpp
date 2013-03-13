@@ -5,8 +5,9 @@
 #include "TextManager.h"
 #include "MessageHandler.h"
 #include "constants.h"
+#include "camera.h"
 
-std::vector<UiTextBox*>* m_TextBoxes = new std::vector<UiTextBox*>();
+std::vector<UiTextBox*>* UiTextBox::m_TextBoxes = new std::vector<UiTextBox*>();
 
 UiTextBox::UiTextBox(Text* text,Camera* camera,int x,int y,int width,int height) :
 UiElement(x,y,camera){
@@ -25,6 +26,10 @@ UiElement(x,y,camera){
 	m_Height = height;
 	m_Text = TextManager::instance()->createText
 		(text,font,fontSize,color,255,x,y,0,false,0);
+	if(!m_TextBoxes){
+		m_TextBoxes = new std::vector<UiTextBox*>();
+	}
+	m_TextBoxes->push_back(this);
 }
 
 UiTextBox::~UiTextBox(){
@@ -37,10 +42,19 @@ UiTextBox::~UiTextBox(){
 	if(m_TextBoxes->size() == 0){
 		SafePtrRelease(m_TextBoxes);
 	}
-	SafePtrRelease(m_Text);
+	TextManager::instance()->deleteText(m_Text);
 }
+
+void UiTextBox::update(){
+	if(m_Camera){
+		setPositionX(m_Camera->getWorldPosX()+m_ScreenPosX);
+		setPositionY(m_Camera->getWorldPosY()+m_ScreenPosY);
+		m_Text->setPosition(getPositionX(),getPositionY());
+	}
+}
+
 bool UiTextBox::getFocus(){return m_HasFocus;}
-void UiTextBox::setFocux(bool focus){m_HasFocus = focus;}
+void UiTextBox::setFocus(bool focus){m_HasFocus = focus;}
 std::string UiTextBox::getString(){return m_Text->getText();}
 void UiTextBox::setString(std::string aString){m_Text->setText(aString);}
 Text* UiTextBox::getText(){return m_Text;}
@@ -56,10 +70,19 @@ std::vector<UiTextBox*>* UiTextBox::getTextBoxes(){
 	return m_TextBoxes;
 }
 
-void handleMessage(const Message& msg){
+void UiTextBox::handleMessage(const Message& msg){
 	switch(msg.type){
-	case TEXT_ENTERED:
-		break;
+	case TEXT_ENTERED:{
+		unsigned int chr = (unsigned int)msg.extraInfo;
+		if(chr == 8){
+			std::string stng = m_Text->getText();
+			
+		}
+		else if(chr != 8){
+			appendString(std::string((char*)&chr));
+		}
+	 }
+	 break;
 	default:
 		break;
 	}

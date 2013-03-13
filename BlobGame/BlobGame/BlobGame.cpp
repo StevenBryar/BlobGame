@@ -101,6 +101,7 @@ void BlobGame::initialize(){
 	InputManager::instance()->registerMouseInput(this,MOUSE_MOVED);
 }
 void BlobGame::update(){
+	MessageHandler::Instance()->update();
 	(this->*blobUpdate)();
 }
 Camera* BlobGame::getCamera() const{return m_Camera;}
@@ -284,7 +285,6 @@ void BlobGame::pauseMenu(){
 
 }
 void BlobGame::mainMenu(){
-	MessageHandler::Instance()->update();
 	for(int i = 0;i < m_GameObjects->size();i++){
 		(*m_GameObjects)[i]->update();
 	}
@@ -296,7 +296,6 @@ void BlobGame::editor(){
 	m_Editor->update();
 }
 void BlobGame::gamePlay(){
-	MessageHandler::Instance()->update();
 	SelectionManager::instance()->update();
 
 	tileUpdate(*m_GameObjects,*m_Level->getTiles());

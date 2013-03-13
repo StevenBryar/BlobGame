@@ -9,6 +9,7 @@ class Level;
 class Tile;
 class Camera;
 class UiListMenu;
+class UiTextBox;
 class Sprite2d;
 class GameObject;
 
@@ -31,6 +32,7 @@ protected:
 	Camera* m_Camera;
 	UiListMenu* m_BaseTiles;
 	UiListMenu* m_Objects;
+	UiTextBox* m_NameBox;
 	std::vector<Sprite2d*>* m_ObjectSprites;
 };
 

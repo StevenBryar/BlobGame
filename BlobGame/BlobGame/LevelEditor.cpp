@@ -8,6 +8,7 @@
 #include "inputManager.h"
 #include "uiButton.h"
 #include "uiListMenu.h"
+#include "uiTextBox.h"
 #include "TextManager.h"
 #include "Vector3.h"
 #include "BlobGame.h"
@@ -41,11 +42,14 @@ m_Level(level),m_Camera(camera){
 	m_Objects->addEntry("TeleBlobSpawn");
 	m_Objects->addEntry("MotherBlobSpawn");
 	m_Objects->addEntry("PistolEnemySpawn");
+	m_NameBox = new UiTextBox("tfa_squaresans.ttf",20,"Two",c,m_Camera,100,100,128,20);
+	m_NameBox->setFocus(true);
 }
 LevelEditor::~LevelEditor(){
 	SafePtrRelease(m_Level);
 	SafePtrRelease(m_BaseTiles);
 	SafePtrRelease(m_Objects);
+	SafePtrRelease(m_NameBox);
 	if(m_ObjectSprites){
 		for(int i = 0;i < m_ObjectSprites->size();i++){
 			SpriteManager::instance()->deleteSprite((*m_ObjectSprites)[i]);
@@ -94,6 +98,7 @@ bool LevelEditor::saveLevelFromEditor(const std::string& path){
 void LevelEditor::update(){
 	m_BaseTiles->update();
 	m_Objects->update();
+	m_NameBox->update();
 }
 
 void LevelEditor::setCamera(Camera* camera){m_Camera = camera;}
