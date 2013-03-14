@@ -42,8 +42,8 @@ m_Level(level),m_Camera(camera){
 	m_Objects->addEntry("TeleBlobSpawn");
 	m_Objects->addEntry("MotherBlobSpawn");
 	m_Objects->addEntry("PistolEnemySpawn");
-	m_NameBox = new UiTextBox("tfa_squaresans.ttf",20,"Two",c,m_Camera,100,100,128,20);
-	m_NameBox->setFocus(true);
+	m_NameBox = new UiTextBox("tfa_squaresans.ttf",20,"",c,m_Camera,100,100,128,20);
+	m_NameBox->setFocus(false);
 }
 LevelEditor::~LevelEditor(){
 	SafePtrRelease(m_Level);
@@ -61,6 +61,7 @@ LevelEditor::~LevelEditor(){
 bool LevelEditor::loadLevelToEditor(const std::string& path){
 	m_Level = loadLevel(path,true,NULL,NULL);
 	if(m_Level){
+		m_NameBox->setString(m_Level->getName());
 		std::vector<Tile*>* tiles = m_Level->getTiles();
 		for(int i = 0;i < tiles->size();i++){
 			if(ContainsFlags((*tiles)[i]->getTileTypes(),GruntStart)){
@@ -90,6 +91,7 @@ bool LevelEditor::loadLevelToEditor(const std::string& path){
 }
 bool LevelEditor::saveLevelFromEditor(const std::string& path){
 	if(m_Level){
+		m_Level->setName(m_NameBox->getString());
 		saveLevel(path,m_Level);
 		return true;
 	}
@@ -307,6 +309,9 @@ Level* loadLevel(const std::string& path,bool editMode,std::vector<GameObject*>*
 		level = new Level(levelWidth,levelHeight,TILE_SIZE,tileTypes,objects,factory);
 	}
 	file.close();
+	if(level){
+		level->setName(name);
+	}
 	return level;
 }
 void saveLevel(const std::string& path,Level* level){

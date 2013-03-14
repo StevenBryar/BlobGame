@@ -84,7 +84,8 @@ int main(){
 				}
 				break;
 			case sf::Event::TextEntered:
-				if(focus && event.text.unicode < 128){
+				if(focus && event.text.unicode < 128 &&
+					event.text.unicode > 31 || event.text.unicode == 8){
 					std::vector<UiTextBox*>* textBoxes = UiTextBox::getTextBoxes();
 					for(int i = 0;i < textBoxes->size();i++){
 						if((*textBoxes)[i]->getFocus()){

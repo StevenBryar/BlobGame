@@ -75,10 +75,13 @@ void UiTextBox::handleMessage(const Message& msg){
 	case TEXT_ENTERED:{
 		unsigned int chr = (unsigned int)msg.extraInfo;
 		if(chr == 8){
-			std::string stng = m_Text->getText();
-			
+			std::string stng;
+			for(int i = 0;i < m_Text->getText().size()-1;i++){
+				stng += m_Text->getText()[i];
+			}
+			m_Text->setText(stng);
 		}
-		else if(chr != 8){
+		else{
 			appendString(std::string((char*)&chr));
 		}
 	 }
