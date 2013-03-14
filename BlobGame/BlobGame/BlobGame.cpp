@@ -396,7 +396,7 @@ void BlobGame::endOptions(){}
 void BlobGame::beginEditor(){
 	m_Camera->moveTo(0,0);
 	m_Editor = new LevelEditor(NULL,m_Camera);
-	m_Editor->loadLevelToEditor("test.blvl");
+	m_Editor->loadLevelToEditor("levels/test.blvl");
 }
 void BlobGame::endEditor(){
 	SafePtrRelease(m_Editor);

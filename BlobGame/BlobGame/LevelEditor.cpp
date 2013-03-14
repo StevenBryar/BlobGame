@@ -111,7 +111,7 @@ void LevelEditor::keyInputCallback(const keyType& key,const inputEvent& event){
 	case KEY_RELEASED:
 		switch(key){
 		case Q:
-			saveLevelFromEditor("test.blvl");
+			saveLevelFromEditor("levels/test.blvl");
 			break;
 		}
 		break;
