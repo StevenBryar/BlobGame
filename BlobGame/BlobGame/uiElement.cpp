@@ -2,10 +2,13 @@
 #include "camera.h"
 
 UiElement::UiElement(const int& posX,const int& posY,Camera* camera) :
+GameObject(),
 m_ScreenPosX(posX),
 m_ScreenPosY(posY),
-m_Camera(camera),
-GameObject(){}
+m_Camera(camera){
+	m_PositionX = m_ScreenPosX;
+	m_PositionY = m_ScreenPosY;
+}
 UiElement::~UiElement(){
 
 }

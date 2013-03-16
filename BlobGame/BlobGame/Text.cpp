@@ -63,7 +63,7 @@ void Text::addAttribute(const textAttribute& att){
 		m_TextAtt |= att;
 	}
 }
-void Text::setAttributes(const textAttribute& att){
+void Text::setAttributes(const unsigned int& att){
 	m_TextAtt = att;
 }
 std::string Text::getText() const{return m_String->getString();}

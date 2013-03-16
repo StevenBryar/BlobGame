@@ -9,7 +9,7 @@
 
 std::vector<UiTextBox*>* UiTextBox::m_TextBoxes = new std::vector<UiTextBox*>();
 
-UiTextBox::UiTextBox(Text* text,Camera* camera,int x,int y,int width,int height) :
+UiTextBox::UiTextBox(Text* text,Camera* camera,const int& x,const int& y,const int& width,const int& height) :
 UiElement(x,y,camera){
 	m_Width = width;
 	m_Height = height;
@@ -19,8 +19,8 @@ UiElement(x,y,camera){
 	}
 	m_TextBoxes->push_back(this);
 }
-UiTextBox::UiTextBox(std::string font,int fontSize,std::string text,Vector3 color,Camera* camera,
-		int x,int y,int width,int height) : 
+UiTextBox::UiTextBox(const std::string& font,const int& fontSize,const std::string& text,const Vector3& color,Camera* camera,
+		const int& x,const int& y,const int& width,const int& height) : 
 UiElement(x,y,camera){
 	m_Width = width;
 	m_Height = height;
@@ -54,12 +54,12 @@ void UiTextBox::update(){
 }
 
 bool UiTextBox::getFocus(){return m_HasFocus;}
-void UiTextBox::setFocus(bool focus){m_HasFocus = focus;}
+void UiTextBox::setFocus(const bool& focus){m_HasFocus = focus;}
 std::string UiTextBox::getString(){return m_Text->getText();}
-void UiTextBox::setString(std::string aString){m_Text->setText(aString);}
+void UiTextBox::setString(const std::string& aString){m_Text->setText(aString);}
 Text* UiTextBox::getText(){return m_Text;}
 void UiTextBox::setText(Text* text){m_Text = text;}
-void UiTextBox::appendString(std::string aString){
+void UiTextBox::appendString(const std::string& aString){
 	m_Text->setText(m_Text->getText()+aString);
 }
 

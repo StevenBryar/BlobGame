@@ -104,7 +104,7 @@ protected:
 	bool m_Editing;
 };
 
-void testCallBack(void* thing);
-void testCallBack2(void* thing);
+void listScrollUp(void* thing);
+void listScrollDown(void* thing);
 void changeGameState(void* state);
 #endif

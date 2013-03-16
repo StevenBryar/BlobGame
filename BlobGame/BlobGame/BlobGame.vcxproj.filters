@@ -154,6 +154,9 @@
     <ClCompile Include="uiTextBox.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="uiTextTag.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2dSprite.h">
@@ -268,6 +271,9 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="uiTextBox.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="uiTextTag.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

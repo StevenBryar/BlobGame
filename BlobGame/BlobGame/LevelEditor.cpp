@@ -10,12 +10,15 @@
 #include "uiListMenu.h"
 #include "uiTextBox.h"
 #include "TextManager.h"
+#include "Text.h"
 #include "Vector3.h"
 #include "BlobGame.h"
 #include "Util.h"
 #include "2dSprite.h"
 #include "spriteManager.h"
 #include "gameObject.h"
+#include "uiTextTag.h"
+#include "uiElement.h"
 #include "Util.h"
 #include <fstream>
 #include <iostream>
@@ -24,25 +27,38 @@ LevelEditor::LevelEditor(Level* level,Camera* camera) :
 m_Level(level),m_Camera(camera){
 	InputManager::instance()->registerMouseInput(this,MOUSE_LB_PRESSED);
 	InputManager::instance()->registerMouseInput(this,MOUSE_RB_PRESSED);
-	InputManager::instance()->registerKeyinput(this,Q,KEY_RELEASED);
 	Vector3 c(100,250,100);
 	m_ObjectSprites = new std::vector<Sprite2d*>();
-	m_BaseTiles = new UiListMenu(200,300,camera,NULL,NULL,"tfa_squaresans.ttf",20,3,30);
+	m_ObjectsUp = new UiButton(0,0,32,32,"ScrollUpD.png","ScrollUpS.png",FIRE_ON_RELEASED,m_Camera,&listScrollUp,NULL);
+	m_ObjectsDown = new UiButton(0,0,32,32,"ScrollDownD.png","ScrollDownS.png",FIRE_ON_RELEASED,m_Camera,&listScrollDown,NULL);
+	m_BaseTilesUp = new UiButton(0,0,32,32,"ScrollUpD.png","ScrollUpS.png",FIRE_ON_RELEASED,m_Camera,&listScrollUp,NULL);
+	m_BaseTilesDown = new UiButton(0,0,32,32,"ScrollDownD.png","ScrollDownS.png",FIRE_ON_RELEASED,m_Camera,&listScrollDown,NULL);
+	m_SaveLevel = new UiButton(850,300,64,128,"Finished.png","FinishedS.png",FIRE_ON_RELEASED,m_Camera,&saveLevelInEditorCB,this);
+
+	m_BaseTiles = new UiListMenu(200,300,camera,m_BaseTilesUp,m_BaseTilesDown,"tfa_squaresans.ttf",20,3,30);
 	m_BaseTiles->setWidth(250);
-	m_BaseTiles->setHeight(200);
+	m_BaseTiles->setHeight(100);
 	m_BaseTiles->addEntry("Empty");
 	m_BaseTiles->addEntry("Wall");
 	m_BaseTiles->addEntry("Ground");
-	m_Objects = new UiListMenu(400,300,camera,NULL,NULL,"tfa_squaresans.ttf",20,3,30);
+	m_Objects = new UiListMenu(500,300,camera,m_ObjectsUp,m_ObjectsDown,"tfa_squaresans.ttf",20,3,30);
 	m_Objects->setWidth(270);
-	m_Objects->setHeight(200);
+	m_Objects->setHeight(100);
 	m_Objects->addEntry("None");
 	m_Objects->addEntry("GruntSpawn");
 	m_Objects->addEntry("GlobSpawn");
 	m_Objects->addEntry("TeleBlobSpawn");
-	m_Objects->addEntry("MotherBlobSpawn");
-	m_Objects->addEntry("PistolEnemySpawn");
-	m_NameBox = new UiTextBox("tfa_squaresans.ttf",20,"",c,m_Camera,100,100,128,20);
+	m_Objects->addEntry("MotherSpawn");
+	m_Objects->addEntry("PEnemySpawn");
+
+	m_ObjectsUp->setScreenPos(m_Objects->getScreenPosX()+m_Objects->getWidth(),m_Objects->getScreenPosY());
+	m_ObjectsDown->setScreenPos(m_Objects->getScreenPosX()+m_Objects->getWidth(),m_Objects->getScreenPosY()+m_Objects->getHeight());
+	m_BaseTilesUp->setScreenPos(m_BaseTiles->getScreenPosX()+m_BaseTiles->getWidth(),m_BaseTiles->getScreenPosY());
+	m_BaseTilesDown->setScreenPos(m_BaseTiles->getScreenPosX()+m_BaseTiles->getWidth(),m_BaseTiles->getScreenPosY()+m_BaseTiles->getHeight());
+
+	Text* text = TextManager::instance()->createText("Name :","tfa_squaresans.ttf",30,c,255,0,0,0,false,0);
+	m_NameTag = new UiTextTag(100,250,m_Camera,text);
+	m_NameBox = new UiTextBox("tfa_squaresans.ttf",20,"",c,m_Camera,220,260,128,20);
 	m_NameBox->setFocus(false);
 }
 LevelEditor::~LevelEditor(){
@@ -50,6 +66,9 @@ LevelEditor::~LevelEditor(){
 	SafePtrRelease(m_BaseTiles);
 	SafePtrRelease(m_Objects);
 	SafePtrRelease(m_NameBox);
+	SafePtrRelease(m_NameTag);
+	SafePtrRelease(m_SaveLevel);
+
 	if(m_ObjectSprites){
 		for(int i = 0;i < m_ObjectSprites->size();i++){
 			SpriteManager::instance()->deleteSprite((*m_ObjectSprites)[i]);
@@ -89,10 +108,10 @@ bool LevelEditor::loadLevelToEditor(const std::string& path){
 	}
 	return false;
 }
-bool LevelEditor::saveLevelFromEditor(const std::string& path){
+bool LevelEditor::saveLevelFromEditor(const std::string& dFolder){
 	if(m_Level){
 		m_Level->setName(m_NameBox->getString());
-		saveLevel(path,m_Level);
+		saveLevel(dFolder+"/"+m_Level->getName()+".blvl",m_Level);
 		return true;
 	}
 	return false;
@@ -100,129 +119,141 @@ bool LevelEditor::saveLevelFromEditor(const std::string& path){
 void LevelEditor::update(){
 	m_BaseTiles->update();
 	m_Objects->update();
+	m_NameTag->update();
 	m_NameBox->update();
+	m_SaveLevel->update();
 }
 
 void LevelEditor::setCamera(Camera* camera){m_Camera = camera;}
 Camera* LevelEditor::getCamera() const{return m_Camera;}
 
-void LevelEditor::keyInputCallback(const keyType& key,const inputEvent& event){
-	switch(event){
-	case KEY_RELEASED:
-		switch(key){
-		case Q:
-			saveLevelFromEditor("levels/test.blvl");
-			break;
-		}
-		break;
-	}
-}
-
 void LevelEditor::mouseInputCalback(const inputEvent& event,const int& x,const int& y){
 	if(m_Level && m_Camera){
 		switch(event){
 			case MOUSE_LB_PRESSED:{
-				if(!Util::instance()->rectIntersection(x,y,1,1,m_BaseTiles->getScreenPosX(),
-					m_BaseTiles->getScreenPosY(),m_BaseTiles->getWidth(),m_BaseTiles->getHeight()) &&
-					!Util::instance()->rectIntersection(x,y,1,1,m_Objects->getScreenPosX(),
-					m_Objects->getScreenPosY(),m_Objects->getWidth(),m_Objects->getHeight())){
-						Tile* tile;
-						Tile* tileToReplace;
-						unsigned int currentTileType = 0;
-						if(m_BaseTiles->getSelectedEntry() == "Wall"){
-							currentTileType = Wall;
-						}
-						else if(m_BaseTiles->getSelectedEntry() == "Empty"){
-							currentTileType = Empty;
-						}
-						else if(m_BaseTiles->getSelectedEntry() == "Ground"){
-							currentTileType = Ground;
-						}
-						if(ContainsFlags(currentTileType,(Wall|Ground|Empty))){
-							tileToReplace = m_Level->getTileForPosition(
-							Util::instance()->screenToWorldCoordX(x,m_Camera),
-							Util::instance()->screenToWorldCoordY(y,m_Camera));
-							if(tileToReplace &&
-							  !ContainsFlags(tileToReplace->getTileTypes(),currentTileType)){
-								tile = new Tile(currentTileType);
-								tile->setPosition(tileToReplace->getPositionX(),
-													tileToReplace->getPositionY());
-								m_Level->changeTile(tile);
-							}
+				UiElement* uiElements[8] = {
+					m_BaseTiles,
+					m_Objects,
+					m_NameBox,
+					m_ObjectsUp,
+					m_ObjectsDown,
+					m_BaseTilesUp,
+					m_BaseTilesDown,
+					m_SaveLevel
+				};
+				for(int i = 0;i < 8;i++){
+					if(Util::instance()->rectIntersection(x,y,1,1,uiElements[i]->getScreenPosX(),
+					uiElements[i]->getScreenPosY(),uiElements[i]->getWidth(),uiElements[i]->getHeight())){
+						return;
+					}
+				}
+				Tile* tile;
+				Tile* tileToReplace;
+				unsigned int currentTileType = 0;
+				if(m_BaseTiles->getSelectedEntry() == "Wall"){
+					currentTileType = Wall;
+				}
+				else if(m_BaseTiles->getSelectedEntry() == "Empty"){
+					currentTileType = Empty;
+				}
+				else if(m_BaseTiles->getSelectedEntry() == "Ground"){
+					currentTileType = Ground;
+				}
+				if(ContainsFlags(currentTileType,(Wall|Ground|Empty))){
+					tileToReplace = m_Level->getTileForPosition(
+					Util::instance()->screenToWorldCoordX(x,m_Camera),
+					Util::instance()->screenToWorldCoordY(y,m_Camera));
+					if(tileToReplace &&
+					  !ContainsFlags(tileToReplace->getTileTypes(),currentTileType)){
+						tile = new Tile(currentTileType);
+						tile->setPosition(tileToReplace->getPositionX(),
+											tileToReplace->getPositionY());
+						m_Level->changeTile(tile);
+					}
+				}
+			}
+			break;
+			case MOUSE_RB_PRESSED:{
+				UiElement* uiElements[8] = {
+					m_BaseTiles,
+					m_Objects,
+					m_NameBox,
+					m_ObjectsUp,
+					m_ObjectsDown,
+					m_BaseTilesUp,
+					m_BaseTilesDown,
+					m_SaveLevel
+				};
+				for(int i = 0;i < 8;i++){
+					if(Util::instance()->rectIntersection(x,y,1,1,uiElements[i]->getScreenPosX(),
+					uiElements[i]->getScreenPosY(),uiElements[i]->getWidth(),uiElements[i]->getHeight())){
+						return;
+					}
+				}
+				unsigned int tileObject = 0;
+				unsigned int unwalkables = 0;
+				if(m_Objects->getSelectedEntry() == "None"){
+					tileObject = 0;
+					unwalkables = 0;
+				}
+				if(m_Objects->getSelectedEntry() == "GruntSpawn"){
+					tileObject = GruntStart;
+					unwalkables = BLOB_UNWALKABLES;
+				}
+				else if(m_Objects->getSelectedEntry() == "GlobSpawn"){
+					tileObject = GlobStart;
+					unwalkables = BLOB_UNWALKABLES;
+				}
+				else if(m_Objects->getSelectedEntry() == "TeleSpawn"){
+					tileObject = TeleStart;
+					unwalkables = BLOB_UNWALKABLES;
+				}
+				else if(m_Objects->getSelectedEntry() == "MotherSpawn"){
+					tileObject = MotherStart;
+					unwalkables = BLOB_UNWALKABLES;
+				}
+				else if(m_Objects->getSelectedEntry() == "PistolEnemySpawn"){
+					tileObject = PistolEnemy;
+					unwalkables = ENEMY_UNWALKABLES;
+				}
+				Tile* tile = m_Level->getTileForPosition(
+				Util::instance()->screenToWorldCoordX(x,m_Camera),
+				Util::instance()->screenToWorldCoordY(y,m_Camera));
+				if(tile && !ContainsFlags(tile->getTileTypes(),tileObject) &&
+					!ContainsFlags(tile->getTileTypes(),unwalkables)){
+					unsigned int tileTypes = tile->getTileTypes();
+					RemoveFlag(&tileTypes,(GruntStart|GlobStart|TeleStart
+											|MotherStart|PistolEnemy));
+					for(int i = 0;i < m_ObjectSprites->size();i++){
+						if((*m_ObjectSprites)[i]->getOwner() == tile){
+							SpriteManager::instance()->deleteSprite((*m_ObjectSprites)[i]);
+							break;
 						}
 					}
-				break;
-				}
-			case MOUSE_RB_PRESSED:{
-				if(!Util::instance()->rectIntersection(x,y,1,1,m_BaseTiles->getPositionX(),
-					m_BaseTiles->getPositionY(),m_BaseTiles->getWidth(),m_BaseTiles->getHeight()) &&
-					!Util::instance()->rectIntersection(x,y,1,1,m_Objects->getPositionX(),
-					m_Objects->getPositionY(),m_Objects->getWidth(),m_Objects->getHeight())){
-						unsigned int tileObject = 0;
-						unsigned int unwalkables = 0;
-						if(m_Objects->getSelectedEntry() == "None"){
-							tileObject = 0;
-							unwalkables = 0;
-						}
-						if(m_Objects->getSelectedEntry() == "GruntSpawn"){
-							tileObject = GruntStart;
-							unwalkables = BLOB_UNWALKABLES;
-						}
-						else if(m_Objects->getSelectedEntry() == "GlobSpawn"){
-							tileObject = GlobStart;
-							unwalkables = BLOB_UNWALKABLES;
-						}
-						else if(m_Objects->getSelectedEntry() == "TeleSpawn"){
-							tileObject = TeleStart;
-							unwalkables = BLOB_UNWALKABLES;
-						}
-						else if(m_Objects->getSelectedEntry() == "MotherSpawn"){
-							tileObject = MotherStart;
-							unwalkables = BLOB_UNWALKABLES;
-						}
-						else if(m_Objects->getSelectedEntry() == "PistolEnemySpawn"){
-							tileObject = PistolEnemy;
-							unwalkables = ENEMY_UNWALKABLES;
-						}
-						Tile* tile = m_Level->getTileForPosition(
-						Util::instance()->screenToWorldCoordX(x,m_Camera),
-						Util::instance()->screenToWorldCoordY(y,m_Camera));
-						if(tile && !ContainsFlags(tile->getTileTypes(),tileObject) &&
-							!ContainsFlags(tile->getTileTypes(),unwalkables)){
-							unsigned int tileTypes = tile->getTileTypes();
-							RemoveFlag(&tileTypes,(GruntStart|GlobStart|TeleStart
-													|MotherStart|PistolEnemy));
-							for(int i = 0;i < m_ObjectSprites->size();i++){
-								if((*m_ObjectSprites)[i]->getOwner() == tile){
-									SpriteManager::instance()->deleteSprite((*m_ObjectSprites)[i]);
-									break;
-								}
-							}
-							tile->setTileTypes(tileTypes|tileObject);
-							switch(tileObject){
-							case GruntStart:
-								m_ObjectSprites->push_back(
-									SpriteManager::instance()->createSprite(tile,"PathGuy.png",1));
-								break;
-							case GlobStart:
-								m_ObjectSprites->push_back(
-									SpriteManager::instance()->createSprite(tile,"PathGuy.png",1));
-								break;
-							case TeleStart:
-								m_ObjectSprites->push_back(
-									SpriteManager::instance()->createSprite(tile,"PathGuy.png",1));
-								break;
-							case MotherStart:
-								m_ObjectSprites->push_back(
-									SpriteManager::instance()->createSprite(tile,"PathGuy.png",1));
-								break;
-							case PistolEnemy:
-								m_ObjectSprites->push_back(
-									SpriteManager::instance()->createSprite(tile,"TestEnemy.png",1));
-								break;
-							default:
-								break;
-						}
+					tile->setTileTypes(tileTypes|tileObject);
+					switch(tileObject){
+						case GruntStart:
+							m_ObjectSprites->push_back(
+							SpriteManager::instance()->createSprite(tile,"PathGuy.png",1));
+							break;
+						case GlobStart:
+							m_ObjectSprites->push_back(
+							SpriteManager::instance()->createSprite(tile,"PathGuy.png",1));
+							break;
+						case TeleStart:
+							m_ObjectSprites->push_back(
+							SpriteManager::instance()->createSprite(tile,"PathGuy.png",1));
+							break;
+						case MotherStart:
+							m_ObjectSprites->push_back(
+							SpriteManager::instance()->createSprite(tile,"PathGuy.png",1));
+							break;
+						case PistolEnemy:
+							m_ObjectSprites->push_back(
+							SpriteManager::instance()->createSprite(tile,"TestEnemy.png",1));
+							break;
+						default:
+							break;
 					}
 				}
 				break;
@@ -355,4 +386,9 @@ void saveLevel(const std::string& path,Level* level){
 		}
 	}
 	outputFile.close();
+}
+
+void saveLevelInEditorCB(void* levelEditor){
+	LevelEditor* LE = (LevelEditor*)levelEditor;
+	LE->saveLevelFromEditor("levels");
 }

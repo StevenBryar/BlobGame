@@ -110,6 +110,7 @@
     <ClCompile Include="uiElement.cpp" />
     <ClCompile Include="uiListMenu.cpp" />
     <ClCompile Include="uiTextBox.cpp" />
+    <ClCompile Include="uiTextTag.cpp" />
     <ClCompile Include="unit.cpp" />
     <ClCompile Include="UnitFactory.cpp" />
     <ClCompile Include="Util.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="uiElement.h" />
     <ClInclude Include="uiListMenu.h" />
     <ClInclude Include="uiTextBox.h" />
+    <ClInclude Include="uiTextTag.h" />
     <ClInclude Include="unit.h" />
     <ClInclude Include="UnitFactory.h" />
     <ClInclude Include="Util.h" />

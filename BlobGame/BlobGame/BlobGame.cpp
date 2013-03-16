@@ -88,6 +88,18 @@ void BlobGame::loadContent(){
 		loadTexture("EditorH.png");
 	SpriteManager::instance()->
 		loadTexture("EditorS.png");
+	SpriteManager::instance()->
+		loadTexture("ScrollUpD.png");
+	SpriteManager::instance()->
+		loadTexture("ScrollUpS.png");
+	SpriteManager::instance()->
+		loadTexture("ScrollDownD.png");
+	SpriteManager::instance()->
+		loadTexture("ScrollDownS.png");
+	SpriteManager::instance()->
+		loadTexture("Finished.png");
+	SpriteManager::instance()->
+		loadTexture("FinishedS.png");
 	TextManager::instance()->
 		loadFont("tfa_squaresans.ttf");
 }
@@ -557,11 +569,11 @@ void changeGameState(void* state){
 	MessageHandler::Instance()->createMessage(CHANGE_STATE,
 		BlobGame::instance(),BlobGame::instance(),state,0);
 }
-void testCallBack(void* thing){
+void listScrollDown(void* thing){
 	UiListMenu* menu = (UiListMenu*)thing;
 	menu->scrollDown();
 }
-void testCallBack2(void* thing){
+void listScrollUp(void* thing){
 	UiListMenu* menu = (UiListMenu*)thing;
 	menu->scrollUp();
 }

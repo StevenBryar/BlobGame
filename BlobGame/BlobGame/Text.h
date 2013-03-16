@@ -28,7 +28,7 @@ public:
 	void setSize(const int& size);
 	void setColor(const Vector3& rgb,const int& alpha);
 	void addAttribute(const textAttribute& att);
-	void setAttributes(const textAttribute& att);
+	void setAttributes(const unsigned int& att);
 	void setVisible(const bool& v);
 
 	std::string getText() const;
