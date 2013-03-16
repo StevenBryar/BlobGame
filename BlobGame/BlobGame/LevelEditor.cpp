@@ -212,7 +212,7 @@ void LevelEditor::mouseInputCalback(const inputEvent& event,const int& x,const i
 					tileObject = MotherStart;
 					unwalkables = BLOB_UNWALKABLES;
 				}
-				else if(m_Objects->getSelectedEntry() == "PistolEnemySpawn"){
+				else if(m_Objects->getSelectedEntry() == "PEnemySpawn"){
 					tileObject = PistolEnemy;
 					unwalkables = ENEMY_UNWALKABLES;
 				}
@@ -262,12 +262,16 @@ void LevelEditor::mouseInputCalback(const inputEvent& event,const int& x,const i
 	}
 }
 
-bool loadPreview(std::string* name,unsigned int* width,unsigned int* height){
-	std::fstream file;
+bool loadPreview(std::string* name,unsigned int* width,unsigned int* height,const std::string& path){
+	std::fstream file(path,std::ios::in | std::ios::binary);
+	if(!file){
+		return false;
+	}
 	unsigned int tag = 0;
 	unsigned int nameLength = 0;
 	file.read((char*)&tag,sizeof(unsigned int));
 	if(BLOB_LEVEL_TAG != tag){
+		file.close();
 		return false;
 	}
 	file.read((char*)width,sizeof(unsigned int));
@@ -278,7 +282,7 @@ bool loadPreview(std::string* name,unsigned int* width,unsigned int* height){
 	char* buffer = new char[nameLength];
 
 	file.read(buffer,nameLength);
-	name = new std::string(buffer,nameLength);
+	*name = std::string(buffer,nameLength);
 	delete[] buffer;
 	file.close();
 	return true;

@@ -4,6 +4,7 @@
 #include "common.h"
 #include "TextManager.h"
 #include "MessageHandler.h"
+#include "inputManager.h"
 #include "constants.h"
 #include "camera.h"
 
@@ -18,6 +19,7 @@ UiElement(x,y,camera){
 		m_TextBoxes = new std::vector<UiTextBox*>();
 	}
 	m_TextBoxes->push_back(this);
+	InputManager::instance()->registerMouseInput(this,MOUSE_LB_RELEASED);
 }
 UiTextBox::UiTextBox(const std::string& font,const int& fontSize,const std::string& text,const Vector3& color,Camera* camera,
 		const int& x,const int& y,const int& width,const int& height) : 
@@ -30,6 +32,7 @@ UiElement(x,y,camera){
 		m_TextBoxes = new std::vector<UiTextBox*>();
 	}
 	m_TextBoxes->push_back(this);
+	InputManager::instance()->registerMouseInput(this,MOUSE_LB_RELEASED);
 }
 
 UiTextBox::~UiTextBox(){
@@ -70,6 +73,21 @@ std::vector<UiTextBox*>* UiTextBox::getTextBoxes(){
 	return m_TextBoxes;
 }
 
+void UiTextBox::mouseInputCalback(const inputEvent& event,const int& x,const int& y){
+	switch(event){
+	case MOUSE_LB_RELEASED:
+		if(x > getScreenPosX() && x < (getScreenPosX()+getWidth()) &&
+		   y > getScreenPosY() && y < (getScreenPosY()+getHeight())){
+			m_HasFocus = true;
+		}
+		else{
+			m_HasFocus = false;
+		}
+		break;
+	default:
+		break;
+	}
+}
 void UiTextBox::handleMessage(const Message& msg){
 	switch(msg.type){
 	case TEXT_ENTERED:{

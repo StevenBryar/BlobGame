@@ -94,6 +94,7 @@ int UiListMenu::getTextOffsetX() const{return m_TextOffsetX;}
 int UiListMenu::getMaxVisibleEntries() const{return m_MaxEntriesVisible;}
 std::map<int,Text*>* UiListMenu::getEntries() const{return m_Entries;}
 std::string UiListMenu::getSelectedEntry() const{return m_Entries->at(m_Selected)->getText();}
+int UiListMenu::getSelecedEntryNumber() const{return m_Selected;}
 std::string UiListMenu::getEntry(const int& p) const{return m_Entries->at(p)->getText();}
 Vector3 UiListMenu::getDefaultTextColor() const{return m_DefaultColor;}
 Vector3 UiListMenu::getSelectedTextColor() const{return m_SelectedColor;}

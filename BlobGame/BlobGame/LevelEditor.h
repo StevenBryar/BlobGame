@@ -44,7 +44,7 @@ protected:
 	
 };
 
-bool   loadPreview(std::string* name,unsigned int* width,unsigned int* height);
+bool   loadPreview(std::string* name,unsigned int* width,unsigned int* height,const std::string& path);
 Level* loadLevel(const std::string& path,bool editMode,
 				std::vector<GameObject*>* objects,
 				GameObject*(factory)(const unsigned int& flags,Tile* tile));

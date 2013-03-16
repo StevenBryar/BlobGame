@@ -23,6 +23,7 @@ class Enemy;
 class Unit;
 class Sprite2d;
 class LevelEditor;
+class UiListMenu;
 
 class BlobGame : public Game , public InputListener , public MessageListener{
 public:
@@ -97,6 +98,7 @@ protected:
 	std::vector<Sprite2d*>* m_Effects;
 	BlobGameStates m_CurrentState;
 	Level* m_Level;
+	UiListMenu* m_LevelSelect;
 	Camera* m_Camera;
 	int m_TotalEnergy;
 	int m_TotalPower;
@@ -107,4 +109,5 @@ protected:
 void listScrollUp(void* thing);
 void listScrollDown(void* thing);
 void changeGameState(void* state);
+void loadEditor(void* levelMenu);
 #endif

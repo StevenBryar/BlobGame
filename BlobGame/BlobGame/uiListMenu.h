@@ -37,6 +37,7 @@ public:
 	int getMaxVisibleEntries() const;
 	std::map<int,Text*>* getEntries() const;
 	std::string getSelectedEntry() const;
+	int getSelecedEntryNumber() const;
 	std::string getEntry(const int& p) const;
 	Vector3 getDefaultTextColor() const;
 	Vector3 getSelectedTextColor() const;
