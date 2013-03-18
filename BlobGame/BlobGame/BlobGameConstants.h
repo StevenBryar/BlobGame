@@ -55,7 +55,10 @@ extern const int TEST_LEVEL_WALL_TILES[];
 #define BACK  2
 #define LEFT  3
 #define PISTOL_RANGE 3
+#define SHOTGUN_RANGE_LENGTH 4
+#define SHOTGUN_RANGE_WIDTH 1//in either direction
 #define PISTOL_DAMAGE 0
+#define SHOTGUN_DAMAGE 0
 #define FLAME_RANGE 3
 #define GOO_TRAP_TIME 150
 
@@ -69,11 +72,12 @@ extern const int TEST_LEVEL_WALL_TILES[];
 #define ENEMY_ENERGY_VALUE 100
 
 //Messages
-#define PISTOL_HIT 3
+#define PISTOL_ATTACK 3
 #define REMOVE_TILE_EFFECT 4
 #define REMOVE_UNIT_STATUS 7
 #define CHANGE_STATE 8
 #define LOAD_LEVEL_EDITOR 10
+#define SHOTGUN_ATTACK 11
 
 #define BASE_BLOB_CONSUME_TIME 50
 

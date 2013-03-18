@@ -24,6 +24,7 @@
 #include "TextManager.h"
 #include "Text.h"
 #include "uiListMenu.h"
+#include "EnemyAttacks.h"
 #include <fstream>
 #include <sys\stat.h>
 #include <sys\types.h>
@@ -516,7 +517,7 @@ void BlobGame::handleMessage(const Message& msg){
 		}
 		break;
 	}
-	case PISTOL_HIT:{
+	case PISTOL_ATTACK:{
 			Unit* unit;
 			Tile* tile = (Tile*)msg.extraInfo;
 			if((unit = unitOnTile(tile))){
