@@ -11,7 +11,8 @@ enum BlobGameStates{
 	PauseMenu,
 	OptionsMenu,
 	GamePlay,
-	Editor
+	Editor,
+	LevelSelect
 };
 
 class GameObject;
@@ -77,6 +78,7 @@ protected:
 	void optionsMenu();
 	void gamePlay();
 	void editor();
+	void levelSelect();
 
 	void beginPause();
 	void endPause();
@@ -93,6 +95,9 @@ protected:
 	void beginGame();
 	void endGame();
 
+	void beginLevelSelect();
+	void endLevelSelect();
+
 	std::vector<GameObject*>* m_GameObjects;
 	std::vector<GameObject*>* m_GameObjectsToDelete;
 	std::vector<Sprite2d*>* m_Effects;
@@ -104,10 +109,12 @@ protected:
 	int m_TotalPower;
 	LevelEditor* m_Editor;
 	bool m_Editing;
+	std::string m_LevelToLoad;
 };
 
 void listScrollUp(void* thing);
 void listScrollDown(void* thing);
 void changeGameState(void* state);
 void loadEditor(void* levelMenu);
+void loadLevel(void* levelMenu);
 #endif

@@ -272,6 +272,9 @@ void BlobGame::changeState(const BlobGameStates& state){
 		case Editor:
 			endEditor();
 			break;
+		case LevelSelect:
+			endLevelSelect();
+			break;
 		}
 		switch(state){
 		case MainMenu:
@@ -293,6 +296,10 @@ void BlobGame::changeState(const BlobGameStates& state){
 		case Editor:
 			beginEditor();
 			blobUpdate = &BlobGame::editor;
+			break;
+		case LevelSelect:
+			beginLevelSelect();
+			blobUpdate = &BlobGame::levelSelect;
 			break;
 		}
 		m_CurrentState = state;
@@ -317,6 +324,10 @@ void BlobGame::editor(){
 	else{
 		m_LevelSelect->update();
 	}
+}
+
+void BlobGame::levelSelect(){
+	m_LevelSelect->update();
 }
 void BlobGame::gamePlay(){
 	SelectionManager::instance()->update();
@@ -402,7 +413,7 @@ void BlobGame::endPause(){}
 
 void BlobGame::beginMainMenu(){
 	UiButton* menuButton = new UiButton(300,50,128,128,"PlayDefault.png","PlayS.png","PlayH.png",
-					FIRE_ON_RELEASED|HIGHLIGHT_ON_HOVER,m_Camera,&changeGameState,(void*)GamePlay);
+					FIRE_ON_RELEASED|HIGHLIGHT_ON_HOVER,m_Camera,&changeGameState,(void*)LevelSelect);
 	m_GameObjects->push_back(menuButton);
 	menuButton = new UiButton(300,178,128,128,"EditorD.png","EditorS.png","EditorH.png",
 					FIRE_ON_RELEASED|HIGHLIGHT_ON_HOVER,m_Camera,&changeGameState,(void*)Editor);
@@ -456,13 +467,64 @@ void BlobGame::beginEditor(){
 }
 void BlobGame::endEditor(){
 	SafePtrRelease(m_Editor);
+	SafePtrRelease(m_LevelSelect);
+	if(m_GameObjects != NULL){
+		SafeVectorDelete((*m_GameObjects));
+		SafePtrRelease(m_GameObjects);
+	}
+}
+
+void BlobGame::beginLevelSelect(){
+	m_Camera->moveTo(0,0);
+	DIR* dir;
+	struct stat fileStat;
+	struct dirent* dirp;
+	std::string levelName;
+	std::string filePath;
+	unsigned int width;
+	unsigned int height;
+	UiButton* selectLevel = new UiButton(510,380,64,128,"Finished.png","FinishedS.png",
+											FIRE_ON_RELEASED,m_Camera,&loadLevel,NULL);
+	m_GameObjects->push_back(selectLevel);
+	m_LevelSelect = new UiListMenu(200,50,m_Camera,NULL,NULL,"tfa_squaresans.ttf",10,6);
+	m_LevelSelect->setHeight(300);
+	m_LevelSelect->setWidth(700);
+	selectLevel->setCallBackParam(m_LevelSelect);
+	
+	dir = opendir("levels");
+	if(dir == NULL){
+		std::cout << "Levels not found!" << std::endl;
+		changeState(MainMenu);
+		return;
+	}
+	while((dirp = readdir(dir))){
+		filePath = "levels/" + std::string(dirp->d_name);
+
+		if(stat(filePath.c_str(),&fileStat)){continue;}
+		if(S_ISDIR(fileStat.st_mode)){continue;}
+
+		if(loadPreview(&levelName,&width,&height,filePath)){
+			m_LevelSelect->addEntry("Name :" + levelName + " Size : " + intToString(width) + " X " + intToString(height)); 
+		}
+	}
+	SafePtrRelease(dir);
+}
+void BlobGame::endLevelSelect(){
+	SafePtrRelease(m_LevelSelect);
+	if(m_GameObjects != NULL){
+		SafeVectorDelete((*m_GameObjects));
+		SafePtrRelease(m_GameObjects);
+	}
 }
 
 void BlobGame::beginGame(){
 	m_Camera->moveTo(0,0);
-	m_Level = loadLevel("test.blvl",false,m_GameObjects,&createUnit);
-	//saveLevel("test.blvl",m_Level);
-	
+	m_GameObjects = new std::vector<GameObject*>();
+	m_Level = loadLevel(m_LevelToLoad,false,m_GameObjects,&createUnit);
+	if(!m_Level){
+		changeGameState((void*)MainMenu);
+		return;
+	}
 	for(int i = 0;i < m_GameObjects->size();i++){
 		if((*m_GameObjects)[i]->getType() != "GameObject"){
 				Unit* unit = (Unit*)(*m_GameObjects)[i];
@@ -605,63 +667,104 @@ void BlobGame::handleMessage(const Message& msg){
 		break;
 	}
 	case LOAD_LEVEL_EDITOR:{
-		int level = (int)msg.extraInfo - 1;
-		if(level < 0){
-			int tileTypes[MAX_HORIZONTAL_TILES*MAX_VERTICAL_TILES];
-			for(int i = 0;i < (MAX_HORIZONTAL_TILES*MAX_VERTICAL_TILES);i++){
-				tileTypes[i] = Empty;
-			}
-			Level* newLevel  = new Level(MAX_HORIZONTAL_TILES,MAX_VERTICAL_TILES,
-											TILE_SIZE,tileTypes,NULL,NULL);
-			m_Editor = new LevelEditor(newLevel,m_Camera);
-			m_Editing = true;
-			SafePtrRelease(m_LevelSelect);
-			if(m_GameObjects != NULL){
-				SafeVectorDelete((*m_GameObjects));
-				SafePtrRelease(m_GameObjects);
-			}
-			return;
-		}
-		else{
-			DIR* dir;
-			struct stat fileStat;
-			struct dirent* dirp;
-			std::string levelName;
-			std::string filePath;
-			unsigned int width;
-			unsigned int height;
-			int i = 0;
-			dir = opendir("levels");
-			if(dir == NULL){
-				std::cout << "Levels not found!" << std::endl;
+		if(m_CurrentState == Editor){
+			int level = (int)msg.extraInfo - 1;
+			if(level < 0){
+				int tileTypes[MAX_HORIZONTAL_TILES*MAX_VERTICAL_TILES];
+				for(int i = 0;i < (MAX_HORIZONTAL_TILES*MAX_VERTICAL_TILES);i++){
+					tileTypes[i] = Empty;
+				}
+				Level* newLevel  = new Level(MAX_HORIZONTAL_TILES,MAX_VERTICAL_TILES,
+												TILE_SIZE,tileTypes,NULL,NULL);
+				m_Editor = new LevelEditor(newLevel,m_Camera);
+				m_Editing = true;
+				SafePtrRelease(m_LevelSelect);
+				if(m_GameObjects != NULL){
+					SafeVectorDelete((*m_GameObjects));
+					SafePtrRelease(m_GameObjects);
+				}
 				return;
 			}
-			while(i <= level && (dirp = readdir(dir))){
-				filePath = "levels/" + std::string(dirp->d_name);
+			else{
+				DIR* dir;
+				struct stat fileStat;
+				struct dirent* dirp;
+				std::string levelName;
+				std::string filePath;
+				unsigned int width;
+				unsigned int height;
+				int i = 0;
+				dir = opendir("levels");
+				if(dir == NULL){
+					std::cout << "Levels not found!" << std::endl;
+					return;
+				}
+				while(i <= level && (dirp = readdir(dir))){
+					filePath = "levels/" + std::string(dirp->d_name);
 
-				if(stat(filePath.c_str(),&fileStat)){continue;}
-				if(S_ISDIR(fileStat.st_mode)){continue;}
+					if(stat(filePath.c_str(),&fileStat)){continue;}
+					if(S_ISDIR(fileStat.st_mode)){continue;}
 
-				if(loadPreview(&levelName,&width,&height,filePath)){
-					if(i == level){
-						m_Editing = true;
-						m_Editor = new LevelEditor(NULL,m_Camera);
-						m_Editor->loadLevelToEditor(filePath);
-						SafePtrRelease(dir);
-						SafePtrRelease(m_LevelSelect);
-						if(m_GameObjects != NULL){
-							SafeVectorDelete((*m_GameObjects));
-							SafePtrRelease(m_GameObjects);
+					if(loadPreview(&levelName,&width,&height,filePath)){
+						if(i == level){
+							m_Editing = true;
+							m_Editor = new LevelEditor(NULL,m_Camera);
+							m_Editor->loadLevelToEditor(filePath);
+							SafePtrRelease(dir);
+							SafePtrRelease(m_LevelSelect);
+							if(m_GameObjects != NULL){
+								SafeVectorDelete((*m_GameObjects));
+								SafePtrRelease(m_GameObjects);
+							}
+							return;
 						}
-						return;
-					}
-					else{
-						i++;
+						else{
+							i++;
+						}
 					}
 				}
 			}
+			break;
 		}
-		break;
+	}
+	case LOAD_LEVEL:{
+		if(m_CurrentState == LevelSelect){
+			int level = (int)msg.extraInfo;
+			if(level >= 0){
+				DIR* dir;
+				struct stat fileStat;
+				struct dirent* dirp;
+				std::string levelName;
+				std::string filePath;
+				unsigned int width;
+				unsigned int height;
+				int i = 0;
+				dir = opendir("levels");
+				if(dir == NULL){
+					std::cout << "Levels not found!" << std::endl;
+					return;
+				}
+				while(i <= level && (dirp = readdir(dir))){
+					filePath = "levels/" + std::string(dirp->d_name);
+
+					if(stat(filePath.c_str(),&fileStat)){continue;}
+					if(S_ISDIR(fileStat.st_mode)){continue;}
+
+					if(loadPreview(&levelName,&width,&height,filePath)){
+						if(i == level){
+							SafePtrRelease(dir);
+							changeGameState((void*)GamePlay);
+							m_LevelToLoad = filePath;
+							return;
+						}
+						else{
+							i++;
+						}
+					}
+				}
+			}
+			break;
+		}
 	}
 	default:
 		break;
@@ -684,4 +787,9 @@ void loadEditor(void* levelMenu){
 	UiListMenu* levelselect = (UiListMenu*)levelMenu;
 	MessageHandler::Instance()->createMessage(
 		LOAD_LEVEL_EDITOR,NULL,BlobGame::instance(),(void*)(levelselect->getSelecedEntryNumber()-1),0);
+}
+void loadLevel(void* levelMenu){
+	UiListMenu* levelselect = (UiListMenu*)levelMenu;
+	MessageHandler::Instance()->createMessage(
+		LOAD_LEVEL,NULL,BlobGame::instance(),(void*)(levelselect->getSelecedEntryNumber()-1),0);
 }
