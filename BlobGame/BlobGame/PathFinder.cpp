@@ -13,124 +13,100 @@ std::vector<PathNode*>* FindPath(PathNode* curNode,Tile* destTile,
 	if(ContainsFlags(destTile->getTileTypes(),unWalkables)){
 		return NULL;
 	}
-	static bool firstLoop = true;
-	static std::vector<PathNode*>* openList;
-	static std::vector<PathNode*>* closedList;
-
-	if(firstLoop){
-	openList = new std::vector<PathNode*>();
-	closedList = new std::vector<PathNode*>();
-	firstLoop = false;
-	}
+	std::vector<PathNode*>* openList = new std::vector<PathNode*>();
+	std::vector<PathNode*>* closedList = new std::vector<PathNode*>();
 
 	//place node in closed list,erase from open.
-	PathNode* currentNode = new PathNode(curNode);
-	closedList->push_back(currentNode);
-	if(openList->size() > 0)
-	openList->erase(openList->begin());
-	curNode = NULL;
-	//check if node's tile index is same as destTile.
-	//if yes copy node,then put the path into final path and return.
-	if(currentNode->getTile() == destTile)
-	{
-		std::vector<PathNode*>* finalPath = 
-			new std::vector<PathNode*>();
-		finalPath->push_back(new PathNode(currentNode));
-		for(int i = 0;i < finalPath->size();i++)
-		{
-			if((*finalPath)[i]->getParentNode() == NULL)
-				break;
-
-			Tile* tile = (*finalPath)[i]->getTile();
-			finalPath->push_back(
-				new PathNode((*finalPath)[i]->getParentNode()));
+	while(true){
+		closedList->push_back(curNode);
+		if(openList->size() > 0){
+			openList->erase(openList->begin());
 		}
-		SafeVectorDelete<PathNode>(*openList);
-		SafePtrRelease(openList);
-
-		SafeVectorDelete<PathNode>(*closedList);
-		SafePtrRelease(closedList);
-		finalPath->pop_back();
-		firstLoop = true;
-		return finalPath;
-	}
-	//find adjacent walkable tiles,that arent in closed list.
-	//check if in open list
-	Tile* adTiles[4] = {AdjacentTileLeft(currentNode->getTile(),level),
-						AdjacentTileTop(currentNode->getTile(),level),
-						AdjacentTileRight(currentNode->getTile(),level),
-						AdjacentTileBottom(currentNode->getTile(),level)};
-
-	int adTilesSize = sizeof(adTiles)/sizeof(Tile*);
-	bool inValid = false;
-	for(int i = 0;i < adTilesSize;i++)
-	{
-		inValid = false;
-		if(adTiles[i] == NULL)
-		{
-			continue;
-		}
-
-		if(!ContainsFlags(adTiles[i]->getTileTypes(),unWalkables))
-		{
-			for(int j = 0;j < closedList->size();j++)
-			{
-				if((*closedList)[j]->getTile() == adTiles[i])
-				{
-					inValid = true;
+		//check if node's tile index is same as destTile.
+		//if yes copy node,then put the path into final path and return.
+		if(curNode->getTile() == destTile){
+			std::vector<PathNode*>* finalPath = 
+				new std::vector<PathNode*>();
+			finalPath->push_back(new PathNode(curNode));
+			for(int i = 0;i < finalPath->size();i++){
+				if((*finalPath)[i]->getParentNode() == NULL)
 					break;
-				}
-			}
-		}
-		else
-		{
-			inValid = true;
-		}
 
-		if(!inValid)
-		{
-			if(openList->size() > 0)
-			{
-				for(int j = 0;j < openList->size();j++)
-				{
-					if((*openList)[j]->getTile() == adTiles[i] &&
-						(*openList)[j]->getScoreG() < currentNode->getScoreG())
-					{
-						PathNode* adNode = new PathNode((*openList)[j]);
-						closedList->push_back(adNode);
-						openList->erase(openList->begin() + j);
-						adNode = NULL;
-						break;
-					}
-					else if(openList->at(openList->size() - 1) == (*openList)[j])
-					{
-						PathNode* adNode = CreateNewNode(
-							currentNode,adTiles[i],destTile,level,calcBaseGScore);
-						SortOpenList(adNode,openList);
-						adNode = NULL;
+				Tile* tile = (*finalPath)[i]->getTile();
+				finalPath->push_back(
+					new PathNode((*finalPath)[i]->getParentNode()));
+			}
+			SafeVectorDelete<PathNode>(*openList);
+			SafePtrRelease(openList);
+
+			SafeVectorDelete<PathNode>(*closedList);
+			SafePtrRelease(closedList);
+			finalPath->pop_back();
+			return finalPath;
+		}
+		//find adjacent walkable tiles,that arent in closed list.
+		//check if in open list
+		Tile* adTiles[4] = {AdjacentTileLeft(curNode->getTile(),level),
+							AdjacentTileTop(curNode->getTile(),level),
+							AdjacentTileRight(curNode->getTile(),level),
+							AdjacentTileBottom(curNode->getTile(),level)};
+
+		int adTilesSize = sizeof(adTiles)/sizeof(Tile*);
+		bool inValid = false;
+		for(int i = 0;i < adTilesSize;i++){
+			inValid = false;
+			if(adTiles[i] == NULL){
+				continue;
+			}
+			if(!ContainsFlags(adTiles[i]->getTileTypes(),unWalkables)){
+				for(int j = 0;j < closedList->size();j++){
+					if((*closedList)[j]->getTile() == adTiles[i]){
+						inValid = true;
 						break;
 					}
 				}
 			}
-			else
-			{
-				PathNode* adNode = CreateNewNode(
-					currentNode,adTiles[i],destTile,level,calcBaseGScore);
-				SortOpenList(adNode,openList);
-				adNode = NULL;
+			else{
+				inValid = true;
+			}
+
+			if(!inValid){
+				if(openList->size() > 0){
+					for(int j = 0;j < openList->size();j++){
+						if((*openList)[j]->getTile() == adTiles[i] &&
+							(*openList)[j]->getScoreG() < curNode->getScoreG()){
+							PathNode* adNode = new PathNode((*openList)[j]);
+							closedList->push_back(adNode);
+							openList->erase(openList->begin() + j);
+							adNode = NULL;
+							break;
+						}
+						else if(openList->at(openList->size() - 1) == (*openList)[j]){
+							PathNode* adNode = CreateNewNode(
+								curNode,adTiles[i],destTile,level,calcBaseGScore);
+							SortOpenList(adNode,openList);
+							adNode = NULL;
+							break;
+						}
+					}
+				}
+				else{
+					PathNode* adNode = CreateNewNode(
+						curNode,adTiles[i],destTile,level,calcBaseGScore);
+					SortOpenList(adNode,openList);
+					adNode = NULL;
+				}
 			}
 		}
+		if(openList->size() < 1){
+			SafeVectorDelete<PathNode>(*openList);
+			SafePtrRelease(openList);
+			SafeVectorDelete<PathNode>(*closedList);
+			SafePtrRelease(closedList);
+			return NULL;
+		}
+		curNode = (*openList)[0];
 	}
-	if(openList->size() < 1){
-		SafeVectorDelete<PathNode>(*openList);
-		SafePtrRelease(openList);
-		SafeVectorDelete<PathNode>(*closedList);
-		SafePtrRelease(closedList);
-		firstLoop = true;
-		return NULL;
-	}
-	else
-	return FindPath((*openList)[0],destTile,level,unWalkables,calcBaseGScore);
 }
 
 int CalculateScoreH(Tile* startTile, Tile* destinationTile,Level* level)
