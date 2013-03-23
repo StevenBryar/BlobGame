@@ -105,6 +105,10 @@ void BlobGame::loadContent(){
 		loadTexture("Finished.png");
 	SpriteManager::instance()->
 		loadTexture("FinishedS.png");
+	SpriteManager::instance()->
+		loadTexture("ReturnD.png");
+	SpriteManager::instance()->
+		loadTexture("ReturnS.png");
 	TextManager::instance()->
 		loadFont("tfa_squaresans.ttf");
 }
@@ -258,52 +262,50 @@ std::vector<Unit*> BlobGame::unitsWithinArea(std::vector<Tile*> tiles){
 }
 
 void BlobGame::changeState(const BlobGameStates& state){
-	if(state != m_CurrentState){
-		switch(m_CurrentState){
-		case MainMenu:
-			endMainMenu();
-			break;
-		case OptionsMenu:
-			endOptions();
-			break;
-		case PauseMenu:
-			endPause();
-			break;
-		case Editor:
-			endEditor();
-			break;
-		case LevelSelect:
-			endLevelSelect();
-			break;
-		}
-		switch(state){
-		case MainMenu:
-			beginMainMenu();
-			blobUpdate = &BlobGame::mainMenu;
-			break;
-		case GamePlay:
-			beginGame();
-			blobUpdate = &BlobGame::gamePlay;
-			break;
-		case OptionsMenu:
-			beginOptions();
-			blobUpdate = &BlobGame::optionsMenu;
-			break;
-		case PauseMenu:
-			beginPause();
-			blobUpdate = &BlobGame::pauseMenu;
-			break;
-		case Editor:
-			beginEditor();
-			blobUpdate = &BlobGame::editor;
-			break;
-		case LevelSelect:
-			beginLevelSelect();
-			blobUpdate = &BlobGame::levelSelect;
-			break;
-		}
-		m_CurrentState = state;
+	switch(m_CurrentState){
+	case MainMenu:
+		endMainMenu();
+		break;
+	case OptionsMenu:
+		endOptions();
+		break;
+	case PauseMenu:
+		endPause();
+		break;
+	case Editor:
+		endEditor();
+		break;
+	case LevelSelect:
+		endLevelSelect();
+		break;
 	}
+	switch(state){
+	case MainMenu:
+		beginMainMenu();
+		blobUpdate = &BlobGame::mainMenu;
+		break;
+	case GamePlay:
+		beginGame();
+		blobUpdate = &BlobGame::gamePlay;
+		break;
+	case OptionsMenu:
+		beginOptions();
+		blobUpdate = &BlobGame::optionsMenu;
+		break;
+	case PauseMenu:
+		beginPause();
+		blobUpdate = &BlobGame::pauseMenu;
+		break;
+	case Editor:
+		beginEditor();
+		blobUpdate = &BlobGame::editor;
+		break;
+	case LevelSelect:
+		beginLevelSelect();
+		blobUpdate = &BlobGame::levelSelect;
+		break;
+	}
+	m_CurrentState = state;
 }
 
 void BlobGame::pauseMenu(){
@@ -322,6 +324,9 @@ void BlobGame::editor(){
 		m_Editor->update();
 	}
 	else{
+		for(int i = 0;i < m_GameObjects->size();i++){
+			(*m_GameObjects)[i]->update();
+		}
 		m_LevelSelect->update();
 	}
 }
@@ -420,8 +425,10 @@ void BlobGame::beginMainMenu(){
 	m_GameObjects->push_back(menuButton);
 }
 void BlobGame::endMainMenu(){
-	SafeVectorDelete(*m_GameObjects);
-	m_GameObjects->clear();
+	if(m_GameObjects != NULL){
+		SafeVectorDelete((*m_GameObjects));
+		SafePtrRelease(m_GameObjects);
+	}
 }
 
 void BlobGame::beginOptions(){}
@@ -430,6 +437,9 @@ void BlobGame::endOptions(){}
 void BlobGame::beginEditor(){
 	m_Camera->moveTo(0,0);
 	SafePtrRelease(m_Editor);
+	if(!m_GameObjects){
+		m_GameObjects = new std::vector<GameObject*>();
+	}
 	m_Editing = false;
 	DIR* dir;
 	struct stat fileStat;

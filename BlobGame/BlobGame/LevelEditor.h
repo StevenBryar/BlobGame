@@ -36,6 +36,7 @@ protected:
 	UiButton* m_BaseTilesUp;
 	UiButton* m_BaseTilesDown;
 	UiButton* m_SaveLevel;
+	UiButton* m_ReturnToMenu;
 	UiListMenu* m_BaseTiles;
 	UiListMenu* m_Objects;
 	UiTextBox* m_NameBox;

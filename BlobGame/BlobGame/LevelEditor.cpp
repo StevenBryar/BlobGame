@@ -34,6 +34,7 @@ m_Level(level),m_Camera(camera){
 	m_BaseTilesUp = new UiButton(0,0,32,32,"ScrollUpD.png","ScrollUpS.png",FIRE_ON_RELEASED,m_Camera,&listScrollUp,NULL);
 	m_BaseTilesDown = new UiButton(0,0,32,32,"ScrollDownD.png","ScrollDownS.png",FIRE_ON_RELEASED,m_Camera,&listScrollDown,NULL);
 	m_SaveLevel = new UiButton(850,300,64,128,"Finished.png","FinishedS.png",FIRE_ON_RELEASED,m_Camera,&saveLevelInEditorCB,this);
+	m_ReturnToMenu = new UiButton(50,50,32,32,"ReturnD.png","ReturnS.png",FIRE_ON_RELEASED,m_Camera,&changeGameState,(void*)Editor);
 
 	m_BaseTiles = new UiListMenu(200,300,camera,m_BaseTilesUp,m_BaseTilesDown,"tfa_squaresans.ttf",20,3,30);
 	m_BaseTiles->setWidth(250);
@@ -68,6 +69,7 @@ LevelEditor::~LevelEditor(){
 	SafePtrRelease(m_NameBox);
 	SafePtrRelease(m_NameTag);
 	SafePtrRelease(m_SaveLevel);
+	SafePtrRelease(m_ReturnToMenu);
 
 	if(m_ObjectSprites){
 		for(int i = 0;i < m_ObjectSprites->size();i++){
@@ -122,6 +124,7 @@ void LevelEditor::update(){
 	m_NameTag->update();
 	m_NameBox->update();
 	m_SaveLevel->update();
+	m_ReturnToMenu->update();
 }
 
 void LevelEditor::setCamera(Camera* camera){m_Camera = camera;}
@@ -131,7 +134,7 @@ void LevelEditor::mouseInputCalback(const inputEvent& event,const int& x,const i
 	if(m_Level && m_Camera){
 		switch(event){
 			case MOUSE_LB_PRESSED:{
-				UiElement* uiElements[8] = {
+				UiElement* uiElements[9] = {
 					m_BaseTiles,
 					m_Objects,
 					m_NameBox,
@@ -139,9 +142,10 @@ void LevelEditor::mouseInputCalback(const inputEvent& event,const int& x,const i
 					m_ObjectsDown,
 					m_BaseTilesUp,
 					m_BaseTilesDown,
-					m_SaveLevel
+					m_SaveLevel,
+					m_ReturnToMenu
 				};
-				for(int i = 0;i < 8;i++){
+				for(int i = 0;i < 9;i++){
 					if(Util::instance()->rectIntersection(x,y,1,1,uiElements[i]->getScreenPosX(),
 					uiElements[i]->getScreenPosY(),uiElements[i]->getWidth(),uiElements[i]->getHeight())){
 						return;
@@ -174,7 +178,7 @@ void LevelEditor::mouseInputCalback(const inputEvent& event,const int& x,const i
 			}
 			break;
 			case MOUSE_RB_PRESSED:{
-				UiElement* uiElements[8] = {
+				UiElement* uiElements[9] = {
 					m_BaseTiles,
 					m_Objects,
 					m_NameBox,
@@ -182,9 +186,10 @@ void LevelEditor::mouseInputCalback(const inputEvent& event,const int& x,const i
 					m_ObjectsDown,
 					m_BaseTilesUp,
 					m_BaseTilesDown,
-					m_SaveLevel
+					m_SaveLevel,
+					m_ReturnToMenu
 				};
-				for(int i = 0;i < 8;i++){
+				for(int i = 0;i < 9;i++){
 					if(Util::instance()->rectIntersection(x,y,1,1,uiElements[i]->getScreenPosX(),
 					uiElements[i]->getScreenPosY(),uiElements[i]->getWidth(),uiElements[i]->getHeight())){
 						return;
