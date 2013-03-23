@@ -85,6 +85,15 @@ GameObject* createPistolEnemy(Tile* tile){
 
 	return enemy;
 }
+GameObject* createShotgunEnemy(Tile* tile){
+	Enemy* enemy = new Enemy(NULL,40,5,20,GRUNT_BASE_MOVE_SPEED,4,tile,
+						"TestEnemy.png",&shotgunRange,&shotgunAttack,SHOTGUN_RANGE_LENGTH);
+	enemy->setOrigin(enemy->getWidth()/2,enemy->getHeight()/2);
+	enemy->calcBaseGScore = &calcGScoreBasicEnemy;
+	enemy->setUnwalkables(ENEMY_UNWALKABLES);
+
+	return enemy;
+}
 
 GameObject* createUnit(const unsigned int& spawnFlags,Tile* tile){
 	if(ContainsFlags(spawnFlags,GruntStart)){
@@ -101,6 +110,9 @@ GameObject* createUnit(const unsigned int& spawnFlags,Tile* tile){
 	}
 	else if(ContainsFlags(spawnFlags,PistolEnemy)){
 		return createPistolEnemy(tile);
+	}
+	else if(ContainsFlags(spawnFlags,ShotgunEnemy)){
+		return createShotgunEnemy(tile);
 	}
 
 	return NULL;

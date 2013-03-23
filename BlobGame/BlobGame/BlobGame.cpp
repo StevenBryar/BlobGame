@@ -351,7 +351,7 @@ void BlobGame::gamePlay(){
 	for(int i = 0;i < m_GameObjects->size();i++){
 		(*m_GameObjects)[i]->update();
 	}
-	updateVision();
+	//updateVision();
 	std::cout << "TotalPower:"  << getTotalPower()  << std::endl;
 	std::cout << "TotalEnergy:" << getTotalEnergy() << std::endl;
 }
@@ -495,6 +495,9 @@ void BlobGame::beginLevelSelect(){
 	unsigned int height;
 	UiButton* selectLevel = new UiButton(510,380,64,128,"Finished.png","FinishedS.png",
 											FIRE_ON_RELEASED,m_Camera,&loadLevel,NULL);
+	if(!m_GameObjects){
+		m_GameObjects = new std::vector<GameObject*>();
+	}
 	m_GameObjects->push_back(selectLevel);
 	m_LevelSelect = new UiListMenu(200,50,m_Camera,NULL,NULL,"tfa_squaresans.ttf",10,6);
 	m_LevelSelect->setHeight(300);

@@ -12,13 +12,14 @@ const enum TileStuff{
 	MotherStart = (1 << 5),
 	EnemySpawner = (1 << 6),
 	PistolEnemy = (1 << 7),
-	Fire = (1 << 8),
-	Posion = (1 << 9),
-	Slime = (1 << 10),
-	BlobOn = (1 << 11),
-	EnemyOn = (1 << 12),
-	Empty = (1 << 13),
-	Hole = (1 << 14)
+	ShotgunEnemy = (1 << 8),
+	Fire = (1 << 9),
+	Posion = (1 << 10),
+	Slime = (1 << 11),
+	BlobOn = (1 << 12),
+	EnemyOn = (1 << 13),
+	Empty = (1 << 14),
+	Hole = (1 << 15)
 };
 
 const enum UnitStuff{
@@ -39,7 +40,7 @@ extern const int NUMBER_OF_VERTICAL_TILES;
 extern const int TILE_SIZE;
 extern const int TEST_LEVEL_WALL_TILES[];
 
-#define TILE_SPAWN_FLAGS GruntStart|EnemySpawner|PistolEnemy|TeleStart|GlobStart|MotherStart
+#define TILE_SPAWN_FLAGS GruntStart|EnemySpawner|PistolEnemy|TeleStart|GlobStart|MotherStart|ShotgunEnemy
 
 #define BLOB_LEVEL_TAG 4096
 

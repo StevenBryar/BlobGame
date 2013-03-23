@@ -51,9 +51,10 @@ Level::Level(const unsigned int& horizontalTiles, const unsigned int& verticalTi
 							getNumberOfHorizontalTiles();i++){
 			GameObject* gameObject;
 			if(gameObject = factory(tileTypes[i],(*m_Tiles)[i])){
-				unsigned int tiletypes = (*m_Tiles)[i]->getTileTypes();
-				RemoveFlag(&tiletypes,TILE_SPAWN_FLAGS);
-				(*m_Tiles)[i]->setTileTypes(tiletypes);
+				unsigned int tileValues = (*m_Tiles)[i]->getTileTypes();
+				int objectTypes[7] = {GruntStart,TeleStart,GlobStart,MotherStart,EnemySpawner,PistolEnemy,ShotgunEnemy};
+				RemoveFlags(&tileValues,objectTypes,7);
+				(*m_Tiles)[i]->setTileTypes(tileValues);
 				objects->push_back(gameObject);
 			}
 		}

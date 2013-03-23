@@ -10,6 +10,7 @@
 #include "blob.h"
 #include "tile.h"
 #include "level.h"
+#include "2dSprite.h"
 #include "Util.h"
 #include <string>
 #include "common.h"
@@ -163,16 +164,21 @@ inline std::vector<Tile*> shotgunRange(Tile* currentTile,const int& dirFacing,Le
 			tileSideCount = i;
 			break;
 		}
+		else if((((SHOTGUN_RANGE_WIDTH*2)+1) - i) == 1){
+			tileSideCount = i+1;
+		}
+		tile = tileStarts[i];
 	}
 	for(int i = 0;i < tileSideCount;i++){
 		tileForward = tileStarts[i];
 		tiles.push_back(tileForward);
-		for(int j = 0;j < SHOTGUN_RANGE_LENGTH;j++){
+		for(int j = 1;j < SHOTGUN_RANGE_LENGTH;j++){
 			tileForward = AdjacentTile(tileForward,level);
 			if(!tileForward ||
 			   ContainsFlags(tileForward->getTileTypes(),Wall) ||
 			   ContainsFlags(tileForward->getTileTypes(),BlobOn) ||
 			   ContainsFlags(tileForward->getTileTypes(),EnemyOn)){
+				tiles.push_back(tileForward);
 				break;
 			}
 			tiles.push_back(tileForward);

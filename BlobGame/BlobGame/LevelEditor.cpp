@@ -51,6 +51,7 @@ m_Level(level),m_Camera(camera){
 	m_Objects->addEntry("TeleBlobSpawn");
 	m_Objects->addEntry("MotherSpawn");
 	m_Objects->addEntry("PEnemySpawn");
+	m_Objects->addEntry("SGEnemySpawn");
 
 	m_ObjectsUp->setScreenPos(m_Objects->getScreenPosX()+m_Objects->getWidth(),m_Objects->getScreenPosY());
 	m_ObjectsDown->setScreenPos(m_Objects->getScreenPosX()+m_Objects->getWidth(),m_Objects->getScreenPosY()+m_Objects->getHeight());
@@ -221,14 +222,18 @@ void LevelEditor::mouseInputCalback(const inputEvent& event,const int& x,const i
 					tileObject = PistolEnemy;
 					unwalkables = ENEMY_UNWALKABLES;
 				}
+				else if(m_Objects->getSelectedEntry() == "SGEnemySpawn"){
+					tileObject = ShotgunEnemy;
+					unwalkables = ENEMY_UNWALKABLES;
+				}
 				Tile* tile = m_Level->getTileForPosition(
 				Util::instance()->screenToWorldCoordX(x,m_Camera),
 				Util::instance()->screenToWorldCoordY(y,m_Camera));
 				if(tile && !ContainsFlags(tile->getTileTypes(),tileObject) &&
 					!ContainsFlags(tile->getTileTypes(),unwalkables)){
 					unsigned int tileTypes = tile->getTileTypes();
-					RemoveFlag(&tileTypes,(GruntStart|GlobStart|TeleStart
-											|MotherStart|PistolEnemy));
+					int objectTypes[7] = {GruntStart,TeleStart,GlobStart,MotherStart,EnemySpawner,PistolEnemy,ShotgunEnemy};
+					RemoveFlags(&tileTypes,objectTypes,7);
 					for(int i = 0;i < m_ObjectSprites->size();i++){
 						if((*m_ObjectSprites)[i]->getOwner() == tile){
 							SpriteManager::instance()->deleteSprite((*m_ObjectSprites)[i]);
@@ -254,6 +259,7 @@ void LevelEditor::mouseInputCalback(const inputEvent& event,const int& x,const i
 							SpriteManager::instance()->createSprite(tile,"PathGuy.png",1));
 							break;
 						case PistolEnemy:
+						case ShotgunEnemy:
 							m_ObjectSprites->push_back(
 							SpriteManager::instance()->createSprite(tile,"TestEnemy.png",1));
 							break;

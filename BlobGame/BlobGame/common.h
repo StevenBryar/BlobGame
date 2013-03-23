@@ -10,14 +10,23 @@
 							delete ptr; \
 							ptr = NULL;}
 
-inline void RemoveFlag(unsigned int* thing,int flag){
-	if(thing)
-		if(((*thing) & flag) == flag)
-			(*thing) ^= flag;
-}
-
 inline int ContainsFlags(const int thing,int flags){
 		return (thing & flags);
+}
+inline void RemoveFlag(unsigned int* thing,int flag){
+	if(thing)
+		if(ContainsFlags(*thing,flag)){
+			(*thing) ^= flag;
+		}
+}
+inline void RemoveFlags(unsigned int* thing,int flags[],int flagCount){
+	if(thing){
+		for(int i = 0;i < flagCount;i++){
+			if(ContainsFlags(*thing,flags[i])){
+				(*thing) ^= flags[i];
+			}
+		}
+	}
 }
 
 inline std::string intToString(int i){
