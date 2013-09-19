@@ -28,7 +28,7 @@
 #include <fstream>
 #include <sys\stat.h>
 #include <sys\types.h>
-#include <dirent.h>
+#include "dirent.h"
 
 BlobGame* BlobGame::m_Instance = NULL;
 BlobGame::BlobGame() :
